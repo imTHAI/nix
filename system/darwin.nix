@@ -57,7 +57,9 @@
   # pas les apps fraîchement installées par brew cask (bug mv vs Spotlight)
   system.activationScripts.postActivation.text = ''
     echo "Ré-indexation Spotlight de /Applications..." >&2
-    /usr/bin/mdimport /Applications/*.app 2>/dev/null || true
+    for app in /Applications/*.app; do
+      [ -e "$app" ] && /usr/bin/mdimport "$app" 2>/dev/null
+    done || true
   '';
 
   homebrew = {
