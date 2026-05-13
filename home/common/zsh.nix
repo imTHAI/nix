@@ -66,7 +66,6 @@
     shellAliases = {
       reloadshell = "source $HOME/.zshrc";
       mkpy        = "nix flake init --template ~/.config/nix#python && direnv allow";
-      mkdocker    = "nix flake init --template ~/.config/nix#docker && direnv allow";
       cdd         = "cd $HOME/Downloads";
       cdm         = "cd $HOME/media";
       cddu        = "cd $HOME/downloads_unraid";

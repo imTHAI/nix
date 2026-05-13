@@ -27,10 +27,6 @@
         path        = ./templates/python;
         description = "Python + uv + ruff + pyright";
       };
-      templates.docker = {
-        path        = ./templates/docker;
-        description = "Docker image — build :test local + trigger GHA multi-arch";
-      };
 
       darwinConfigurations."kamino" = nix-darwin.lib.darwinSystem {
         specialArgs = specialArgs;
