@@ -14,6 +14,7 @@
     initContent = ''
       export LANG="fr_FR.UTF-8"
       export LC_ALL="fr_FR.UTF-8"
+      export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
       autoload -Uz up-line-or-beginning-search
       autoload -Uz down-line-or-beginning-search
       zle -N up-line-or-beginning-search
@@ -64,6 +65,7 @@
     '';
     shellAliases = {
       reloadshell = "source $HOME/.zshrc";
+      mkpy        = "nix flake init --template ~/.config/nix#python && direnv allow";
       cdd         = "cd $HOME/Downloads";
       cdm         = "cd $HOME/media";
       cddu        = "cd $HOME/downloads_unraid";

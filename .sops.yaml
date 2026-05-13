@@ -1,8 +1,11 @@
 keys:
-  - &jakku age1REPLACE_WITH_JAKKU_AGE_PUBLIC_KEY
+  - &kamino age1mm26m7q7u942g8653j5sflhzgr69vxatd4twajz2hdudl8tlx4gsdguext
+  - &jakku  age1REPLACE_WITH_JAKKU_AGE_PUBLIC_KEY
 
 creation_rules:
+  - path_regex: secrets/kamino/.*
+    key_groups:
+      - age: [*kamino]
   - path_regex: secrets/jakku/.*
     key_groups:
-      - age:
-          - *jakku
+      - age: [*jakku]

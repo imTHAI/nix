@@ -23,6 +23,11 @@
       specialArgs = { inherit inputs vars; };
     in
     {
+      templates.python = {
+        path        = ./templates/python;
+        description = "Python + uv + ruff + pyright";
+      };
+
       darwinConfigurations."kamino" = nix-darwin.lib.darwinSystem {
         specialArgs = specialArgs;
         modules = [
