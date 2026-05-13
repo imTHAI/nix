@@ -17,4 +17,6 @@ with pkgs;
   gh
   gh-dash
   direnv
+  sops    # éditer secrets chiffrés
+  age     # backend de chiffrement utilisé par sops
 ]
