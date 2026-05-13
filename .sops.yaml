@@ -1,0 +1,8 @@
+keys:
+  - &jakku age1REPLACE_WITH_JAKKU_AGE_PUBLIC_KEY
+
+creation_rules:
+  - path_regex: secrets/jakku/.*
+    key_groups:
+      - age:
+          - *jakku
