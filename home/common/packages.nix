@@ -4,7 +4,6 @@ with pkgs;
 [
   neovim
   rsync
-  python314
   macchina
   dig
   mc
