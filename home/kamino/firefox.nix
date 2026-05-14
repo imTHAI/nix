@@ -50,7 +50,8 @@
         "app.shield.optoutstudies.enabled"              = false;
         "app.normandy.enabled"                          = false;
 
-        # ── Enhanced Tracking Protection ───────────────────────
+        # ── Mode strict (Enhanced Tracking Protection) ─────────
+        "browser.contentblocking.category"                       = "strict";
         "privacy.trackingprotection.enabled"                     = true;
         "privacy.trackingprotection.socialtracking.enabled"      = true;
         "privacy.trackingprotection.cryptomining.enabled"        = true;
@@ -58,7 +59,8 @@
         "network.cookie.cookieBehavior"                          = 5;
 
         # ── Fingerprinting resistance ──────────────────────────
-        "privacy.fingerprintingProtection"              = false;
+        "privacy.resistFingerprinting"                  = false;
+        "privacy.fingerprintingProtection"              = true;
 
         # ── Pocket / contenus sponsorisés ──────────────────────
         "extensions.pocket.enabled"                                       = false;
