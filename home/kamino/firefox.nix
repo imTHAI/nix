@@ -50,8 +50,7 @@
         "app.shield.optoutstudies.enabled"              = false;
         "app.normandy.enabled"                          = false;
 
-        # ── Mode strict (Enhanced Tracking Protection) ─────────
-        "browser.contentblocking.category"                       = "strict";
+        # ── Enhanced Tracking Protection ───────────────────────
         "privacy.trackingprotection.enabled"                     = true;
         "privacy.trackingprotection.socialtracking.enabled"      = true;
         "privacy.trackingprotection.cryptomining.enabled"        = true;
