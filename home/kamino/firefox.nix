@@ -59,7 +59,7 @@
         "network.cookie.cookieBehavior"                          = 5;
 
         # ── Fingerprinting resistance ──────────────────────────
-        "privacy.fingerprintingProtection"              = true;
+        "privacy.fingerprintingProtection"              = false;
 
         # ── Pocket / contenus sponsorisés ──────────────────────
         "extensions.pocket.enabled"                                       = false;
