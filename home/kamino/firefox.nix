@@ -24,6 +24,7 @@
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         bitwarden
         sponsorblock
+        return-youtube-dislikes
         # AdGuard Assistant : injecté automatiquement par l'app AdGuard desktop
       ];
 
