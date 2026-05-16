@@ -1,4 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
+
+  home.activation.calibreConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p "$HOME/Library/Preferences/calibre/plugins"
+  '';
   home.packages = pkgs.callPackage ./packages.nix { };
 
   xdg.configFile."ghostty/config".text = ''

@@ -19,7 +19,7 @@
         };
       };
       "coruscant" = { hostname = "10.0.0.2";                        user = "root";  };
-      "archlinux" = { hostname = "2001:db8:aaa:e22:10:0:2:49";      user = "pbear"; };
+      "scarif"    = { hostname = "2001:db8:aaa:e22:10:0:2:49";      user = "pbear"; };
       "udm"       = { hostname = "192.168.0.1";                     user = "root";  };
       "ubuntu"    = { hostname = "10.0.0.11"; };
       "jakku"     = { hostname = "2001:db8:aaa:e22:10:0:2:18";      user = "pbear"; };
