@@ -9,6 +9,7 @@
 
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
+  manual.manpages.enable = false;
 
   home.username      = vars.user.name;
   home.homeDirectory = "/home/${vars.user.name}";
