@@ -9,6 +9,9 @@
       nixup   = "_nixupdate kamino darwin-rebuild";
       nixrb   = "_nixrebuild kamino darwin-rebuild";
       nixpull = "cd ~/.config/nix && git pull && sudo darwin-rebuild switch --flake ~/.config/nix#kamino";
+      cdd        = "cd $HOME/Downloads";
+      cdm        = "cd $HOME/media";
+      cddu       = "cd $HOME/downloads_unraid";
       reloaddns  = "dscacheutil -flushcache && sudo killall -HUP mDNSResponder";
       macos_sign = "xattr -cr";
       copyssh    = "pbcopy < $HOME/.ssh/id_ed25519.pub";

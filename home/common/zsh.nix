@@ -66,9 +66,6 @@
     shellAliases = {
       reloadshell = "source $HOME/.zshrc";
       mkpy        = "nix flake init --template ~/.config/nix#python && direnv allow";
-      cdd         = "cd $HOME/Downloads";
-      cdm         = "cd $HOME/media";
-      cddu        = "cd $HOME/downloads_unraid";
       ytdl        = ''yt-dlp -f "bv*[height=1080][ext=mp4][vcodec^=avc1]+ba[ext=m4a]/bestvideo[height=1080][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4]"'';
       # Claude sans prompts cmux ni permissions — pour les sessions de travail intensif
       claudex     = "CMUX_CLAUDE_HOOKS_DISABLED=1 claude --dangerously-skip-permissions";
