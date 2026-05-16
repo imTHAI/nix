@@ -17,7 +17,7 @@
     nur.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nixos-wsl, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nixos-wsl, nur, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -61,6 +61,16 @@
             };
           }
         ];
+      };
+
+      homeConfigurations."pbear@scarif" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+          overlays = [ nur.overlays.default ];
+        };
+        extraSpecialArgs = specialArgs;
+        modules = [ ./home/scarif ];
       };
 
       nixosConfigurations."jakku" = nixpkgs.lib.nixosSystem {
