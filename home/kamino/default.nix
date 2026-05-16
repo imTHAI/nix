@@ -8,6 +8,7 @@
     ./shell.nix
     ./apps.nix
     ./firefox.nix
+    ./claude.nix
   ];
 
   home.stateVersion = "25.05";

@@ -40,6 +40,7 @@
               useUserPackages      = true;
               backupFileExtension  = "before-hm";
               extraSpecialArgs     = specialArgs;
+              sharedModules        = [ sops-nix.homeManagerModules.sops ];
               users.${vars.user.name} = import ./home/kamino;
             };
           }
