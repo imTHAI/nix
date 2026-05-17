@@ -50,19 +50,35 @@ let
         UPSTASH_REDIS_REST_TOKEN = "__UPSTASH_TOKEN__";
       };
     };
-    hooks.PostToolUse = [
-      {
-        matcher = "Edit|Write";
-        hooks = [
-          {
-            type    = "command";
-            # Fires after any Edit/Write; injects a reminder into model context when the
-            # edited file lives inside ~/.config/nix/ so the Gitmoji commit step is never skipped.
-            command = ''f=$(jq -r '.tool_input.file_path // ""'); case "$f" in */.config/nix/*) echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"RAPPEL NIX: fichier modifie dans ~/.config/nix/ — fournir message commit Gitmoji et rappeler push GitHub."}}' ;; esac'';
-          }
-        ];
-      }
-    ];
+    hooks = {
+      # rtk (Rust Token Killer) rewrites Bash commands transparently before
+      # execution to compress output (-80% tokens on git/grep/test/etc).
+      # Installed via homebrew.brews in hosts/kamino/default.nix.
+      PreToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type    = "command";
+              command = "rtk hook claude";
+            }
+          ];
+        }
+      ];
+      PostToolUse = [
+        {
+          matcher = "Edit|Write";
+          hooks = [
+            {
+              type    = "command";
+              # Fires after any Edit/Write; injects a reminder into model context when the
+              # edited file lives inside ~/.config/nix/ so the Gitmoji commit step is never skipped.
+              command = ''f=$(jq -r '.tool_input.file_path // ""'); case "$f" in */.config/nix/*) echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"RAPPEL NIX: fichier modifie dans ~/.config/nix/ — fournir message commit Gitmoji et rappeler push GitHub."}}' ;; esac'';
+            }
+          ];
+        }
+      ];
+    };
   });
 in
 {
@@ -74,6 +90,7 @@ in
 
   home.file = {
     ".claude/CLAUDE.md".source       = ./claude/CLAUDE.md;
+    ".claude/RTK.md".source          = ./claude/RTK.md;
     ".claude/rules/python.md".source = ./claude/rules/python.md;
   };
 
