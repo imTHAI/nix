@@ -4,7 +4,14 @@ let
   staticJson = builtins.toJSON {
     env.CLAUDE_CODE_DISABLE_AUTO_MEMORY = "1";
     permissions = {
-      allow = [ "Bash(npx vite *)" ];
+      allow = [
+          "Bash(npx vite *)"
+          # Explicit allow for Claude's own config dir — bypassPermissions mode doesn't
+          # override the hardcoded .claude/ directory protection in the TUI.
+          "Read(${config.home.homeDirectory}/.claude/**)"
+          "Write(${config.home.homeDirectory}/.claude/**)"
+          "Edit(${config.home.homeDirectory}/.claude/**)"
+        ];
       deny  = [
         "Bash(rm -rf /)"
         "Bash(rm -rf /*)"
@@ -41,6 +48,19 @@ let
         UPSTASH_REDIS_REST_TOKEN = "__UPSTASH_TOKEN__";
       };
     };
+    hooks.PostToolUse = [
+      {
+        matcher = "Edit|Write";
+        hooks = [
+          {
+            type    = "command";
+            # Fires after any Edit/Write; injects a reminder into model context when the
+            # edited file lives inside ~/.config/nix/ so the Gitmoji commit step is never skipped.
+            command = ''f=$(jq -r '.tool_input.file_path // ""'); case "$f" in */.config/nix/*) echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"RAPPEL NIX: fichier modifie dans ~/.config/nix/ — fournir message commit Gitmoji et rappeler push GitHub."}}' ;; esac'';
+          }
+        ];
+      }
+    ];
   };
 in
 {
