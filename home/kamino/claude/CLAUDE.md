@@ -28,7 +28,6 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 ## Setup machines
 - **kamino** : macOS, nix-darwin + home-manager
 - **scarif** : Arch Linux, home-manager standalone (pas NixOS)
-- **tatooine** : NixOS (WSL)
 - **jakku** : NixOS (VM)
 - Config Nix centrale : `~/.config/nix/` (flake multi-host, noms Star Wars)
 - **sops-nix est déjà configuré** dans le flake — ne pas redemander
@@ -37,3 +36,4 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 ## Actions risquées
 - Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push, reset --hard, drop de base de données
 - Pour les éditions de fichiers et actions locales réversibles : agis librement sans demander
+- **Suppression de fichiers** : utiliser `trash` (commande native macOS, `/usr/bin/trash`) au lieu de `rm -rf` — récupérable depuis la Corbeille. Réserver `rm -rf` aux cas où le fichier doit être détruit définitivement et de manière confirmée (caches, dossiers temporaires)

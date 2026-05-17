@@ -12,7 +12,6 @@ Approche : **Nix Flakes + nix-darwin + NixOS + Home Manager**
 |---|---|---|---|
 | `kamino` | Mac Mini M1 | macOS | ✅ Opérationnel |
 | `jakku` | VM NixOS sur Unraid | NixOS 25.11 | ✅ Opérationnel |
-| `tatooine` | Laptop Windows (NixOS WSL) | NixOS WSL | ⏳ Bloqué Zscaler |
 | _(à définir)_ | Mac Mini M5 (futur) | macOS | ⏳ |
 
 ---
@@ -31,11 +30,10 @@ Approche : **Nix Flakes + nix-darwin + NixOS + Home Manager**
 │   └── darwin.nix          # commun à tous les Macs (dock, finder, homebrew, GC)
 │
 ├── hosts/
-│   ├── kamino/default.nix  # system config macOS — packages, casks, colima
-│   ├── jakku/
-│   │   ├── default.nix     # system config NixOS — réseau, docker, openssh
-│   │   └── hardware.nix    # généré par nixos-generate-config
-│   └── tatooine/default.nix # system config NixOS WSL + cert Zscaler
+│   ├── kamino/default.nix  # system config macOS — packages, casks, brews (rtk), colima
+│   └── jakku/
+│       ├── default.nix     # system config NixOS — réseau, docker, openssh
+│       └── hardware.nix    # généré par nixos-generate-config
 │
 ├── home/
 │   ├── common/             # partagé toutes machines
@@ -47,15 +45,15 @@ Approche : **Nix Flakes + nix-darwin + NixOS + Home Manager**
 │   │   ├── starship.toml
 │   │   └── direnv.nix
 │   ├── kamino/             # macOS uniquement
-│   │   ├── default.nix     # identity + imports
+│   │   ├── default.nix     # identity + imports + activation Library/Logs/SopsNix
 │   │   ├── shell.nix       # aliases macOS, fonctions audio/heic2jpg
 │   │   ├── apps.nix        # ghostty, mc, nano, gh-dash, packages
 │   │   ├── packages.nix    # packages home kamino
-│   │   └── firefox.nix     # profil Firefox + extensions + settings
-│   ├── jakku/              # NixOS VM
-│   │   ├── default.nix
-│   │   └── packages.nix
-│   └── tatooine/           # NixOS WSL
+│   │   ├── firefox.nix     # profil Firefox + extensions + settings
+│   │   ├── claude.nix      # settings.json (hooks rtk + nix), CLAUDE.md, RTK.md, sops inject
+│   │   ├── cmux.nix        # claude-bypass wrapper, cmux.json, patch hasTrustDialogAccepted
+│   │   └── claude/         # assets sourcés (CLAUDE.md, RTK.md, rules/)
+│   └── jakku/              # NixOS VM
 │       ├── default.nix
 │       └── packages.nix
 │
@@ -105,9 +103,30 @@ nixpull # git pull + rebuild (sync depuis GitHub)
 
 ### Ajouter un nouveau Mac
 
+Voir [`SETUP_NEW_MAC.md`](SETUP_NEW_MAC.md) pour la procédure complète
+(install Nix, clone, restore age key, rebuild, cmux DMG, login Claude…).
+
 ```bash
 git clone git@github.com:imTHAI/nix.git ~/.config/nix
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#<nom>
+```
+
+### Réinstall jakku (NixOS VM Unraid)
+
+```bash
+# 1. Installer NixOS dans la VM, créer user pbear, activer flakes
+# 2. Sur kamino, copier la config sur jakku :
+ssh pbear@jakku 'sudo nix-shell -p git --run "git clone https://github.com/imTHAI/nix.git /etc/nixos-flake"'
+
+# 3. Restaurer ~/.config/sops/age/keys.txt depuis Bitwarden
+ssh pbear@jakku 'mkdir -p ~/.config/sops/age'
+scp ~/.config/sops/age/keys.txt pbear@jakku:~/.config/sops/age/keys.txt  # ou paste manuel
+
+# 4. Premier rebuild
+ssh pbear@jakku 'sudo nixos-rebuild switch --flake /etc/nixos-flake#jakku'
+
+# 5. Clé SSH dédiée si besoin (pour git push depuis jakku)
+ssh pbear@jakku 'ssh-keygen -t ed25519 -C "pbear@jakku"'
 ```
 
 ### Nouveau projet Python

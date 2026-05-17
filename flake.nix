@@ -47,23 +47,6 @@
         ];
       };
 
-      nixosConfigurations."tatooine" = nixpkgs.lib.nixosSystem {
-        specialArgs = specialArgs;
-        modules = [
-          ./hosts/tatooine
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs       = true;
-              useUserPackages     = true;
-              backupFileExtension = "before-hm";
-              extraSpecialArgs    = specialArgs;
-              users.bcrevin = import ./home/tatooine;
-            };
-          }
-        ];
-      };
-
       homeConfigurations."pbear@scarif" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";

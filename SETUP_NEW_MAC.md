@@ -49,6 +49,16 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#<n
 
 > La première fois prend plus longtemps — tout est téléchargé depuis cache.nixos.org.
 
+Le rebuild remet automatiquement en place :
+- Système : packages CLI, dock, Finder, GC, homebrew (casks + brews dont `rtk`)
+- User : zsh + plugins, git, ssh, starship, direnv, ghostty, gh-dash
+- Firefox : profil + extensions (Bitwarden, SponsorBlock) via NUR
+- Claude Code : `~/.claude/settings.json` (hooks rtk + nix, MCP context7 via sops),
+  `CLAUDE.md`, `RTK.md`, `rules/`, plus `~/.claude.json` patché (`hasTrustDialogAccepted: true` pour `$HOME`)
+- cmux : `~/.config/cmux/cmux.json` Nix-géré (sidebar + `claudeBinaryPath` →
+  `~/.local/bin/claude-bypass` qui ajoute `--dangerously-skip-permissions`)
+- sops : décryptage automatique au boot via LaunchAgent (logs dans `~/Library/Logs/SopsNix/`)
+
 ---
 
 ## 5. Configurer la clé SSH
@@ -105,6 +115,38 @@ Les installer manuellement depuis l'App Store :
 - Search Engines for Safari
 - DeArrow
 - SponsorBlock
+
+---
+
+## 9. cmux NIGHTLY (DMG manuel)
+
+La version Homebrew (`cmux` cask) est en stable. Pour utiliser la nightly
+(nécessaire pour les dead keys macOS — option+e → é sur clavier français/ISO,
+bug `macos-option-as-alt` non respecté en stable, issues #691/#725/#1349/
+#1469/#2369), télécharger le DMG :
+
+```bash
+open https://www.cmux.dev/  # ou https://github.com/manaflow-ai/cmux/releases
+# Télécharger cmux-nightly-macos.dmg, monter, glisser dans /Applications
+```
+
+Au premier lancement, le rebuild Nix a déjà écrit `~/.config/cmux/cmux.json`
+avec `automation.claudeBinaryPath` → cmux lancera claude via le wrapper bypass
+dès la première session.
+
+---
+
+## 10. Login Claude Code
+
+Le token OAuth est stocké dans `~/.claude.json` (pas géré par Nix). Au premier
+lancement de `claude` depuis une session cmux :
+
+```bash
+claude
+# → ouvre le navigateur pour login Anthropic
+```
+
+Une fois loggé, le token persiste dans `~/.claude.json`.
 
 ---
 
