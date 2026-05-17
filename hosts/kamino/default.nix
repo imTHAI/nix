@@ -26,7 +26,6 @@
     nerd-fonts.hack
     docker
     colima
-    claude-code
   ];
 
   launchd.user.agents.colima = {

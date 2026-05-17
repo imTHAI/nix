@@ -54,6 +54,18 @@ in
     ".claude/rules/python.md".source = ./claude/rules/python.md;
   };
 
+  # npm global prefix outside the Nix store so claude-code can self-update
+  home.sessionVariables.NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+  home.sessionPath = [ "$HOME/.npm-global/bin" ];
+
+  # Bootstrap claude-code via npm on first install; auto-updates handle subsequent upgrades
+  home.activation.installClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+    if ! command -v claude &>/dev/null && ! [ -f "$HOME/.npm-global/bin/claude" ]; then
+      ${pkgs.nodejs}/bin/npm install -g @anthropic-ai/claude-code
+    fi
+  '';
+
   # Write settings.json at activation with secrets injected from sops-decrypted files
   home.activation.claudeSettings = lib.hm.dag.entryAfter [ "writeBoundary" "sops" ] ''
     _url=$(cat "${config.sops.secrets."upstash_url".path}")
