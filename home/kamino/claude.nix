@@ -81,9 +81,13 @@ in
   home.sessionVariables.NPM_CONFIG_PREFIX = "$HOME/.npm-global";
   home.sessionPath = [ "$HOME/.npm-global/bin" ];
 
-  # Bootstrap claude-code via npm on first install; auto-updates handle subsequent upgrades
+  # Bootstrap claude-code via npm on first install; auto-updates handle subsequent upgrades.
+  # PATH must include the system profile (where the Nix-installed claude lives during
+  # the same activation that swaps profiles) AND nodejs/bin, since npm's post-install
+  # spawns `sh -c node install.cjs` and resolves `node` from PATH, not from npm's own dir.
   home.activation.installClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+    export PATH="${pkgs.nodejs}/bin:/run/current-system/sw/bin:$HOME/.npm-global/bin:$PATH"
     if ! command -v claude &>/dev/null && ! [ -f "$HOME/.npm-global/bin/claude" ]; then
       ${pkgs.nodejs}/bin/npm install -g @anthropic-ai/claude-code
     fi
