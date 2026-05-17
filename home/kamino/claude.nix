@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }:
 let
-  # Static settings.json — secrets are injected at activation time via sops
-  staticJson = builtins.toJSON {
+  # Static settings.json — secrets are injected at activation time via sops.
+  # Materialized to a Nix store file so the activation script doesn't have to
+  # heredoc the JSON inline (single quotes in hook commands broke '<<<' quoting).
+  staticJsonFile = pkgs.writeText "claude-settings-base.json" (builtins.toJSON {
     env.CLAUDE_CODE_DISABLE_AUTO_MEMORY = "1";
     permissions = {
       allow = [
@@ -61,7 +63,7 @@ let
         ];
       }
     ];
-  };
+  });
 in
 {
   sops = {
@@ -100,10 +102,10 @@ in
         --arg token "$(cat "$_token_file")" \
         '.mcpServers.context7.env.UPSTASH_REDIS_REST_URL   = $url   |
          .mcpServers.context7.env.UPSTASH_REDIS_REST_TOKEN = $token' \
-        <<< '${staticJson}' \
+        ${staticJsonFile} \
         > "$HOME/.claude/settings.json"
     else
-      printf '%s' '${staticJson}' > "$HOME/.claude/settings.json"
+      install -m 0644 ${staticJsonFile} "$HOME/.claude/settings.json"
     fi
   '';
 }
