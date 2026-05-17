@@ -66,17 +66,23 @@ in
     fi
   '';
 
-  # Write settings.json at activation with secrets injected from sops-decrypted files
-  home.activation.claudeSettings = lib.hm.dag.entryAfter [ "writeBoundary" "sops" ] ''
-    _url=$(cat "${config.sops.secrets."upstash_url".path}")
-    _token=$(cat "${config.sops.secrets."upstash_token".path}")
+  # Write settings.json at activation with secrets injected from sops-decrypted files.
+  # Depends on "sops-nix" (not "sops") — that's the actual DAG entry name used by sops-nix's HM module.
+  # Falls back to tokenless config if the LaunchAgent hasn't decrypted secrets yet (first boot).
+  home.activation.claudeSettings = lib.hm.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
+    _url_file="${config.sops.secrets."upstash_url".path}"
+    _token_file="${config.sops.secrets."upstash_token".path}"
 
-    ${pkgs.jq}/bin/jq \
-      --arg url   "$_url" \
-      --arg token "$_token" \
-      '.mcpServers.context7.env.UPSTASH_REDIS_REST_URL   = $url   |
-       .mcpServers.context7.env.UPSTASH_REDIS_REST_TOKEN = $token' \
-      <<< '${staticJson}' \
-      > "$HOME/.claude/settings.json"
+    if [ -f "$_url_file" ] && [ -f "$_token_file" ]; then
+      ${pkgs.jq}/bin/jq \
+        --arg url   "$(cat "$_url_file")" \
+        --arg token "$(cat "$_token_file")" \
+        '.mcpServers.context7.env.UPSTASH_REDIS_REST_URL   = $url   |
+         .mcpServers.context7.env.UPSTASH_REDIS_REST_TOKEN = $token' \
+        <<< '${staticJson}' \
+        > "$HOME/.claude/settings.json"
+    else
+      printf '%s' '${staticJson}' > "$HOME/.claude/settings.json"
+    fi
   '';
 }
