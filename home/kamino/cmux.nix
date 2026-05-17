@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   bypassPath = "${config.home.homeDirectory}/.local/bin/claude-bypass";
-  # System-wide Nix profile path is stable across rebuilds; avoids re-entering
-  # the cmux PATH wrapper (/Applications/cmux NIGHTLY.app/.../bin/claude).
-  realClaude = "/run/current-system/sw/bin/claude";
+  # Stable path to the npm-installed binary (see installClaudeCode activation).
+  # Avoids PATH entirely so cmux's own claude wrapper doesn't loop.
+  realClaude = "${config.home.homeDirectory}/.npm-global/bin/claude";
 
   cmuxJsonFile = pkgs.writeText "cmux.json" (builtins.toJSON {
     "$schema"     = "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json";
