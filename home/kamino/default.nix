@@ -26,5 +26,13 @@
     mkdir -p "$HOME/media"
   '';
 
+  # sops-nix LaunchAgent declares StandardErrorPath/StandardOutPath under
+  # ~/Library/Logs/SopsNix/. launchd refuses to bootstrap a service whose log
+  # parent dir doesn't exist (Bootstrap failed: 5: Input/output error), so the
+  # dir must exist *before* the sops-nix activation step runs.
+  home.activation.createSopsNixLogDir = lib.hm.dag.entryBefore [ "sops-nix" ] ''
+    mkdir -p "$HOME/Library/Logs/SopsNix"
+  '';
+
   programs.ssh.matchBlocks."*".extraOptions.UseKeychain = "yes";
 }
