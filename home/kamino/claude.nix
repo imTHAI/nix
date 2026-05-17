@@ -31,6 +31,7 @@ let
     };
     tui         = "fullscreen";
     defaultMode = "bypassPermissions";
+    skipDangerousModePermissionPrompt = true;
     theme       = "auto";
     mcpServers.context7 = {
       command = "npx";
