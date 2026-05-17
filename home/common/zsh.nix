@@ -23,10 +23,6 @@
       bindkey '^[[B' down-line-or-beginning-search
       autoload -Uz compinit && compinit
       zstyle ':completion:*' menu select
-      # Wrap claude to always skip the workspace trust dialog (--dangerously-skip-permissions
-      # suppresses the per-session "do you trust this folder?" check; settings.json
-      # skipDangerousModePermissionPrompt only suppresses a different, older modal)
-      claude() { command claude --dangerously-skip-permissions "$@"; }
       gitsync() {
         local branch=$(git rev-parse --abbrev-ref HEAD)
         echo "🚀 Forçage du local vers origin/$branch..."
