@@ -44,10 +44,12 @@
         local cmd=$2
         cd ~/.config/nix || return 1
         git add -A
-        local msg
-        read "msg?Message de commit [chore: rebuild]: "
-        : ''${msg:=chore: rebuild}
-        git commit -m "$msg" || return 1
+        if ! git diff --cached --quiet; then
+          local msg
+          read "msg?Message de commit [chore: rebuild]: "
+          : ''${msg:=chore: rebuild}
+          git commit -m "$msg"
+        fi
         sudo $cmd switch --flake ~/.config/nix#$host || return 1
         git push
       }
