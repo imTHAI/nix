@@ -2,7 +2,7 @@
   programs.zsh = {
     profileExtra = ''
       typeset -U path
-      path=(/etc/profiles/per-user/$USER/bin /run/current-system/sw/bin $HOME/Applications/bin /opt/homebrew/bin /opt/homebrew/sbin $path)
+      path=(/etc/profiles/per-user/$USER/bin /run/current-system/sw/bin $HOME/Applications/bin /opt/homebrew/bin /opt/homebrew/sbin $HOME/.local/bin $path)
     '';
     history.path = "$HOME/.zsh_history";
     shellAliases = {

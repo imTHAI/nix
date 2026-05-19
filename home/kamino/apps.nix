@@ -3,6 +3,17 @@
   home.activation.calibreConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p "$HOME/Library/Preferences/calibre/plugins"
   '';
+
+  # herdr has no nixpkg — fetch the prebuilt binary from GitHub releases if absent.
+  home.activation.installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ ! -f "$HOME/.local/bin/herdr" ]; then
+      mkdir -p "$HOME/.local/bin"
+      ${pkgs.curl}/bin/curl -fsSL \
+        "https://github.com/ogulcancelik/herdr/releases/latest/download/herdr-darwin-aarch64" \
+        -o "$HOME/.local/bin/herdr"
+      chmod +x "$HOME/.local/bin/herdr"
+    fi
+  '';
   home.packages = pkgs.callPackage ./packages.nix { };
 
   xdg.configFile."alacritty/alacritty.toml".text = ''
