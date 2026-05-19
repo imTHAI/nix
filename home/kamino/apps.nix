@@ -5,6 +5,23 @@
   '';
   home.packages = pkgs.callPackage ./packages.nix { };
 
+  xdg.configFile."alacritty/alacritty.toml".text = ''
+    [font]
+    size = 15
+
+    [font.normal]
+    family = "JetBrainsMono Nerd Font"
+    style = "Regular"
+
+    [font.bold]
+    family = "JetBrainsMono Nerd Font"
+    style = "Bold"
+
+    [font.italic]
+    family = "JetBrainsMono Nerd Font"
+    style = "Italic"
+  '';
+
   xdg.configFile."ghostty/config".text = ''
     background = 000000
     theme = TokyoNight
