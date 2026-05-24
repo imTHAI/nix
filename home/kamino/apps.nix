@@ -17,7 +17,7 @@
   home.packages = pkgs.callPackage ./packages.nix { };
 
   xdg.configFile."ghostty/config".text = ''
-    theme = 3024 Day
+    theme = Tinacious Design Light
     font-family = JetBrainsMono Nerd Font
     font-size = 15
     copy-on-select = true
