@@ -25,6 +25,15 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Ne committe jamais sans que je le demande explicitement
 - Ne pousse jamais sans confirmation
 
+## Nix macOS — règles de placement des packages
+
+- CLI tools → `home/kamino/packages.nix` (`home.packages`)
+- Apps GUI nixpkgs (ex: `ghostty-bin`, `obsidian`) → `hosts/kamino/default.nix` (`environment.systemPackages`)
+  - Raison : `mac-app-util` crée les symlinks dans `/Applications` → visible par Alfred/Spotlight
+  - `home.packages` installe dans `~/Applications/Home Manager Apps/` → **non indexé par Alfred**
+- Apps GUI sans nixpkgs → `homebrew.casks` dans `hosts/kamino/default.nix`
+- Pour vérifier si un package supporte aarch64-darwin : `nix eval nixpkgs#<pkg>.meta.platforms`
+
 ## Setup machines
 - **kamino** : macOS, nix-darwin + home-manager
 - **scarif** : Arch Linux, home-manager standalone (pas NixOS)
