@@ -15,9 +15,24 @@ let
           "Edit(${config.home.homeDirectory}/.claude/**)"
         ];
       deny  = [
+        # Destruction fichiers système critiques
         "Bash(rm -rf /)"
         "Bash(rm -rf /*)"
         "Bash(rm -rf ~*)"
+        "Bash(rm*-rf*/etc*)"
+        "Bash(rm*-rf*/usr*)"
+        "Bash(rm*-rf*/boot*)"
+        "Bash(rm*-rf*/bin*)"
+        # Écrasement de disques
+        "Bash(dd*of=/dev/*)"
+        # Téléchargement direct vers shell (curl|bash, wget|sh, etc.)
+        "Bash(*curl*|*bash*)"
+        "Bash(*curl*|*sh*)"
+        "Bash(*wget*|*bash*)"
+        "Bash(*wget*|*sh*)"
+        # Fork bomb
+        "Bash(:(){ :|:& };:)"
+        # Git push force
         "Bash(git push --force*)"
         "Bash(git push -f *)"
       ];
@@ -65,6 +80,28 @@ let
           ];
         }
       ];
+      Stop = [
+        {
+          matcher = "";
+          hooks = [
+            {
+              type    = "command";
+              command = "afplay $HOME/.claude/sounds/finish.mp3";
+            }
+          ];
+        }
+      ];
+      Notification = [
+        {
+          matcher = "";
+          hooks = [
+            {
+              type    = "command";
+              command = "afplay $HOME/.claude/sounds/need-human.mp3";
+            }
+          ];
+        }
+      ];
       PostToolUse = [
         {
           matcher = "Edit|Write";
@@ -91,7 +128,9 @@ in
   home.file = {
     ".claude/CLAUDE.md".source       = ./claude/CLAUDE.md;
     ".claude/RTK.md".source          = ./claude/RTK.md;
-    ".claude/rules/python.md".source = ./claude/rules/python.md;
+    ".claude/rules/python.md".source          = ./claude/rules/python.md;
+    ".claude/sounds/finish.mp3".source        = ./claude/sounds/finish.mp3;
+    ".claude/sounds/need-human.mp3".source    = ./claude/sounds/need-human.mp3;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
