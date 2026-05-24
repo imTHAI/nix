@@ -91,6 +91,23 @@ secrets/        → secrets chiffrés (sops + age)
 Les apps GUI sensibles (navigateurs, Discord, Bitwarden) restent dans brew pour
 recevoir les mises à jour de sécurité immédiatement sans attendre nixpkgs.
 
+#### Apps GUI nixpkgs sur macOS
+
+Certaines apps GUI sont disponibles dans nixpkgs avec `meta.platforms` incluant
+`aarch64-darwin` (ex: `ghostty-bin`, `obsidian`, `iina`). Dans ce cas, privilégier
+nixpkgs pour garder la cohérence déclarative.
+
+**Règle de placement critique :**
+- `environment.systemPackages` (hosts/kamino/default.nix) → `.app` visible Alfred/Spotlight
+  via `mac-app-util` qui crée les symlinks dans `/Applications`
+- `home.packages` (home/kamino/packages.nix) → `.app` dans `~/Applications/Home Manager Apps/`
+  **non indexé par Alfred**
+
+Pour vérifier si un package nixpkgs supporte aarch64-darwin :
+```bash
+nix eval nixpkgs#<package>.meta.platforms
+```
+
 ---
 
 ## Workflow quotidien
