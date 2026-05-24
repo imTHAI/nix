@@ -10,6 +10,5 @@ common ++ [
   rsyncy   # rsync avec progress bar
   aria2    # téléchargement multi-connexions
   ffmpeg   # conversion audio/vidéo
-  nodejs      # requis par le plugin claude-mem (hooks Stop/PostToolUse)
-  ghostty-bin # terminal emulator (prebuilt, darwin universal)
+  nodejs   # requis par le plugin claude-mem (hooks Stop/PostToolUse)
 ]

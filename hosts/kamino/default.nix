@@ -23,6 +23,7 @@
     obsidian
     keka
     iina
+    ghostty-bin
     nerd-fonts.hack
     docker
     colima
