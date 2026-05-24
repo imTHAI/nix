@@ -18,7 +18,7 @@
 
   xdg.configFile."ghostty/config".text = ''
     background = 000000
-    theme = TokyoNight
+    theme = 3024 Day
     font-family = JetBrainsMono Nerd Font
     font-size = 15
     copy-on-select = true
