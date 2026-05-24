@@ -17,7 +17,6 @@
   home.packages = pkgs.callPackage ./packages.nix { };
 
   xdg.configFile."ghostty/config".text = ''
-    background = 000000
     theme = 3024 Day
     font-family = JetBrainsMono Nerd Font
     font-size = 15
