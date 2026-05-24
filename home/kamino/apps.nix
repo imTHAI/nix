@@ -54,4 +54,17 @@
   };
 
   xdg.configFile."gh-dash/config.yml".source = ./gh-dash-config.yml;
+
+  launchd.agents.mount-smb = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Users/pbear/Applications/bin/mount_smb.py" ];
+      # Run immediately at login, then every 30 minutes.
+      # launchd starts after network services, so no sleep delay needed.
+      RunAtLoad = true;
+      StartInterval = 1800;
+      StandardOutPath = "/Users/pbear/mount_smb.log";
+      StandardErrorPath = "/Users/pbear/mount_smb.log";
+    };
+  };
 }
