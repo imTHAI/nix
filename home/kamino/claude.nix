@@ -57,6 +57,13 @@ let
     defaultMode = "bypassPermissions";
     skipDangerousModePermissionPrompt = true;
     theme       = "auto";
+    mcpServers.devonthink = {
+      type    = "sse";
+      url     = "http://localhost:8420/sse";
+      headers = {
+        Authorization = "Bearer 66BYUbfDvTvlNjfdJmDDB2KG-4ZD20X0C37tD4fhuEc";
+      };
+    };
     mcpServers.context7 = {
       command = "npx";
       args    = [ "-y" "@upstash/context7-mcp" ];
