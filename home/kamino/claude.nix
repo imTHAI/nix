@@ -130,6 +130,8 @@ in
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     secrets."upstash_url".sopsFile   = ../../secrets/kamino/claude.yaml;
     secrets."upstash_token".sopsFile = ../../secrets/kamino/claude.yaml;
+    secrets."smb_username".sopsFile  = ../../secrets/kamino/claude.yaml;
+    secrets."smb_password".sopsFile  = ../../secrets/kamino/claude.yaml;
   };
 
   home.file = {
@@ -175,6 +177,19 @@ in
         > "$HOME/.claude/settings.json"
     else
       install -m 0644 ${staticJsonFile} "$HOME/.claude/settings.json"
+    fi
+  '';
+
+  # Regenerate SMB credentials file from sops-decrypted secrets.
+  # 0600 so Finder/mount_smbfs won't reject it as world-readable.
+  home.activation.smbCredentials = lib.hm.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
+    _user_file="${config.sops.secrets."smb_username".path}"
+    _pass_file="${config.sops.secrets."smb_password".path}"
+    if [ -f "$_user_file" ] && [ -f "$_pass_file" ]; then
+      install -m 0600 /dev/null "$HOME/.ssh/smb_credentials"
+      printf 'username=%s\npassword=%s\n' \
+        "$(cat "$_user_file")" "$(cat "$_pass_file")" \
+        > "$HOME/.ssh/smb_credentials"
     fi
   '';
 }
