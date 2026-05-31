@@ -138,6 +138,8 @@ in
     ".claude/rules/python.md".source          = ./claude/rules/python.md;
     ".claude/sounds/finish.mp3".source        = ./claude/sounds/finish.mp3;
     ".claude/sounds/need-human.mp3".source    = ./claude/sounds/need-human.mp3;
+    ".claude/statusline-command.sh".source    = ./claude/statusline-command.sh;
+    ".claude/settings.local.json".source     = ./claude/settings.local.json;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
