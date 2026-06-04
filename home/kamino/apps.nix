@@ -58,7 +58,7 @@
   launchd.agents.mount-smb = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Users/pbear/Applications/bin/mount_smb.py" ];
+      ProgramArguments = [ "/etc/profiles/per-user/pbear/bin/uv" "run" "/Users/pbear/Applications/bin/mount_smb.py" ];
       # Run immediately at login, then every 30 minutes.
       # launchd starts after network services, so no sleep delay needed.
       RunAtLoad = true;
