@@ -30,8 +30,6 @@ let
         "Bash(*curl*|*sh*)"
         "Bash(*wget*|*bash*)"
         "Bash(*wget*|*sh*)"
-        # Fork bomb
-        "Bash(:(){ :|:& };:)"
         # Git push force
         "Bash(git push --force*)"
         "Bash(git push -f *)"

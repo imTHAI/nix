@@ -1,8 +1,19 @@
 # Préférences globales
 
 > Ce fichier est géré par Nix home-manager (kamino).
-> Pour le modifier : éditer `~/.config/nix/home/kamino/claude/CLAUDE.md`, puis `nixrb`.
-> Ne jamais éditer `~/.claude/CLAUDE.md` directement — c'est un symlink en lecture seule.
+> Ne jamais éditer les fichiers `~/.claude/` directement — ils sont tous gérés par Nix.
+>
+> | Fichier | Source Nix |
+> |---------|-----------|
+> | `~/.claude/CLAUDE.md` | `home/kamino/claude/CLAUDE.md` (symlink) |
+> | `~/.claude/settings.json` | `home/kamino/claude.nix` (généré à l'activation) |
+> | `~/.claude/settings.local.json` | `home/kamino/claude/settings.local.json` (symlink) |
+> | `~/.claude/RTK.md` | `home/kamino/claude/RTK.md` (symlink) |
+> | `~/.claude/rules/python.md` | `home/kamino/claude/rules/python.md` (symlink) |
+> | `~/.claude/statusline-command.sh` | `home/kamino/claude/statusline-command.sh` (symlink) |
+> | `~/.claude/sounds/*.mp3` | `home/kamino/claude/sounds/` (symlinks) |
+>
+> Workflow : éditer la source Nix → `nixrb` → push GitHub.
 
 
 ## Langue
