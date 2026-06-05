@@ -6,6 +6,10 @@
     '';
     history.path = "$HOME/.zsh_history";
     shellAliases = {
+      # Route all manual `claude` invocations through claude-bypass so
+      # --dangerously-skip-permissions is always injected, regardless of
+      # whether the session was started by cmux or typed directly.
+      claude  = "$HOME/.local/bin/claude-bypass";
       nixup   = "_nixupdate kamino darwin-rebuild";
       nixrb   = "_nixrebuild kamino darwin-rebuild";
       nixpull = "cd ~/.config/nix && git pull && sudo darwin-rebuild switch --flake ~/.config/nix#kamino";
