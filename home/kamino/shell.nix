@@ -21,7 +21,8 @@
       ogg2m4a    = "audio_convert ogg";
       flac2m4a   = "audio_convert flac";
       sync_photoslib = "rsync -avh --progress --exclude='.DS_Store' --delete $HOME/Pictures/Photos\\ Library.photoslibrary coruscant:/mnt/user/backups/";
-      sync_calibre   = "rsync -avh --progress --exclude='.DS_Store' --delete /Volumes/TB_500Go/Librairie\\ Calibre coruscant:/mnt/user/media/books/";
+      sync_calibre      = "rsync -avh --progress --exclude='.DS_Store' --delete /Volumes/TB_500Go/Librairie\\ Calibre coruscant:/mnt/user/media/books/";
+      sync_calibre_down = "rsync -avh --progress --exclude='.DS_Store' --delete coruscant:/mnt/user/media/books/Librairie\\ Calibre /Volumes/TB_500Go/";
       sync_bin       = "rsync -avh --progress --exclude='.DS_Store' --delete $HOME/Applications/bin coruscant:/mnt/user/backups/";
       sync_homedir   = "rsync -vah -e ssh --exclude=\".git\" --exclude=\".venv\" --exclude=\".DS_Store\" --exclude=\"Survivalisme\" --exclude=\"Family_Media_Library\" --delete coruscant:/mnt/user/homedir-pbear/ \"$HOME/Library/Mobile Documents/com~apple~CloudDocs/Backups/homedir-pbear/\"";
     };
