@@ -39,7 +39,10 @@
     };
   };
 
+  homebrew.taps = [ "manaflow-ai/manaflow" ];
+
   homebrew.casks = [
+    "manaflow-ai/manaflow/cmux-nightly"
     "alfred"
     "adguard"
     "microsoft-edge"
