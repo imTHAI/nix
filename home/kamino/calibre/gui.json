@@ -1,0 +1,437 @@
+{
+  "action-layout-toolbar": [
+    "Add Books",
+    "Edit Metadata",
+    null,
+    "Convert Books",
+    "View",
+    null,
+    "Choose Library",
+    "Donate",
+    null,
+    "Fetch News",
+    "Store",
+    "Save To Disk",
+    "Connect Share",
+    null,
+    "Remove Books",
+    "Tweak ePub",
+    "Reading List"
+  ],
+  "action-layout-toolbar-device": [
+    "Add Books",
+    "Edit Metadata",
+    null,
+    "Convert Books",
+    "View",
+    "Send To Device",
+    null,
+    null,
+    "Location Manager",
+    null,
+    null,
+    "Fetch News",
+    "Store",
+    "Save To Disk",
+    "Connect Share",
+    null,
+    "Remove Books",
+    "Reading List",
+    "Kindle Collections"
+  ],
+  "advanced search dialog current tab": 1,
+  "advanced_search_simple_tab_focused_field": "authors_box",
+  "basic_metadata_widget_splitter_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAADAAAA9QAAAX4AAAEKAf////8BAAAAAQA="
+  },
+  "book_list_pin_splitter_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAACAAABAAAAAEYA/////wEAAAABAA=="
+  },
+  "bookshelf view visible": false,
+  "bulk-mde-casing-algorithm": "title_case",
+  "bulk_metadata_window_tab": 1,
+  "cover_grid_background": {
+    "dark": [
+      45,
+      45,
+      45
+    ],
+    "dark_texture": null,
+    "light": [
+      80,
+      80,
+      80
+    ],
+    "light_texture": null,
+    "migrated": true
+  },
+  "custcol-prefs-column_order": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "custcol-prefs-table-geometry": [
+    92,
+    143,
+    109,
+    547,
+    1095,
+    100
+  ],
+  "geometry-of-Plugin Updater plugin:plugin updater dialog": {
+    "frame_geometry": {
+      "height": 508,
+      "width": 1262,
+      "x": 692,
+      "y": 423
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 480,
+      "width": 1262,
+      "x": 692,
+      "y": 451
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 480,
+      "width": 1262,
+      "x": 692,
+      "y": 451
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAK0AAABpwAAB6EAAAOiAAACtAAAAcMAAAehAAADogAAAAAAAAAACgAAAAK0AAABwwAAB6EAAAOi"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "LG ULTRAFINE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "geometry-of-bulk_metadata_window_geometry": {
+    "frame_geometry": {
+      "height": 770,
+      "width": 2329,
+      "x": -2385,
+      "y": 175
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 742,
+      "width": 2329,
+      "x": -2385,
+      "y": 203
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 742,
+      "width": 2329,
+      "x": -2385,
+      "y": 203
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAD///avAAAAr////8cAAAOw///2rwAAAMv////HAAADsAAAAAEAAAAACgD///avAAAAy////8cAAAOw"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": -2560,
+        "y": -68
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "PL2730Q",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "geometry-of-calibre_main_window_geometry": {
+    "frame_geometry": {
+      "height": 1115,
+      "width": 2276,
+      "x": 144,
+      "y": 114
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 1087,
+      "width": 2276,
+      "x": 144,
+      "y": 142
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 1087,
+      "width": 2276,
+      "x": 144,
+      "y": 142
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAACQAAAAcgAACXMAAATMAAAAkAAAAI4AAAlzAAAEzAAAAAAAAAAACgAAAACQAAAAjgAACXMAAATM"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "LG ULTRAFINE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "geometry-of-duplicates-question-dialog-geometry": {
+    "frame_geometry": {
+      "height": 406,
+      "width": 731,
+      "x": -1593,
+      "y": 355
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 378,
+      "width": 731,
+      "x": -1593,
+      "y": 383
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 378,
+      "width": 731,
+      "x": -1593,
+      "y": 383
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAD///nHAAABY////KEAAAL4///5xwAAAX////yhAAAC+AAAAAEAAAAACgD///nHAAABf////KEAAAL4"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": -2560,
+        "y": -68
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "PL2730Q",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "geometry-of-metasingle_window_geometry3": {
+    "frame_geometry": {
+      "height": 1418,
+      "width": 2490,
+      "x": -2500,
+      "y": -68
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 1390,
+      "width": 2490,
+      "x": -2500,
+      "y": -40
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 1390,
+      "width": 2490,
+      "x": -2500,
+      "y": -40
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAD///Y8////vP////UAAAVF///2PP///9j////1AAAFRQAAAAEAAAAACgD///Y8////2P////UAAAVF"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": -2560,
+        "y": -68
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "PL2730Q",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "geometry-of-preferences dialog geometry": {
+    "frame_geometry": {
+      "height": 946,
+      "width": 930,
+      "x": 139,
+      "y": 239
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 918,
+      "width": 930,
+      "x": 139,
+      "y": 267
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 918,
+      "width": 930,
+      "x": 139,
+      "y": 267
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAACLAAAA7wAABCwAAASgAAAAiwAAAQsAAAQsAAAEoAAAAAAAAAAACgAAAACLAAABCwAABCwAAASg"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "LG ULTRAFINE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1440,
+        "width": 2560
+      },
+      "virtual_geometry": {
+        "height": 1508,
+        "width": 5120,
+        "x": -2560,
+        "y": -68
+      }
+    }
+  },
+  "grid view visible": false,
+  "library_usage_stats": {
+    "/Volumes/TB_500Go/Librairie Calibre": 24
+  },
+  "main_window_central_widget_state": {
+    "layout": "wide",
+    "narrow_desires": {
+      "book_details_height": 0.23059617547806524,
+      "cover_browser_width": 0.3498181818181818,
+      "quick_view_height": 0.25646794150731156,
+      "tag_browser_width": 0.24945454545454546
+    },
+    "narrow_visibility": {
+      "book_details": true,
+      "book_list": true,
+      "cover_browser": false,
+      "quick_view": false,
+      "tag_browser": true
+    },
+    "wide_desires": {
+      "book_details_width": 0.29963636363636365,
+      "cover_browser_height": 0.2860125260960334,
+      "quick_view_height": 0.23799582463465555,
+      "tag_browser_width": 0.11511565357719204
+    },
+    "wide_visibility": {
+      "book_details": true,
+      "book_list": true,
+      "cover_browser": false,
+      "quick_view": false,
+      "tag_browser": true
+    }
+  },
+  "previous_sort_order_BooksView": {
+    "last_modified": false,
+    "series": true,
+    "title": false
+  },
+  "quick_start_guide_added": true,
+  "qv_open_at_shutdown": false,
+  "recently_used_languages": [
+    "Français"
+  ],
+  "search bar visible": true,
+  "tag browser search box visible": false
+}

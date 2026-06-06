@@ -43,7 +43,7 @@ let
     enabledPlugins = {
       "context7@claude-plugins-official" = true;
       "cloudflare@cloudflare"            = false;
-      "github@claude-plugins-official"   = true;
+      "github@claude-plugins-official"   = false;
       "claude-mem@thedotmack"            = true;
       "superpowers@claude-plugins-official" = true;
     };
