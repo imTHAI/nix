@@ -16,6 +16,11 @@
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
+  # Discord webhook used by the autoUpgrade report job (and reusable for any
+  # other local notification script) — decrypted at activation, age key already
+  # configured in claude.nix.
+  sops.secrets."discord_webhook_url".sopsFile = ../../secrets/kamino/discord.yaml;
+
   home.username    = vars.user.name;
   home.homeDirectory = "/Users/${vars.user.name}";
 
