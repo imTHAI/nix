@@ -24,6 +24,7 @@
     inputs.nix-packages.packages.${pkgs.stdenv.hostPlatform.system}.keka  # 1.6.5 — nixpkgs is stuck on 1.6.0, see imTHAI/nix-packages
     iina
     ghostty-bin
+    bitwarden-desktop
     nerd-fonts.hack
     docker
     colima
@@ -54,7 +55,6 @@
     "visual-studio-code"
     "firefox"
     "discord"
-    "bitwarden"
   ];
 
   # CLI proxy that filters/compresses command output before it hits the LLM
