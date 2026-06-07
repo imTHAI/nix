@@ -1,9 +1,5 @@
 { pkgs, lib, ... }: {
 
-  home.activation.calibreConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    mkdir -p "$HOME/Library/Preferences/calibre/plugins"
-  '';
-
   # herdr has no nixpkg — fetch the prebuilt binary from GitHub releases if absent.
   home.activation.installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
     if [ ! -f "$HOME/.local/bin/herdr" ]; then

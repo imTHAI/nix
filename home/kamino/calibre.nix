@@ -38,8 +38,8 @@
     _copy_if_missing ${./calibre/gui.json}             "$_prefs/gui.json"
     _copy_if_missing ${./calibre/gui.py.json}          "$_prefs/gui.py.json"
 
-    _copy_if_missing "${./calibre/plugins/Reading List.zip}"  "$_prefs/plugins/Reading List.zip"
-    _copy_if_missing "${./calibre/plugins/Reading List.json}" "$_prefs/plugins/Reading List.json"
-    _copy_if_missing "${./calibre/plugins/Kindle Collections.zip}" "$_prefs/plugins/Kindle Collections.zip"
+    _copy_if_missing "${./calibre/plugins}/Reading List.zip"       "$_prefs/plugins/Reading List.zip"
+    _copy_if_missing "${./calibre/plugins}/Reading List.json"      "$_prefs/plugins/Reading List.json"
+    _copy_if_missing "${./calibre/plugins}/Kindle Collections.zip" "$_prefs/plugins/Kindle Collections.zip"
   '';
 }
