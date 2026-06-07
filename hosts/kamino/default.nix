@@ -1,4 +1,4 @@
-{ pkgs, vars, ... }: {
+{ pkgs, vars, inputs, ... }: {
   imports = [
     ../../system/common.nix
     ../../system/darwin.nix
@@ -21,7 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     obsidian
-    keka
+    inputs.nix-packages.packages.${pkgs.stdenv.hostPlatform.system}.keka  # 1.6.5 — nixpkgs is stuck on 1.6.0, see imTHAI/nix-packages
     iina
     ghostty-bin
     nerd-fonts.hack

@@ -15,6 +15,8 @@
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nur.url          = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
+    nix-packages.url = "github:imTHAI/nix-packages";
+    nix-packages.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nixos-wsl, nur, ... }:

@@ -213,6 +213,26 @@
         "type": "github"
       }
     },
+    "nix-packages": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780845650,
+        "narHash": "sha256-E2ASOZgPfbAkRqSF+eNnAmcacnx+NKqfdlQdtL3FOBs=",
+        "owner": "imTHAI",
+        "repo": "nix-packages",
+        "rev": "7336a8fdd892bdf9d05675c725b6f0cb54b71f89",
+        "type": "github"
+      },
+      "original": {
+        "owner": "imTHAI",
+        "repo": "nix-packages",
+        "type": "github"
+      }
+    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -357,6 +377,7 @@
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
+        "nix-packages": "nix-packages",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
         "nur": "nur",
