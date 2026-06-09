@@ -49,7 +49,6 @@
     "keybase"
     "megasync"
     "calibre"
-    "telegram"
     "deepl"
     "little-snitch"
     "visual-studio-code"
@@ -60,5 +59,9 @@
   # CLI proxy that filters/compresses command output before it hits the LLM
   # context (~80% token savings on common ops). Wired up via PreToolUse hook
   # in ~/.claude/settings.json (see home/kamino/claude.nix).
+  homebrew.masApps = {
+    "Telegram" = 747648890;
+  };
+
   homebrew.brews = [ "rtk" ];
 }
