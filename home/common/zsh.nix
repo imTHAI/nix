@@ -15,6 +15,10 @@
       export LANG="fr_FR.UTF-8"
       export LC_ALL="fr_FR.UTF-8"
       export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+      # Bun lives outside Nix (installed via its own installer). claude-mem's
+      # worker needs it on PATH from login shells — hooks resolve PATH via
+      # `$SHELL -lc 'echo $PATH'`, so this must be here, not in an rc-only file.
+      export PATH="$HOME/.bun/bin:$PATH"
       autoload -Uz up-line-or-beginning-search
       autoload -Uz down-line-or-beginning-search
       zle -N up-line-or-beginning-search
