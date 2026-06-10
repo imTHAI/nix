@@ -21,7 +21,11 @@
 
   environment.systemPackages = with pkgs; [
     obsidian
-    inputs.nix-packages.packages.${pkgs.stdenv.hostPlatform.system}.keka  # 1.6.5 — nixpkgs is stuck on 1.6.0, see imTHAI/nix-packages
+    # Build keka via callPackage instead of referencing the flake's packages output:
+    # the packages output uses its own pkgs instance whose allowUnfree doesn't
+    # propagate from the host config, causing "Refusing to evaluate" at rebuild.
+    # callPackage uses the system pkgs (allowUnfree = true from common.nix).
+    (pkgs.callPackage "${inputs.nix-packages}/pkgs/keka/package.nix" {})
     iina
     ghostty-bin
     bitwarden-desktop
