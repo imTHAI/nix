@@ -32,6 +32,7 @@
     nerd-fonts.hack
     docker
     colima
+    firefox
   ];
 
   launchd.user.agents.colima = {
@@ -56,7 +57,6 @@
     "deepl"
     "little-snitch"
     "visual-studio-code"
-    "firefox"
     "discord"
   ];
 
