@@ -26,7 +26,11 @@ Build a clear semantic query from the user's intent. Then run:
 
 ```bash
 EXA_KEY=$(cat ~/.config/exa/api-key 2>/dev/null)
-curl -s -X POST https://api.exa.ai/search \
+if [ -z "$EXA_KEY" ]; then
+  # Key not provisioned — fall back to WebSearch
+  echo "FALLBACK"
+fi
+curl -sf --max-time 10 -X POST https://api.exa.ai/search \
   -H "x-api-key: $EXA_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -35,8 +39,10 @@ curl -s -X POST https://api.exa.ai/search \
     "contents": {
       "text": { "maxCharacters": 2000 }
     }
-  }'
+  }' | jq '.'
 ```
+
+The response JSON has structure: `{ results: [{ title, url, text }] }`. Extract `results[].title`, `results[].url`, and `results[].text` to synthesize your answer.
 
 ## How to respond
 
