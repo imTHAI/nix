@@ -140,6 +140,17 @@ in
     ".claude/sounds/need-human.mp3".source    = ./claude/sounds/need-human.mp3;
     ".claude/statusline-command.sh".source    = ./claude/statusline-command.sh;
     ".claude/settings.local.json".source     = ./claude/settings.local.json;
+    ".claude/skills/meta-prompt-creator/SKILL.md".source                                    = ./claude/skills/meta-prompt-creator/SKILL.md;
+    ".claude/skills/meta-prompt-creator/references/anthropic-best-practices.md".source      = ./claude/skills/meta-prompt-creator/references/anthropic-best-practices.md;
+    ".claude/skills/meta-prompt-creator/references/anti-patterns.md".source                 = ./claude/skills/meta-prompt-creator/references/anti-patterns.md;
+    ".claude/skills/meta-prompt-creator/references/clarity-principles.md".source            = ./claude/skills/meta-prompt-creator/references/clarity-principles.md;
+    ".claude/skills/meta-prompt-creator/references/context-management.md".source            = ./claude/skills/meta-prompt-creator/references/context-management.md;
+    ".claude/skills/meta-prompt-creator/references/few-shot-patterns.md".source             = ./claude/skills/meta-prompt-creator/references/few-shot-patterns.md;
+    ".claude/skills/meta-prompt-creator/references/openai-best-practices.md".source         = ./claude/skills/meta-prompt-creator/references/openai-best-practices.md;
+    ".claude/skills/meta-prompt-creator/references/prompt-templates.md".source              = ./claude/skills/meta-prompt-creator/references/prompt-templates.md;
+    ".claude/skills/meta-prompt-creator/references/reasoning-techniques.md".source          = ./claude/skills/meta-prompt-creator/references/reasoning-techniques.md;
+    ".claude/skills/meta-prompt-creator/references/system-prompt-patterns.md".source        = ./claude/skills/meta-prompt-creator/references/system-prompt-patterns.md;
+    ".claude/skills/meta-prompt-creator/references/xml-structure.md".source                 = ./claude/skills/meta-prompt-creator/references/xml-structure.md;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
