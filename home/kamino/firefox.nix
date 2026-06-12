@@ -1,4 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+# NOTE: Firefox is intentionally installed via Homebrew cask, not nixpkgs.
+# Reason: when installed via nixpkgs, the binary runs from /nix/store/<hash>/Firefox.app.
+# The hash changes on every update, so AdGuard cannot maintain a stable reference to the
+# process and stops filtering Firefox HTTPS traffic entirely. Symlink workarounds do not
+# help because macOS resolves symlinks to the real path before AdGuard sees the process.
+# Do not migrate Firefox to nixpkgs unless this is solved upstream.
+{
   # Managed storage pour Bitwarden — pointe vers le vault self-hosted
   # https://bitwarden.com/help/managed-storage-policies/
   home.file."Library/Application Support/Mozilla/ManagedStorage/{446900e4-71c2-419f-a6a7-df9c091e268b}.json".text = builtins.toJSON {
@@ -86,8 +93,6 @@
         # ── Divers ─────────────────────────────────────────────
         "security.enterprise_roots.enabled"             = true;   # trust macOS system keychain (AdGuard HTTPS filtering, corporate CAs)
         "extensions.autoDisableScopes"                  = 0;      # prevent Firefox from auto-disabling home-manager managed extensions
-        "app.update.auto"                               = false;  # Nix manages the binary — block in-app auto-update
-        "app.update.enabled"                            = false;
         "browser.aboutConfig.showWarning"               = false;  # plus de warning about:config
         "browser.startup.page"                           = 3;       # restaure la session précédente (onglets épinglés persistent)
         "browser.startup.homepage"                       = "about:home";
