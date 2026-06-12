@@ -151,6 +151,7 @@ in
     ".claude/skills/meta-prompt-creator/references/reasoning-techniques.md".source          = ./claude/skills/meta-prompt-creator/references/reasoning-techniques.md;
     ".claude/skills/meta-prompt-creator/references/system-prompt-patterns.md".source        = ./claude/skills/meta-prompt-creator/references/system-prompt-patterns.md;
     ".claude/skills/meta-prompt-creator/references/xml-structure.md".source                 = ./claude/skills/meta-prompt-creator/references/xml-structure.md;
+    ".claude/skills/meta-prompt-creator/references/gemini-best-practices.md".source         = ./claude/skills/meta-prompt-creator/references/gemini-best-practices.md;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
