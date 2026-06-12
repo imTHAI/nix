@@ -84,7 +84,10 @@
         "extensions.formautofill.heuristics.enabled"                 = false;
 
         # ── Divers ─────────────────────────────────────────────
-        "security.enterprise_roots.enabled"             = true;   # trust macOS system keychain (needed for AdGuard HTTPS filtering)
+        "security.enterprise_roots.enabled"             = true;   # trust macOS system keychain (AdGuard HTTPS filtering, corporate CAs)
+        "extensions.autoDisableScopes"                  = 0;      # prevent Firefox from auto-disabling home-manager managed extensions
+        "app.update.auto"                               = false;  # Nix manages the binary — block in-app auto-update
+        "app.update.enabled"                            = false;
         "browser.aboutConfig.showWarning"               = false;  # plus de warning about:config
         "browser.startup.page"                           = 3;       # restaure la session précédente (onglets épinglés persistent)
         "browser.startup.homepage"                       = "about:home";
