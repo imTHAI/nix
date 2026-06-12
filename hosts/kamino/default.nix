@@ -17,6 +17,9 @@
   system.activationScripts.extraActivation.text = ''
     softwareupdate --install-rosetta --agree-to-license 2>/dev/null || true
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
+    # Stable symlink so AdGuard can find Firefox at /Applications/Firefox.app
+    # rather than the hash-volatile /nix/store/... path.
+    ln -sfn "/Applications/Nix Apps/Firefox.app" "/Applications/Firefox.app" 2>/dev/null || true
   '';
 
   environment.systemPackages = with pkgs; [
