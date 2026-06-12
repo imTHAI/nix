@@ -84,6 +84,7 @@
         "extensions.formautofill.heuristics.enabled"                 = false;
 
         # ── Divers ─────────────────────────────────────────────
+        "security.enterprise_roots.enabled"             = true;   # trust macOS system keychain (needed for AdGuard HTTPS filtering)
         "browser.aboutConfig.showWarning"               = false;  # plus de warning about:config
         "browser.startup.page"                           = 3;       # restaure la session précédente (onglets épinglés persistent)
         "browser.startup.homepage"                       = "about:home";
