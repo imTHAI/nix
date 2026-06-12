@@ -128,8 +128,9 @@ in
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     secrets."upstash_url".sopsFile   = ../../secrets/kamino/claude.yaml;
     secrets."upstash_token".sopsFile = ../../secrets/kamino/claude.yaml;
-    secrets."username".sopsFile  = ../../secrets/kamino/claude.yaml;
-    secrets."password".sopsFile  = ../../secrets/kamino/claude.yaml;
+    secrets."username".sopsFile    = ../../secrets/kamino/claude.yaml;
+    secrets."password".sopsFile    = ../../secrets/kamino/claude.yaml;
+    secrets."exa_api_key".sopsFile = ../../secrets/kamino/claude.yaml;
   };
 
   home.file = {
@@ -152,6 +153,7 @@ in
     ".claude/skills/meta-prompt-creator/references/system-prompt-patterns.md".source        = ./claude/skills/meta-prompt-creator/references/system-prompt-patterns.md;
     ".claude/skills/meta-prompt-creator/references/xml-structure.md".source                 = ./claude/skills/meta-prompt-creator/references/xml-structure.md;
     ".claude/skills/meta-prompt-creator/references/gemini-best-practices.md".source         = ./claude/skills/meta-prompt-creator/references/gemini-best-practices.md;
+    ".claude/skills/exa-search/SKILL.md".source = ./claude/skills/exa-search/SKILL.md;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
@@ -200,6 +202,16 @@ in
       printf 'username=%s\npassword=%s\n' \
         "$(cat "$_user_file")" "$(cat "$_pass_file")" \
         > "$HOME/.ssh/smb_credentials"
+    fi
+  '';
+
+  # Write Exa API key to a 0600 file so the exa-search skill can cat it at runtime.
+  home.activation.exaApiKey = lib.hm.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
+    _key_file="${config.sops.secrets."exa_api_key".path}"
+    if [ -f "$_key_file" ]; then
+      mkdir -p "$HOME/.config/exa"
+      install -m 0600 /dev/null "$HOME/.config/exa/api-key"
+      cat "$_key_file" > "$HOME/.config/exa/api-key"
     fi
   '';
 }
