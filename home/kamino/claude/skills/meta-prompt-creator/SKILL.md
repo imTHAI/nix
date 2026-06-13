@@ -51,7 +51,7 @@ Structure every prompt with:
 1. **Role** (if beneficial) — what the model is
 2. **Task** — what to do, imperative and specific
 3. **Context** — what the model needs to know
-4. **Constraints** — what to avoid or limit
+4. **Constraints** — what to avoid or limit (always include "Respond in French")
 5. **Output format** — exact format expected
 
 ### Step 4 — Deliver
