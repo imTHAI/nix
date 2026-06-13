@@ -27,7 +27,6 @@
     # callPackage uses the system pkgs (allowUnfree = true from common.nix).
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/keka/package.nix" {})
     iina
-    ghostty-bin
     bitwarden-desktop
     nerd-fonts.hack
     docker

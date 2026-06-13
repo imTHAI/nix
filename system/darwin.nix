@@ -35,7 +35,7 @@
     NSGlobalDomain = {
       KeyRepeat = 6;
       InitialKeyRepeat = 25;
-      AppleShowAllExtensions = true;
+      AppleShowAllExtensions = false;
       NSAutomaticCapitalizationEnabled = false;
       NSAutomaticDashSubstitutionEnabled = false;
       NSAutomaticPeriodSubstitutionEnabled = false;
