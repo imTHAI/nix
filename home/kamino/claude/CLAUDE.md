@@ -53,6 +53,13 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - **sops-nix est déjà configuré** dans le flake — ne pas redemander
 - **age key** déjà présente sur kamino
 
+## RAG projets (DEVONthink)
+- Base DEVONthink `RAG` (UUID `845E9060-1705-445C-9E0B-84529F5EF51D`) = mémoire documentaire des projets de dev.
+- Structure par projet : `<Projet>/Specs`, `/Decisions`, `/Research`, `/References`. Le plus important : `Decisions` (les choix d'archi et leur pourquoi, irrécupérables autrement).
+- Pendant le travail sur un projet : chercher le contexte pertinent dans cette base (MCP devonthink) avant de partir de zéro, et y consigner les décisions/recherches notables.
+- La base doit être ouverte dans DEVONthink pour être visible — si `get_databases` ne la retourne pas, demander à l'utilisateur de l'ouvrir.
+- Ne PAS utiliser DEVONthink pour la mémoire des échanges hors projets : claude-mem s'en charge déjà.
+
 ## Actions risquées
 - Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push, reset --hard, drop de base de données
 - Pour les éditions de fichiers et actions locales réversibles : agis librement sans demander
