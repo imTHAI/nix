@@ -17,7 +17,7 @@ nur.url          = "github:nix-community/NUR";
     nix-packages.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nixos-wsl, nur, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nur, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
