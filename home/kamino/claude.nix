@@ -41,15 +41,17 @@ let
       command = "bash /Users/pbear/.claude/statusline-command.sh";
     };
     enabledPlugins = {
-      "context7@claude-plugins-official" = true;
-      "cloudflare@cloudflare"            = false;
-      "github@claude-plugins-official"   = false;
-      "claude-mem@thedotmack"            = true;
+      "agent-skills@addy-agent-skills"      = true;
+      "context7@claude-plugins-official"    = true;
+      "cloudflare@cloudflare"               = false;
+      "github@claude-plugins-official"      = false;
+      "claude-mem@thedotmack"               = true;
       "superpowers@claude-plugins-official" = true;
     };
     extraKnownMarketplaces = {
-      cloudflare.source = { source = "github"; repo = "cloudflare/skills"; };
-      thedotmack.source = { source = "github"; repo = "thedotmack/claude-mem"; };
+      addy-agent-skills.source = { source = "github"; repo = "addyosmani/agent-skills"; };
+      cloudflare.source        = { source = "github"; repo = "cloudflare/skills"; };
+      thedotmack.source        = { source = "github"; repo = "thedotmack/claude-mem"; };
     };
     tui         = "fullscreen";
     defaultMode = "bypassPermissions";
