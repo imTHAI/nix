@@ -45,6 +45,7 @@
   };
 
   homebrew.casks = [
+    "flutter"
     "cmux"
     "alfred"
     "adguard"

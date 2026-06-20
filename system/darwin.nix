@@ -69,7 +69,7 @@
       autoUpdate = false;
       cleanup = "zap";
     };
-    casks = [ "flutter" ];
+    casks = [];
     # masApps désactivé — prompts Touch ID à chaque rebuild (issue mas CLI)
     # masApps = {
     #   "Mp3tag"                    = 1532597159;

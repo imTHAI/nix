@@ -5,7 +5,6 @@
       size   = 10000;
       save   = 10000;
       share  = true;
-      append = true;
     };
     plugins = [
       { name = "zsh-autosuggestions";     src = pkgs.zsh-autosuggestions;     file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh"; }
