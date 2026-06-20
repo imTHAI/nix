@@ -57,17 +57,8 @@ let
     defaultMode = "bypassPermissions";
     skipDangerousModePermissionPrompt = true;
     theme       = "auto";
-    mcpServers.nixos = {
-      command = "uvx";
-      args    = [ "mcp-nixos" ];
-    };
-    mcpServers.devonthink = {
-      type    = "sse";
-      url     = "http://localhost:8420/sse";
-      headers = {
-        Authorization = "Bearer 66BYUbfDvTvlNjfdJmDDB2KG-4ZD20X0C37tD4fhuEc";
-      };
-    };
+    # context7 credentials injected here so the plugin can read them from settings.json.
+    # nixos and devonthink are configured via ~/.claude.json (claudeMcpServers activation).
     mcpServers.context7 = {
       command = "npx";
       args    = [ "-y" "@upstash/context7-mcp" ];
@@ -196,6 +187,23 @@ in
     else
       install -m 0644 ${staticJsonFile} "$HOME/.claude/settings.json"
     fi
+  '';
+
+  # Merge user-level MCP servers into ~/.claude.json (the file the CLI actually reads
+  # for User MCPs, as opposed to ~/.claude/settings.json which is for plugins/settings).
+  # jq --argjson preserves the rest of the file (tips history, counters, etc.).
+  home.activation.claudeMcpServers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    _claude_json="$HOME/.claude.json"
+    [ -f "$_claude_json" ] || echo '{}' > "$_claude_json"
+    _tmp=$(mktemp)
+    ${pkgs.jq}/bin/jq '
+      .mcpServers.nixos = {"type":"stdio","command":"uvx","args":["mcp-nixos"],"env":{}} |
+      .mcpServers.devonthink = {
+        "type":"stdio",
+        "command":"/Applications/DEVONthink.app/Contents/Library/LoginItems/DEVONthink MCP.app/Contents/MacOS/DEVONthink MCP",
+        "args":["--stdio"],"env":{}
+      }
+    ' "$_claude_json" > "$_tmp" && mv "$_tmp" "$_claude_json"
   '';
 
   # Regenerate SMB credentials file from sops-decrypted secrets.
