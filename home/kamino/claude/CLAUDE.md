@@ -59,6 +59,7 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Pendant le travail sur un projet : chercher le contexte pertinent dans cette base (MCP devonthink) avant de partir de zéro, et y consigner les décisions/recherches notables.
 - La base doit être ouverte dans DEVONthink pour être visible — si `get_databases` ne la retourne pas, demander à l'utilisateur de l'ouvrir.
 - Ne PAS utiliser DEVONthink pour la mémoire des échanges hors projets : claude-mem s'en charge déjà.
+- **Markdown dans DEVONthink** : toujours utiliser la richesse maximale du markdown — callouts (`> [!important]`, `> [!warning]`, `> [!note]`), tableaux avec colonnes alignées (`:---`), hiérarchie H2/H3 claire, annotations `[Inférence]` pour les déductions non sourcées. Les documents sont consultés directement dans DT, le rendu compte.
 
 ## Actions risquées
 - Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push, reset --hard, drop de base de données

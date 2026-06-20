@@ -20,6 +20,7 @@
   '';
 
   environment.systemPackages = with pkgs; [
+    mas
     obsidian
     # Build keka via callPackage instead of referencing the flake's packages output:
     # the packages output uses its own pkgs instance whose allowUnfree doesn't

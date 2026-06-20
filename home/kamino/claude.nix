@@ -57,6 +57,10 @@ let
     defaultMode = "bypassPermissions";
     skipDangerousModePermissionPrompt = true;
     theme       = "auto";
+    mcpServers.nixos = {
+      command = "uvx";
+      args    = [ "mcp-nixos" ];
+    };
     mcpServers.devonthink = {
       type    = "sse";
       url     = "http://localhost:8420/sse";
