@@ -12,15 +12,6 @@
   '';
   home.packages = pkgs.callPackage ./packages.nix { };
 
-  xdg.configFile."ghostty/config".text = ''
-    theme = Synthwave
-    font-family = JetBrainsMono Nerd Font
-    font-size = 15
-    copy-on-select = true
-    macos-option-as-alt = false
-    working-directory = home
-  '';
-
   xdg.configFile."mc/ini".source       = ./mc-ini;
   xdg.configFile."mc/panels.ini".source = ./mc-panels.ini;
   xdg.configFile."mc/hotlist".text = ''
