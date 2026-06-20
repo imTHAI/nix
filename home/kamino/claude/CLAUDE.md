@@ -14,6 +14,8 @@
 > | `~/.claude/sounds/*.mp3` | `home/kamino/claude/sounds/` (symlinks) |
 >
 > Workflow : éditer la source Nix → `nixrb` → push GitHub.
+>
+> **`nixrb`** est un alias qui fait le rebuild Nix **et** le push GitHub en une seule commande. Ne jamais dire "n'oublie pas de push" après un `nixrb` — le push est déjà inclus.
 
 
 ## Langue
