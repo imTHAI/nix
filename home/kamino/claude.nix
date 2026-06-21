@@ -88,7 +88,7 @@ let
           hooks = [
             {
               type    = "command";
-              command = "afplay -v 0.5 $HOME/.claude/sounds/finish.mp3";
+              command = "afplay -v 0.3 $HOME/.claude/sounds/finish.mp3";
             }
           ];
         }
