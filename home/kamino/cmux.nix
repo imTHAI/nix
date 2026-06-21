@@ -22,6 +22,9 @@ let
       showPullRequests                   = true;
       showSSH                            = true;
     };
+    notifications = {
+      sound = "none";
+    };
     automation = {
       # Routes cmux's claude invocations through claude-bypass so
       # --dangerously-skip-permissions is always passed. Without this, cmux's

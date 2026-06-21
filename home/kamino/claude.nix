@@ -93,17 +93,6 @@ let
           ];
         }
       ];
-      Notification = [
-        {
-          matcher = "";
-          hooks = [
-            {
-              type    = "command";
-              command = "afplay $HOME/.claude/sounds/need-human.mp3";
-            }
-          ];
-        }
-      ];
       PostToolUse = [
         {
           matcher = "Edit|Write";
