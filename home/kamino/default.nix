@@ -43,5 +43,5 @@
     mkdir -p "$HOME/Library/Logs/SopsNix"
   '';
 
-  programs.ssh.settings."*".UseKeychain = "yes";
+  programs.ssh.matchBlocks."*".extraOptions.UseKeychain = "yes";
 }
