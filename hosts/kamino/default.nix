@@ -26,7 +26,6 @@
     # callPackage uses the system pkgs (allowUnfree = true from common.nix).
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/keka/package.nix" {})
     iina
-    bitwarden-desktop
     nerd-fonts.hack
     docker
     colima
@@ -58,6 +57,7 @@
     "visual-studio-code"
     "firefox"
     "discord"
+    "bitwarden"
   ];
 
   # CLI proxy that filters/compresses command output before it hits the LLM
