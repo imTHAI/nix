@@ -186,7 +186,7 @@ in
     [ -f "$_claude_json" ] || echo '{}' > "$_claude_json"
     _tmp=$(mktemp)
     ${pkgs.jq}/bin/jq '
-      .mcpServers.nixos = {"type":"stdio","command":"uvx","args":["mcp-nixos"],"env":{}} |
+      .mcpServers.nixos = {"type":"stdio","command":"/Users/pbear/.local/bin/mcp-nixos","args":[],"env":{}} |
       .mcpServers.devonthink = {
         "type":"stdio",
         "command":"/Applications/DEVONthink.app/Contents/Library/LoginItems/DEVONthink MCP.app/Contents/MacOS/DEVONthink MCP",
