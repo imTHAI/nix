@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   programs.zsh = {
     enable = true;
     history = {
@@ -11,7 +11,6 @@
       { name = "zsh-syntax-highlighting"; src = pkgs.zsh-syntax-highlighting; file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; }
     ];
     initContent = ''
-      export DIRENV_LOG_FORMAT=""
       export LANG="fr_FR.UTF-8"
       export LC_ALL="fr_FR.UTF-8"
       export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
@@ -67,6 +66,15 @@
         git commit -m "chore: flake update"
         sudo $cmd switch --flake ~/.config/nix#$host || return 1
         git push
+      }
+    '';
+    # mkAfter ensures this runs after programs.direnv injects `eval "$(direnv hook zsh)"`,
+    # overriding _direnv_hook to suppress the verbose "export +AR +AS..." stderr.
+    initContent = lib.mkAfter ''
+      _direnv_hook() {
+        trap -- "" SIGINT
+        eval "$("${pkgs.direnv}/bin/direnv" export zsh 2>/dev/null)"
+        trap - SIGINT
       }
     '';
     shellAliases = {
