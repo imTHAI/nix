@@ -24,6 +24,12 @@
     key = "webhook_url"; # actual key name inside discord.yaml
   };
 
+  sops.secrets."exa_api_key" = {
+    sopsFile = ../../secrets/kamino/exa.yaml;
+    key = "api_key";
+    path = "/Users/${vars.user.name}/.config/exa/api-key";
+  };
+
   home.username    = vars.user.name;
   home.homeDirectory = "/Users/${vars.user.name}";
 
