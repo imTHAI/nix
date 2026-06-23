@@ -19,15 +19,12 @@
   # Discord webhook used by the autoUpgrade report job (and reusable for any
   # other local notification script) — decrypted at activation, age key already
   # configured in claude.nix.
+  # Secrets declared here: discord_webhook_url only.
+  # exa_api_key, upstash_url, upstash_token, username, password → claude.nix
+  # (declared alongside the activation scripts that consume them)
   sops.secrets."discord_webhook_url" = {
     sopsFile = ../../secrets/kamino/discord.yaml;
     key = "webhook_url"; # actual key name inside discord.yaml
-  };
-
-  sops.secrets."exa_api_key" = {
-    sopsFile = ../../secrets/kamino/exa.yaml;
-    key = "api_key";
-    path = "/Users/${vars.user.name}/.config/exa/api-key";
   };
 
   home.username    = vars.user.name;
