@@ -42,6 +42,16 @@
 
   xdg.configFile."gh-dash/config.yml".source = ./gh-dash-config.yml;
 
+  launchd.agents.alfred = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Alfred 5.app/Contents/MacOS/Alfred" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+      ProcessType = "Interactive";
+    };
+  };
+
   launchd.agents.mount-smb = {
     enable = true;
     config = {
