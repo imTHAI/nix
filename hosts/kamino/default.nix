@@ -25,6 +25,7 @@
     # propagate from the host config, causing "Refusing to evaluate" at rebuild.
     # callPackage uses the system pkgs (allowUnfree = true from common.nix).
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/keka/package.nix" {})
+    (pkgs.callPackage "${inputs.nix-packages}/pkgs/supacode/package.nix" {})
     iina
     nerd-fonts.hack
     docker
