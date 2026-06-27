@@ -11,7 +11,8 @@
   nix.optimise.automatic = true;
 
   security.pam.services.sudo_local.touchIdAuth = true;
-  security.sudo.extraConfig = "Defaults timestamp_timeout=30";
+  # !tty_tickets: share the auth timestamp across all terminals (not per-tty)
+  security.sudo.extraConfig = "Defaults timestamp_timeout=30, !tty_tickets";
 
   system.defaults = {
     dock = {

@@ -2,74 +2,8 @@ command_timeout = 1000
 
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = """
-[](fg:#0969da bg:#0969da)\
-$username\
-[](fg:#0969da bg:#eac54f)\
-$directory\
-[](fg:#eac54f bg:#e44729)\
-$git_branch\
-$git_status\
-[ ](fg:#e44729)\
-"""
-
-right_format = """
-[](fg:#8250df)\
-$time\
-$all
-$character
-"""
-
-[username]
-show_always = true
-style_user = "fg:#ffffff bg:#0969da"
-style_root = "fg:#ffffff bg:#0969da"
-format = '[$user ]($style)'
-disabled = false
-
-[directory]
-style = "fg:#000000 bg:#eac54f"
-format = "[ $path ]($style)"
-read_only = " 󰌾"
-truncate_to_repo = false
-home_symbol = "󰋜"
-truncation_length = 4
-disabled = false
-
-[directory.substitutions]
-"Documents" = " "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-
-[git_branch]
-symbol = " "
-style = "fg:#ffffff bg:#e44729"
-format = '[ $symbol $branch ]($style)'
-disabled = false
-
-[git_commit]
-tag_symbol = '  '
-
-[git_status]
-style = "fg:#ffffff bg:#e44729"
-format = '[$all_status$ahead_behind ]($style)'
-disabled = false
-
-[time]
-disabled = false
-time_format = "%R"
-style = "fg:#ffffff bg:#8250df"
-format = '[  $time ]($style)'
-
-[cmd_duration]
-style = "fg:#000000 bg:yellow"
-format = "[ took $duration ]($style)"
-
-[character]
-format = " $symbol"
-
-# ── Symbols (nerd font) ────────────────────────────────────────────────────────
+# Single-line: no $line_break between info and prompt character
+format = "$all$character"
 
 [aws]
 symbol = " "
@@ -120,6 +54,12 @@ symbol = " "
 [direnv]
 symbol = " "
 
+[directory]
+read_only = " 󰌾"
+truncate_to_repo = false
+home_symbol = "󰋜"
+truncation_length = 4
+
 [docker_context]
 symbol = " "
 
@@ -149,6 +89,12 @@ symbol = "󱇶 "
 
 [gleam]
 symbol = " "
+
+[git_branch]
+symbol = " "
+
+[git_commit]
+tag_symbol = '  '
 
 [golang]
 symbol = " "
@@ -232,6 +178,7 @@ symbol = " "
 AIX = " "
 AlmaLinux = " "
 Alpaquita = " "
+Alpine = " "
 Alpine = " "
 ALTLinux = " "
 Amazon = " "
@@ -354,13 +301,13 @@ symbol = " "
 [terraform]
 symbol = " "
 
+[vlang]
+symbol = " "
+
 [typst]
 symbol = " "
 
 [vagrant]
-symbol = " "
-
-[vlang]
 symbol = " "
 
 [xmake]
