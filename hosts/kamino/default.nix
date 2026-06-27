@@ -15,7 +15,7 @@
   };
 
   system.activationScripts.extraActivation.text = ''
-    softwareupdate --install-rosetta --agree-to-license 2>/dev/null || true
+    /usr/bin/pgrep oahd >/dev/null 2>&1 || softwareupdate --install-rosetta --agree-to-license 2>/dev/null || true
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
     # Whitelist unsigned/non-notarized apps so Gatekeeper doesn't block them on first launch.
     # spctl --add is idempotent and safe to run on already-approved apps.
