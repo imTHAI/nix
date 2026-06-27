@@ -11,8 +11,13 @@
   nix.optimise.automatic = true;
 
   security.pam.services.sudo_local.touchIdAuth = true;
-  # !tty_tickets: share the auth timestamp across all terminals (not per-tty)
-  security.sudo.extraConfig = "Defaults timestamp_timeout=30, !tty_tickets";
+  # !tty_tickets: share the auth timestamp across all terminals (not per-tty).
+  # NOPASSWD for darwin-rebuild: the script calls sudo internally (activate-user),
+  # which resets the timestamp and triggers a second Touch ID prompt.
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout=30, !tty_tickets
+    %admin ALL=(ALL:ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
+  '';
 
   system.defaults = {
     dock = {

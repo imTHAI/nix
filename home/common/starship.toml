@@ -2,8 +2,8 @@ command_timeout = 1000
 
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Single-line: no $line_break between info and prompt character
-format = "$all$character"
+# Explicit single-line format — $all implicitly includes $line_break so it can't be used here
+format = "$directory$git_branch$git_status$nix_shell$cmd_duration$character"
 
 [aws]
 symbol = " "
