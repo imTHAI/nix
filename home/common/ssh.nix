@@ -29,6 +29,7 @@
       "ubuntu"    = { Hostname = "10.0.0.11"; };
       "jakku"     = { Hostname = "2001:db8:aaa:e22:10:0:2:18"; User = "pbear"; };
       "kamino"    = { Hostname = "192.168.0.3";                User = "pbear"; };
+      "redacted-host" = { Hostname = "redacted.example.com"; Port = 222; User = "root"; };
     };
   };
 }

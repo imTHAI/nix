@@ -33,7 +33,6 @@
     nerd-fonts.hack
     docker
     colima
-    telegram-desktop
   ];
 
   launchd.user.agents.colima = {
@@ -62,6 +61,9 @@
     "firefox"
     "discord"
     "bitwarden"
+    # nixpkgs telegram-desktop builds from source on aarch64-darwin (no Hydra
+    # cache) and takes hours — the cask ships the official prebuilt app.
+    "telegram"
   ];
 
   # CLI proxy that filters/compresses command output before it hits the LLM
