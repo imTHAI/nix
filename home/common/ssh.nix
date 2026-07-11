@@ -11,6 +11,14 @@ in {
     enableDefaultConfig = false;
 
     settings = {
+      # Outbound port 22 is unreliable on this network (intermittent blackhole),
+      # so route GitHub through its official SSH-over-443 endpoint permanently.
+      # https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port
+      "github.com" = {
+        Hostname = "ssh.github.com";
+        Port     = 443;
+        User     = "git";
+      };
       "*" = {
         AddKeysToAgent      = "yes";
         IdentityFile        = "~/.ssh/id_ed25519";
