@@ -121,7 +121,7 @@ nixpull # git pull + rebuild (sync depuis GitHub)
 ### Ajouter un nouveau Mac
 
 Voir [`SETUP_NEW_MAC.md`](SETUP_NEW_MAC.md) pour la procédure complète
-(install Nix, clone, restore age key, rebuild, cmux DMG, login Claude…).
+(install Nix, clone, restore age key, rebuild, login Claude…).
 
 ```bash
 git clone git@github.com:imTHAI/nix.git ~/.config/nix
