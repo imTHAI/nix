@@ -217,6 +217,22 @@
         "type": "github"
       }
     },
+    "nix-private": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783760821,
+        "narHash": "sha256-9OOFWNtlV5HGSY/G3RB85GpYMEqO7TrzlamxmcjxotM=",
+        "ref": "refs/heads/master",
+        "rev": "b9d23af57765ce1e14c5960c2e7bdab1d96e1597",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/imTHAI/nix-private"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/imTHAI/nix-private"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1779796641,
@@ -340,6 +356,7 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nix-packages": "nix-packages",
+        "nix-private": "nix-private",
         "nixpkgs": "nixpkgs_5",
         "nur": "nur",
         "sops-nix": "sops-nix"

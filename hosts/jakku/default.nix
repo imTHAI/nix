@@ -1,4 +1,8 @@
-{ pkgs, lib, vars, ... }: {
+{ pkgs, lib, vars, inputs, ... }:
+let
+  # Static addresses live in the private repo so this one can stay public.
+  net = (import "${inputs.nix-private}/hosts.nix").jakkuNet;
+in {
   imports = [
     ../../system/common.nix
     ./hardware.nix
@@ -18,15 +22,15 @@
   networking = {
     hostName = "jakku";
     networkmanager.enable = false;
-    defaultGateway = "10.0.0.1";
+    defaultGateway = net.gateway4;
     defaultGateway6 = {
-      address = "2001:db8:aaa:e22::1";
+      address = net.gateway6;
       interface = "enp2s0";
     };
     nameservers = [ "1.1.1.1" "1.0.0.1" ];
     interfaces.enp2s0 = {
-      ipv4.addresses = [{ address = "10.0.0.18"; prefixLength = 24; }];
-      ipv6.addresses = [{ address = "2001:db8:aaa:e22:10:0:2:18"; prefixLength = 64; }];
+      ipv4.addresses = [{ address = net.address4; prefixLength = 24; }];
+      ipv6.addresses = [{ address = net.address6; prefixLength = 64; }];
     };
     firewall = {
       enable = true;

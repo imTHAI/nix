@@ -15,6 +15,13 @@
     nur.inputs.nixpkgs.follows = "nixpkgs";
     nix-packages.url = "github:imTHAI/nix-packages";
     nix-packages.inputs.nixpkgs.follows = "nixpkgs";
+    # Private repo holding network-sensitive data (IPs, SSH hosts) so this
+    # repo can stay public. flake = false → plain file tree, no flake.nix needed.
+    # git+ssh (not github:) so Nix fetches with the SSH key, no API token.
+    nix-private = {
+      url   = "git+ssh://git@github.com/imTHAI/nix-private";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nur, ... }:

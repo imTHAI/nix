@@ -1,4 +1,11 @@
-{ ... }: {
+{ inputs, lib, ... }:
+let
+  # Host addresses/users live in the private repo so this one can stay public.
+  private = import "${inputs.nix-private}/hosts.nix";
+  toBlock = h: { Hostname = h.host; }
+    // lib.optionalAttrs (h ? user) { User = toString h.user; }
+    // lib.optionalAttrs (h ? port) { Port = toString h.port; };
+in {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
@@ -23,13 +30,6 @@
           "diffie-hellman-group-exchange-sha256"
         ];
       };
-      "coruscant" = { Hostname = "10.0.0.2";                   User = "root";  };
-      "scarif"    = { Hostname = "2001:db8:aaa:e22:10:0:2:49"; User = "pbear"; };
-      "udm"       = { Hostname = "192.168.0.1";                User = "root";  };
-      "ubuntu"    = { Hostname = "10.0.0.11"; };
-      "jakku"     = { Hostname = "2001:db8:aaa:e22:10:0:2:18"; User = "pbear"; };
-      "kamino"    = { Hostname = "192.168.0.3";                User = "pbear"; };
-      "redacted-host" = { Hostname = "redacted.example.com"; Port = 222; User = "root"; };
-    };
+    } // lib.mapAttrs (_: toBlock) private.ssh;
   };
 }

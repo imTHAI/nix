@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, inputs, ... }:
+let
+  # SCP bookmarks reuse the private SSH host data (IPs kept out of this repo).
+  sshHosts = (import "${inputs.nix-private}/hosts.nix").ssh;
+in {
 
   # herdr has no nixpkg — fetch the prebuilt binary from GitHub releases if absent.
   home.activation.installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -19,9 +23,9 @@
     ENTRY "downloads"          URL "/Users/pbear/downloads"
     ENTRY "media"              URL "/Volumes/media"
     ENTRY "downloads-UNRAID"   URL "/Users/pbear/downloads_unraid"
-    ENTRY "dl-unraid via SCP"  URL "sh://root@10.0.0.2/mnt/user/downloads"
+    ENTRY "dl-unraid via SCP"  URL "sh://${sshHosts.coruscant.user}@${sshHosts.coruscant.host}/mnt/user/downloads"
     ENTRY "iCloudDrive"        URL "/Users/pbear/Library/Mobile Documents/com~apple~CloudDocs/"
-    ENTRY "UDM via SCP"        URL "sh://root@192.168.0.1/root"
+    ENTRY "UDM via SCP"        URL "sh://${sshHosts.udm.user}@${sshHosts.udm.host}/root"
   '';
 
   xdg.configFile."nano/nanorc".text = ''
