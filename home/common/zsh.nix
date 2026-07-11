@@ -54,6 +54,9 @@
             : ''${msg:=chore: rebuild}
             git commit -m "$msg"
           fi
+          # Prefetch flake inputs as the user: the sudo'd rebuild would otherwise
+          # fetch git+ssh inputs (nix-private) as root, whose ssh has no key.
+          nix flake archive || return 1
           sudo $cmd switch --flake ~/.config/nix#$host || return 1
           git push
         }
@@ -65,6 +68,8 @@
           nix flake update
           git add flake.lock
           git commit -m "chore: flake update"
+          # Same prefetch rationale as _nixrebuild above.
+          nix flake archive || return 1
           sudo $cmd switch --flake ~/.config/nix#$host || return 1
           git push
         }

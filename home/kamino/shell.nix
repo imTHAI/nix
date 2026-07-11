@@ -12,7 +12,9 @@
       claude  = "$HOME/.local/bin/claude-bypass";
       nixup   = "_nixupdate kamino darwin-rebuild";
       nixrb   = "_nixrebuild kamino darwin-rebuild";
-      nixpull = "cd ~/.config/nix && git pull && sudo darwin-rebuild switch --flake ~/.config/nix#kamino";
+      # nix flake archive prefetches inputs as the user: the sudo'd rebuild would
+      # otherwise fetch git+ssh inputs (nix-private) as root, whose ssh has no key.
+      nixpull = "cd ~/.config/nix && git pull && nix flake archive && sudo darwin-rebuild switch --flake ~/.config/nix#kamino";
       cdd        = "cd $HOME/Downloads";
       cdm        = "cd $HOME/media";
       cddu       = "cd $HOME/downloads_unraid";
