@@ -54,6 +54,8 @@ let
       thedotmack.source        = { source = "github"; repo = "thedotmack/claude-mem"; };
     };
     tui         = "fullscreen";
+    # No "Co-Authored-By: Claude" trailer / GitHub co-author attribution on commits.
+    includeCoAuthoredBy = false;
     defaultMode = "bypassPermissions";
     skipDangerousModePermissionPrompt = true;
     theme       = "auto";

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 # NOTE: Firefox is intentionally installed via Homebrew cask, not nixpkgs.
 # Reason: when installed via nixpkgs, the binary runs from /nix/store/<hash>/Firefox.app.
 # The hash changes on every update, so AdGuard cannot maintain a stable reference to the
@@ -14,7 +14,8 @@
     type        = "storage.managed";
     data = {
       environment = {
-        base = "https://vault.example.com";
+        # Vault URL lives in the private repo so this one can stay public.
+        base = (import "${inputs.nix-private}/hosts.nix").urls.vaultwarden;
       };
     };
   };

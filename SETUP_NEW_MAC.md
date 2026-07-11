@@ -98,7 +98,9 @@ sops -d ~/.config/nix/secrets/kamino/secrets.yaml
 2. Se connecter à **Firefox Sync** → bookmarks, historique, onglets épinglés reviennent
 3. Les extensions (Bitwarden, SponsorBlock) sont déjà installées via Nix
 
-Se connecter à **Bitwarden** → pointer vers `https://vault.example.com`
+Se connecter à **Bitwarden** → pointer vers le vault self-hosted
+(URL dans `hosts.nix` du repo privé [`nix-private`](https://github.com/imTHAI/nix-private) —
+Firefox est déjà préconfiguré dessus via `firefox.nix`)
 
 ---
 

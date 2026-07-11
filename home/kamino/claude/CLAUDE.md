@@ -35,6 +35,7 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 
 ## Git
 - Format des commits : Gitmoji (`✨ feat`, `🐛 fix`, `♻️ refactor`, `🔧 chore`, etc.)
+- Jamais de trailer `Co-Authored-By` ni d'attribution Claude dans les commits ou PRs
 - Ne committe jamais sans que je le demande explicitement
 - Ne pousse jamais sans confirmation
 
