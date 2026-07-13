@@ -170,6 +170,23 @@ sans elle les secrets deviennent irrécupérables après un reformatage.
 
 ---
 
+## Données privées (nix-private)
+
+Ce repo (`imTHAI/nix`) est **public**. Tout ce qui n'est pas un secret au sens
+sops (pas de mot de passe/clé à déchiffrer) mais qui révèle quand même des
+détails d'infra — IPs internes, noms de host, URL de services self-hosted
+(ex. vault) — ne doit **jamais** être commité ici en clair. Ça part dans le
+repo privé [`nix-private`](https://github.com/imTHAI/nix-private), consommé
+comme flake input (`inputs.nix-private`).
+
+Repère rapide : si la donnée doit être *chiffrée* → sops (`secrets/`).
+Si elle doit juste être *hors du repo public* → `nix-private`.
+
+Un ancien historique pré-scission (`nix-attic`) a existé le temps de vérifier
+la migration, puis a été supprimé une fois `nix-private` confirmé complet.
+
+---
+
 ## Inputs flake
 
 | Input | Rôle |
@@ -182,3 +199,5 @@ sans elle les secrets deviennent irrécupérables après un reformatage.
 | `sops-nix` | déchiffrement secrets au boot |
 | `nixos-wsl` | support NixOS sur WSL2 |
 | `nur` | extensions Firefox (Bitwarden, SponsorBlock) |
+| `nix-private` | données réseau privées (IPs, vault URL) — repo privé séparé |
+| `nix-packages` | paquets Nix perso (hors nixpkgs ou trop lents à jour) |
