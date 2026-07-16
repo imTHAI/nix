@@ -204,11 +204,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783864269,
-        "narHash": "sha256-uCJqgRQleJ/VlM7Sb7TInCUplCLES5ixU6GxUaCV7ts=",
+        "lastModified": 1784228864,
+        "narHash": "sha256-YovNzS6pBlakI8bfhj/mEfFXhce76FCh3ndffZlpUVM=",
         "owner": "imTHAI",
         "repo": "nix-packages",
-        "rev": "b220e408681cc81d336aa6ebc3f305e2f6497816",
+        "rev": "a1e4d23d381be2463857fcbe5a9e46c3334b3b0a",
         "type": "github"
       },
       "original": {
