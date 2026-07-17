@@ -7,6 +7,14 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   networking.hostName = "kamino";
 
+  # Hands Nix installation/config management to Determinate Nixd instead of
+  # nix-darwin (sets nix.enable = false internally). GC becomes disk-space-
+  # threshold-based (5-20% free, 30GB floor) rather than the fixed weekly
+  # schedule previously set via nix.gc below; nix.optimise.automatic (store
+  # dedup, pure disk-space optimization, no functional impact) has no
+  # equivalent here and is simply dropped.
+  determinateNix.enable = true;
+
   system.primaryUser = vars.user.name;
 
   users.users.${vars.user.name} = {

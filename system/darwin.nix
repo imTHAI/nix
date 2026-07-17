@@ -3,13 +3,6 @@
 
   system.stateVersion = 6;
 
-  nix.gc = {
-    automatic = true;
-    interval = { Weekday = 0; Hour = 3; Minute = 0; };
-    options = "--delete-older-than 14d";
-  };
-  nix.optimise.automatic = true;
-
   security.pam.services.sudo_local.touchIdAuth = true;
   # !tty_tickets: share the auth timestamp across all terminals (not per-tty).
   # NOPASSWD for darwin-rebuild: the script calls sudo internally (activate-user),

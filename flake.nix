@@ -15,6 +15,8 @@
     nur.inputs.nixpkgs.follows = "nixpkgs";
     nix-packages.url = "github:imTHAI/nix-packages";
     nix-packages.inputs.nixpkgs.follows = "nixpkgs";
+    determinate.url  = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    determinate.inputs.nixpkgs.follows = "nixpkgs";
     # Private repo holding network-sensitive data (IPs, SSH hosts) so this
     # repo can stay public. flake = false → plain file tree, no flake.nix needed.
     # git+ssh (not github:) so Nix fetches with the SSH key, no API token.
@@ -24,7 +26,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nur, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nur, determinate, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -39,6 +41,7 @@
         specialArgs = specialArgs;
         modules = [
           ./hosts/kamino
+          determinate.darwinModules.default
           mac-app-util.darwinModules.default
           home-manager.darwinModules.home-manager
           {
