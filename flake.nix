@@ -5,7 +5,11 @@
     nixpkgs.url      = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url   = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    mac-app-util.url = "github:hraban/mac-app-util";
+    # mac-app-util disabled — its SBCL/Common Lisp build chain fails on this
+    # machine with "failed to allocate ... at 0x300100000" (nix store rebuilt
+    # from scratch after the Determinate Nix migration hit this every time).
+    # Confirmed still-open upstream bug: github.com/hraban/mac-app-util/issues/42.
+    # mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +30,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, mac-app-util, home-manager, sops-nix, nur, determinate, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -42,7 +46,6 @@
         modules = [
           ./hosts/kamino
           determinate.darwinModules.default
-          mac-app-util.darwinModules.default
           home-manager.darwinModules.home-manager
           {
             home-manager = {
