@@ -15,6 +15,13 @@
 
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
+  # Avoids the upstream "options.json references store path without a proper
+  # context" eval warning (nixpkgs#485682) — the manual's option-doc build
+  # uses builtins.toFile + unsafeDiscardStringContext internally. Disabling
+  # doc generation sidesteps it entirely; we don't consult these docs locally.
+  manual.html.enable     = false;
+  manual.manpages.enable = false;
+  manual.json.enable     = false;
 
   # Discord webhook used by the autoUpgrade report job (and reusable for any
   # other local notification script) — decrypted at activation, age key already
