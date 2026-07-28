@@ -10,8 +10,9 @@ let
           "Bash(npx vite *)"
           # Explicit allow for Claude's own config dir — bypassPermissions mode doesn't
           # override the hardcoded .claude/ directory protection in the TUI.
+          # Only Edit(...) is checked for file-editing tools; a Write(...) rule here
+          # is never matched and just prints a startup warning.
           "Read(${config.home.homeDirectory}/.claude/**)"
-          "Write(${config.home.homeDirectory}/.claude/**)"
           "Edit(${config.home.homeDirectory}/.claude/**)"
         ];
       deny  = [
