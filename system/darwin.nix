@@ -66,7 +66,11 @@
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false;
+      # brew update avant chaque rebuild — sans ça, les casks (cmux, etc.)
+      # restent figés sur le cache local de formulae, potentiellement obsolète
+      # de plusieurs semaines même après plusieurs darwin-rebuild.
+      autoUpdate = true;
+      upgrade = true;
       cleanup = "zap";
     };
     casks = [];
