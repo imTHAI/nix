@@ -4,6 +4,10 @@
   system.stateVersion = 6;
 
   security.pam.services.sudo_local.touchIdAuth = true;
+  # Réattache les sudo imbriqués (brew bundle, home-manager activation-pbear)
+  # à la session Touch ID d'origine — sans ça, chaque sous-process de
+  # l'activation nix-darwin redemande une authentification séparée.
+  security.pam.services.sudo_local.reattach = true;
   # !tty_tickets: share the auth timestamp across all terminals (not per-tty).
   # NOPASSWD for darwin-rebuild: the script calls sudo internally (activate-user),
   # which resets the timestamp and triggers a second Touch ID prompt.
@@ -66,11 +70,9 @@
   homebrew = {
     enable = true;
     onActivation = {
-      # brew update avant chaque rebuild — sans ça, les casks (cmux, etc.)
-      # restent figés sur le cache local de formulae, potentiellement obsolète
-      # de plusieurs semaines même après plusieurs darwin-rebuild.
-      autoUpdate = true;
-      upgrade = true;
+      # update/upgrade décorrélés du rebuild — géré par un agent launchd
+      # hebdomadaire (hosts/kamino/default.nix) pour ne pas ralentir nixrb.
+      autoUpdate = false;
       cleanup = "zap";
     };
     casks = [];

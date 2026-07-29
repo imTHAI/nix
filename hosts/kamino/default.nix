@@ -56,6 +56,28 @@
     };
   };
 
+  # Casks (cmux, etc.) ne sont mis à jour par nixrb que si autoUpdate=true
+  # (désactivé, voir system/darwin.nix) — sans quoi ils restent figés sur le
+  # cache brew local. Cet agent fait le travail une fois par semaine plutôt
+  # qu'à chaque rebuild.
+  #
+  # Étapes séparées par ";" (pas "&&") : certains casks (ex. little-snitch,
+  # extension système) utilisent un installeur pkg privilégié qui exige un
+  # sudo interactif. Sans TTY (agent launchd), ce sudo échoue proprement et
+  # immédiatement — pas de hang — mais un "&&" aurait annulé le cleanup final
+  # à cause de ce seul échec. Chaque étape tourne donc indépendamment.
+  launchd.user.agents.brewWeeklyUpgrade = {
+    serviceConfig = {
+      ProgramArguments = [
+        "/bin/sh" "-c"
+        "/opt/homebrew/bin/brew update; /opt/homebrew/bin/brew upgrade --cask --greedy; /opt/homebrew/bin/brew cleanup"
+      ];
+      StartCalendarInterval = [{ Weekday = 6; Hour = 0; Minute = 0; }];
+      StandardOutPath = "/tmp/brew-weekly-upgrade.log";
+      StandardErrorPath = "/tmp/brew-weekly-upgrade-error.log";
+    };
+  };
+
   homebrew.casks = [
     "flutter"
     "cmux"
