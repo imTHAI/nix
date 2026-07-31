@@ -91,7 +91,14 @@
     "deepl"
     "little-snitch"
     "visual-studio-code"
-    "firefox"
+    # Retiré temporairement : le cask firefox utilise `command_wrapper`,
+    # une stanza introduite dans brew 6.0.13. nix-homebrew pin brew-src
+    # sur le tag 6.0.12, donc `brew bundle` plante dessus (voir historique
+    # homebrew-cask : migration du 20 juillet, taguée en release le 27).
+    # À réintégrer quand nix-homebrew bump son pin, ou si on override
+    # brew-src localement. L'app installée n'est pas affectée (pas de
+    # cleanup=zap ici), juste plus gérée par le bundle en attendant.
+    # "firefox"
     "discord"
     "bitwarden"
     # nixpkgs telegram-desktop builds from source on aarch64-darwin (no Hydra
