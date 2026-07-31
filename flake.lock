@@ -264,11 +264,11 @@
     "nix-private": {
       "flake": false,
       "locked": {
-        "lastModified": 1783967065,
-        "narHash": "sha256-jIZFxTZqPCzDQnsiEy0d7gMqwSKbZ8xxu+BGTf6BKCY=",
+        "lastModified": 1785490063,
+        "narHash": "sha256-7ekmGAZD3LnrPgJs3I3CNTL00HrC969JyTbxhKH9p+g=",
         "ref": "refs/heads/master",
-        "rev": "d5bc61ee6bad3a96123bc584f6e2a5b169e0a9f1",
-        "revCount": 3,
+        "rev": "d469dcca53fbdf040f2bc5e4b3a326aab9d771e6",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://git@github.com/imTHAI/nix-private"
       },
