@@ -28,6 +28,7 @@
     # Whitelist unsigned/non-notarized apps so Gatekeeper doesn't block them on first launch.
     # spctl --add is idempotent and safe to run on already-approved apps.
     spctl --add "/Applications/Nix Apps/Supacode.app" 2>/dev/null || true
+    spctl --add "/Applications/Nix Apps/cmux.app" 2>/dev/null || true
   '';
 
   environment.systemPackages = with pkgs; [
@@ -39,6 +40,7 @@
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/hipixel/package.nix" {})
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/mist/package.nix" {})
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/supacode/package.nix" {})
+    (pkgs.callPackage "${inputs.nix-packages}/pkgs/cmux/package.nix" {})
     appcleaner
     iina
     nerd-fonts.hack
@@ -56,7 +58,7 @@
     };
   };
 
-  # Casks (cmux, etc.) ne sont mis à jour par nixrb que si autoUpdate=true
+  # Casks (alfred, etc.) ne sont mis à jour par nixrb que si autoUpdate=true
   # (désactivé, voir system/darwin.nix) — sans quoi ils restent figés sur le
   # cache brew local. Cet agent fait le travail une fois par semaine plutôt
   # qu'à chaque rebuild.
@@ -80,7 +82,6 @@
 
   homebrew.casks = [
     "flutter"
-    "cmux"
     "alfred"
     "adguard"
     "microsoft-edge"
