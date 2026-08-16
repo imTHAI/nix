@@ -48,6 +48,19 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Apps GUI sans nixpkgs → `homebrew.casks` dans `hosts/kamino/default.nix`
 - Pour vérifier si un package supporte aarch64-darwin : `nix eval nixpkgs#<pkg>.meta.platforms`
 
+## MCP `nixos` — fiabilité
+
+Utile pour explorer (le package existe-t-il, quel nom d'attribut, à quoi ressemble une
+option), mais son index est décalé et il produit des faux négatifs. Deux règles :
+
+- **Ne jamais croire un « ça n'existe pas »** sans vérifier à la source. Pour un module
+  home-manager : `ls $(nix flake prefetch --json github:nix-community/home-manager/<rev> | jq -r .storePath)/modules/programs/`
+- **Toute question de version ou de disponibilité concernant kamino passe par le flake
+  local**, jamais par la MCP ni par `nixpkgs#` (qui pointe sur le registry, pas sur l'input
+  pinné) : `nix eval github:NixOS/nixpkgs/<rev-pinné>#<pkg>.version`, la rev venant de
+  `nix flake metadata --json` dans `~/.config/nix`. La version d'unstable ne dit rien de ce
+  qui sera réellement installé tant que `nix flake update` n'a pas tourné.
+
 ## Setup machines
 - **kamino** : macOS, nix-darwin + home-manager
 - **scarif** : Arch Linux, home-manager standalone (pas NixOS)
