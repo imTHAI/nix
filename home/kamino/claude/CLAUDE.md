@@ -46,6 +46,14 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
   - Raison : `mac-app-util` crée les symlinks dans `/Applications` → visible par Alfred/Spotlight
   - `home.packages` installe dans `~/Applications/Home Manager Apps/` → **non indexé par Alfred**
 - Apps GUI sans nixpkgs → `homebrew.casks` dans `hosts/kamino/default.nix`
+- Apps GUI packagées maison (repo `github:imTHAI/nix-packages`, ex: `cmux`, `supacode`,
+  `keka`) → `environment.systemPackages` dans `hosts/kamino/default.nix`, via
+  `(pkgs.callPackage "${inputs.nix-packages}/pkgs/<nom>/package.nix" {})`
+  - `callPackage` et **pas** une référence à la sortie `packages` du flake : cette
+    dernière utilise sa propre instance `pkgs` où `allowUnfree` ne se propage pas
+    depuis la config host → « Refusing to evaluate » au rebuild
+  - Si l'app n'est ni signée ni notarisée, ajouter un `spctl --add "/Applications/Nix
+    Apps/<nom>.app"` dans `system.activationScripts.extraActivation`
 - Pour vérifier si un package supporte aarch64-darwin : `nix eval nixpkgs#<pkg>.meta.platforms`
 
 ## MCP `nixos` — fiabilité

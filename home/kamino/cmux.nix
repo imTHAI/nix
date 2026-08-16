@@ -46,8 +46,18 @@ in
     '';
   };
 
-  # cmux.json is owned by Nix from now on. Sidebar customizations must live
-  # in this module; UI-side tweaks will be overwritten on next activation.
+  # Nix owns the keys declared above; anything else in cmux.json (settings added
+  # by the UI, or new keys from a cmux upgrade) survives activation via a deep
+  # merge, Nix side winning on conflicts.
+  #
+  # Trade-off of merging instead of overwriting: removing a key from this module
+  # no longer reverts it on disk — the last written value lingers, since nothing
+  # tracks which keys Nix used to own. To actually drop a setting, delete it from
+  # the target by hand (or rm cmux.json and re-activate).
+  #
+  # Arrays are replaced wholesale, not concatenated — jq's `*` only recurses into
+  # objects.
+  #
   # First-run backup preserves the pre-Nix file (.bak.pre-nix), never overwritten.
   home.activation.cmuxConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/.config/cmux"
@@ -56,7 +66,15 @@ in
     if [ -f "$_target" ] && ! [ -f "$_backup" ]; then
       cp "$_target" "$_backup"
     fi
-    install -m 0644 ${cmuxJsonFile} "$_target"
+    # Validity is checked up front: a cmux crash mid-write can leave truncated
+    # JSON, and merging onto that would abort the whole activation (set -e).
+    # Falling back to a clean install is preferable to a failed rebuild.
+    if [ -f "$_target" ] && ${pkgs.jq}/bin/jq -e 'type == "object"' "$_target" >/dev/null 2>&1; then
+      ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$_target" ${cmuxJsonFile} > "$_target.tmp"
+      mv "$_target.tmp" "$_target"
+    else
+      install -m 0644 ${cmuxJsonFile} "$_target"
+    fi
   '';
 
   # hasTrustDialogAccepted for $HOME doesn't always persist across runs
