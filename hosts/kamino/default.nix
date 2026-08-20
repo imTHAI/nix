@@ -46,6 +46,7 @@
     nerd-fonts.hack
     docker
     colima
+    obsidian
   ];
 
   launchd.user.agents.colima = {
