@@ -11,4 +11,5 @@ rsyncy   # rsync avec progress bar
   ffmpeg   # conversion audio/vidéo
   nodejs   # requis par le plugin claude-mem (hooks Stop/PostToolUse)
   zellij   # multiplexeur terminal
+  ocrmypdf # OCR de PDF scannés (couche de texte invisible, cherchable par Spotlight)
 ]

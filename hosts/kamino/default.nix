@@ -81,6 +81,35 @@
     };
   };
 
+  # Watch le dossier de scans du vault Obsidian : tout PDF déposé là (scan iPhone
+  # via Continuity Camera, scanner, etc.) reçoit une couche de texte OCR invisible
+  # avant classement manuel. --skip-text rend le script idempotent : WatchPaths
+  # se redéclenche sur sa propre écriture de sortie (mv du .tmp), mais un PDF déjà
+  # OCRisé n'a plus de page image à traiter, donc le second passage est un no-op
+  # rapide plutôt qu'une boucle de retraitement.
+  # Sortie dans un .tmp puis mv : ocrmypdf refuse input == output.
+  launchd.user.agents.ocrScans = {
+    serviceConfig = {
+      ProgramArguments = [
+        "/bin/sh" "-c"
+        ''
+        for f in "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Second Brain/0 Inbox/Scans"/*.pdf; do
+          [ -e "$f" ] || continue
+          tmp="$f.ocr.tmp"
+          if /run/current-system/sw/bin/ocrmypdf --skip-text --quiet "$f" "$tmp"; then
+            mv "$tmp" "$f"
+          else
+            rm -f "$tmp"
+          fi
+        done
+        ''
+      ];
+      WatchPaths = [ "/Users/pbear/Library/Mobile Documents/iCloud~md~obsidian/Documents/Second Brain/0 Inbox/Scans" ];
+      StandardOutPath = "/tmp/ocr-scans.log";
+      StandardErrorPath = "/tmp/ocr-scans-error.log";
+    };
+  };
+
   homebrew.casks = [
     "flutter"
     "alfred"
