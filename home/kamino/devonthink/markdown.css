@@ -1,0 +1,193 @@
+/* Feuille de style Markdown pour DEVONthink.
+   Source Nix : home/kamino/devonthink/markdown.css
+   Désignée dans Réglages ▸ Files ▸ Markdown ▸ Style Sheet.
+   Écrite comme feuille complète (et non comme complément) : DEVONthink
+   substitue son rendu par défaut quand une feuille custom est fournie,
+   donc tout ce qui n'est pas défini ici retombe sur le HTML nu.
+   Le pendant JavaScript (markdown.js) transforme les callouts Obsidian ;
+   les classes .callout* plus bas n'ont d'effet qu'une fois ce script actif. */
+
+:root {
+  --fg:           #1d1d1f;
+  --fg-muted:     #6b6b70;
+  --bg:           #ffffff;
+  --bg-subtle:    #f6f6f7;
+  --border:       #d8d8dc;
+  --accent:       #0a62c9;
+  --code-bg:      #f2f2f4;
+
+  --c-note:       #3b7dd8;
+  --c-tip:        #10a37f;
+  --c-important:  #8250df;
+  --c-warning:    #d98b00;
+  --c-danger:     #d1242f;
+  --c-success:    #1a7f37;
+  --c-question:   #9a6700;
+  --c-quote:      #6b6b70;
+}
+
+/* Le rendu suit le thème de DEVONthink, qui suit celui du système. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg:         #e8e8ea;
+    --fg-muted:   #9a9aa0;
+    --bg:         #1e1e20;
+    --bg-subtle:  #27272a;
+    --border:     #3a3a3e;
+    --accent:     #6cb0ff;
+    --code-bg:    #2a2a2e;
+
+    --c-note:      #6cb0ff;
+    --c-tip:       #3fd0a8;
+    --c-important: #b184f0;
+    --c-warning:   #e8a33d;
+    --c-danger:    #ff6b6b;
+    --c-success:   #4ac26b;
+    --c-question:  #e3b341;
+    --c-quote:     #9a9aa0;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  /* Marge généreuse : au-delà de ~40em par ligne, l'œil perd la ligne suivante. */
+  max-width: 46em;
+  margin: 0 auto;
+  padding: 2.2em 2em 6em;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.25;
+  margin: 1.8em 0 0.6em;
+  font-weight: 600;
+}
+h1 { font-size: 1.75em; margin-top: 0; }
+h2 {
+  font-size: 1.32em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--border);
+}
+h3 { font-size: 1.12em; }
+h4 { font-size: 1em; color: var(--fg-muted); }
+
+p { margin: 0.9em 0; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+ul, ol { padding-left: 1.6em; margin: 0.9em 0; }
+li { margin: 0.35em 0; }
+li > ul, li > ol { margin: 0.35em 0; }
+
+/* Tableaux : plus petits que le corps, sinon les fiches à 4 colonnes débordent.
+   Le conteneur défile horizontalement plutôt que de pousser la page. */
+table {
+  font-size: 0.88em;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+  display: block;
+  overflow-x: auto;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--bg-subtle); font-weight: 600; }
+tr:nth-child(even) td { background: var(--bg-subtle); }
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.86em;
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+}
+pre {
+  background: var(--code-bg);
+  padding: 0.9em 1.1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+pre code { background: none; padding: 0; font-size: 0.82em; }
+
+/* Citation ordinaire (un blockquote que markdown.js n'a pas reconnu comme callout). */
+blockquote {
+  margin: 1.2em 0;
+  padding: 0.7em 1.1em;
+  border-left: 3px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--fg-muted);
+  border-radius: 0 5px 5px 0;
+  font-style: italic;
+}
+blockquote p:first-child { margin-top: 0; }
+blockquote p:last-child { margin-bottom: 0; }
+
+/* --- Callouts Obsidian ---------------------------------------------------
+   Produits par markdown.js à partir de « > [!type] Titre ». La couleur vient
+   d'une variable posée sur l'élément (--c), pour n'avoir qu'un jeu de règles
+   au lieu d'un bloc par type. */
+.callout {
+  --c: var(--c-note);
+  margin: 1.3em 0;
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  border-left: 4px solid var(--c);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--c) 7%, var(--bg));
+  overflow: hidden;
+  font-style: normal;
+}
+.callout[data-callout="tip"],
+.callout[data-callout="hint"]      { --c: var(--c-tip); }
+.callout[data-callout="important"] { --c: var(--c-important); }
+.callout[data-callout="warning"],
+.callout[data-callout="caution"],
+.callout[data-callout="attention"] { --c: var(--c-warning); }
+.callout[data-callout="danger"],
+.callout[data-callout="error"],
+.callout[data-callout="bug"],
+.callout[data-callout="failure"]   { --c: var(--c-danger); }
+.callout[data-callout="success"],
+.callout[data-callout="done"],
+.callout[data-callout="check"]     { --c: var(--c-success); }
+.callout[data-callout="question"],
+.callout[data-callout="faq"],
+.callout[data-callout="help"]      { --c: var(--c-question); }
+.callout[data-callout="quote"],
+.callout[data-callout="cite"],
+.callout[data-callout="abstract"],
+.callout[data-callout="summary"],
+.callout[data-callout="example"]   { --c: var(--c-quote); }
+
+.callout-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.55em 0.9em;
+  font-weight: 600;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 13%, transparent);
+}
+.callout-icon { flex: none; font-style: normal; }
+.callout-body { padding: 0.1em 0.9em 0.2em; color: var(--fg); }
+.callout-body > :first-child { margin-top: 0.7em; }
+.callout-body > :last-child  { margin-bottom: 0.8em; }
+/* Un callout sans corps ne doit pas laisser une bande vide sous le titre. */
+.callout-body:empty { display: none; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.2em 0;
+}
+
+img { max-width: 100%; height: auto; border-radius: 4px; }

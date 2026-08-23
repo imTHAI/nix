@@ -11,6 +11,7 @@
     ./claude.nix
     ./cmux.nix
     ./calibre.nix
+    ./devonthink.nix
   ];
 
   home.stateVersion = "25.05";
