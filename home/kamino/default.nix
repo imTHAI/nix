@@ -12,6 +12,7 @@
     ./cmux.nix
     ./calibre.nix
     ./devonthink.nix
+    ./listcrush-backup.nix
   ];
 
   home.stateVersion = "25.05";
