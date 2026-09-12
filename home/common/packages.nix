@@ -6,6 +6,7 @@ with pkgs;
   rsync
   macchina
   dig
+  whois
   mc
   yt-dlp
   nerd-fonts.jetbrains-mono
