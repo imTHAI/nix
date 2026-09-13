@@ -7,6 +7,7 @@ with pkgs;
   macchina
   dig
   whois
+  dogedns
   mc
   yt-dlp
   nerd-fonts.jetbrains-mono
