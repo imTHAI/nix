@@ -92,19 +92,48 @@ sops -d ~/.config/nix/secrets/kamino/secrets.yaml
 
 ---
 
-## 7. Restaurer Firefox
+## 7. Restaurer `~/Applications/bin`
+
+Scripts perso non trackés dans ce repo (ex: `torrent_watcher.py`, `backup_supabase.py`,
+`mount_smb.py`, `csv2ynab.py`...), sauvegardés via rsync sur iCloud Drive :
+
+```bash
+cp -R "$HOME/Library/Mobile Documents/com~apple~CloudDocs/<dossier-backup>" ~/Applications/bin
+```
+
+Le LaunchAgent `torrentwatcher` est géré par Nix (`home/kamino/torrent-watcher.nix`) et se
+recrée tout seul au rebuild — il pointe vers `~/Applications/bin/torrent_watcher.py`, donc
+cette étape doit précéder le premier lancement du service (sinon il tourne en échec jusqu'au
+retour du script, sans conséquence — `KeepAlive` le relance).
+
+---
+
+## 8. Repointer les bibliothèques externes
+
+Rien à restaurer (les données sont sur `/Volumes/TB_500Go`, externe), juste à indiquer le
+chemin au premier lancement de chaque app :
+
+- **Calibre** → `/Volumes/TB_500Go/Librairie Calibre`
+- **Photos** → `/Volumes/TB_500Go/Images/Photos.photoslibrary`
+
+---
+
+## 9. Restaurer Firefox (optionnel)
+
+Safari est le navigateur principal désormais — Firefox n'est utile que si tu en as encore
+besoin ponctuellement.
 
 1. Lancer Firefox une première fois (crée le profil)
 2. Se connecter à **Firefox Sync** → bookmarks, historique, onglets épinglés reviennent
 3. Les extensions (Bitwarden, SponsorBlock) sont déjà installées via Nix
 
-Se connecter à **Bitwarden** → pointer vers le vault self-hosted
-(URL dans `hosts.nix` du repo privé [`nix-private`](https://github.com/imTHAI/nix-private) —
-Firefox est déjà préconfiguré dessus via `firefox.nix`)
+Pour **Bitwarden** en général (pas lié à Firefox) : app desktop (liste ci-dessous) ou
+extension Safari → pointer vers le vault self-hosted (URL dans `hosts.nix` du repo privé
+[`nix-private`](https://github.com/imTHAI/nix-private)).
 
 ---
 
-## 8. Apps App Store
+## 10. Apps App Store
 
 Les masApps sont commentées dans la config (problème Touch ID).  
 Les installer manuellement depuis l'App Store :
@@ -118,9 +147,27 @@ Les installer manuellement depuis l'App Store :
 - DeArrow
 - SponsorBlock
 
+## 11. Apps hors App Store, ni Nix ni Homebrew
+
+Téléchargements directs à refaire à la main :
+
+- Xcode (developer.apple.com ou App Store selon la taille)
+- DEVONthink
+- TeamViewer
+- NordVPN
+- Day One
+- Alacritty
+- iTerm
+- PowerPhotos
+- VueScan
+- Windows App
+
+Une fois DEVONthink installé, ouvrir la base `RAG` (mémoire documentaire des projets, utilisée
+par le MCP devonthink de Claude Code) — invisible au MCP tant qu'elle n'est pas ouverte dans l'app.
+
 ---
 
-## 9. Login Claude Code
+## 12. Login Claude Code
 
 Le token OAuth est stocké dans `~/.claude.json` (pas géré par Nix). Au premier
 lancement de `claude` depuis une session cmux :
