@@ -48,12 +48,11 @@ in
     enable = true;
     config = {
       ProgramArguments = [ "${watchScript}/bin/macos-rc-watch" ];
-      # 3x/day: the catalog scan takes ~10-20s and costs nothing idle, no need
-      # for tighter polling to catch a beta drop within a few hours of release.
+      # Hourly: catalog scan costs ~15-35s and nothing idle, and a 3x/day
+      # cadence proved too coarse (a GM build landed in-between two runs, so
+      # it was discovered by hand hours before the agent would have caught it).
       StartCalendarInterval = [
-        { Hour = 8;  Minute = 0; }
-        { Hour = 14; Minute = 0; }
-        { Hour = 20; Minute = 0; }
+        { Minute = 0; }
       ];
       StandardOutPath = "/Users/pbear/Library/Logs/macos-rc-watch.log";
       StandardErrorPath = "/Users/pbear/Library/Logs/macos-rc-watch.log";
