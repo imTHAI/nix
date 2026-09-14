@@ -14,6 +14,7 @@
     ./devonthink.nix
     ./listcrush-backup.nix
     ./macos-rc-watch.nix
+    ./torrent-watcher.nix
   ];
 
   home.stateVersion = "25.05";
