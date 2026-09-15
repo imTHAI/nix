@@ -1,19 +1,9 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, inputs, ... }:
 let
   # SCP bookmarks reuse the private SSH host data (IPs kept out of this repo).
   sshHosts = (import "${inputs.nix-private}/hosts.nix").ssh;
 in {
 
-  # herdr has no nixpkg — fetch the prebuilt binary from GitHub releases if absent.
-  home.activation.installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ ! -f "$HOME/.local/bin/herdr" ]; then
-      mkdir -p "$HOME/.local/bin"
-      ${pkgs.curl}/bin/curl -fsSL \
-        "https://github.com/ogulcancelik/herdr/releases/latest/download/herdr-darwin-aarch64" \
-        -o "$HOME/.local/bin/herdr"
-      chmod +x "$HOME/.local/bin/herdr"
-    fi
-  '';
   home.packages = pkgs.callPackage ./packages.nix { };
 
   xdg.configFile."mc/ini".source       = ./mc-ini;

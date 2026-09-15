@@ -39,6 +39,28 @@ git clone git@github.com:imTHAI/nix.git ~/.config/nix
 
 ## 4. Premier build
 
+> **Gotcha Full Disk Access** : à faire *avant* le premier build. macOS bloque plusieurs
+> opérations sinon (`mkdir: Operation not permitted` sur `~/Library/Application Support/*`,
+> échec de suppression de casks Homebrew) — le process "responsable" (celui qui tient le
+> terminal, ex. cmux, Terminal, iTerm) n'a pas accès complet au disque. Si tu passes par cmux,
+> ces erreurs cassent silencieusement une partie de l'activation home-manager (voir gotcha
+> sops-nix ci-dessous) sans que `darwin-rebuild switch` s'arrête forcément avec un code de
+> sortie évident. Fix :
+> **Réglages Système → Confidentialité et sécurité → Accès complet au disque** → ajouter et
+> activer l'appli qui tient ton terminal (ex. `cmux.app` dans `/Applications/Nix Apps/`).
+> Redémarrer l'appli après.
+
+> **Gotcha SSH** : `sudo darwin-rebuild` s'exécute en `root`, dont le `$HOME` retombe sur
+> `/var/root` (pas `/Users/pbear`, qui ne lui appartient pas). Si la flake fetch un repo privé
+> en SSH (ex. `nix-private`), root n'a pas accès à tes clés → `git@github.com: Permission
+> denied (publickey)`. Fix :
+> ```bash
+> sudo mkdir -p /var/root/.ssh
+> sudo ln -s /Users/pbear/.ssh/id_ed25519 /var/root/.ssh/id_ed25519
+> sudo ln -s /Users/pbear/.ssh/known_hosts /var/root/.ssh/known_hosts
+> ```
+> (Sans risque : root a de toute façon accès total à `/Users/pbear` via sudo.)
+
 ```bash
 # Pour kamino (Mac Mini M1) :
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#kamino
@@ -47,11 +69,64 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#ka
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#<nom>
 ```
 
+> **Gotcha `/etc/nix/nix.custom.conf`** : le Determinate Systems installer (étape 2) crée ce
+> fichier, et nix-darwin refuse d'écraser un fichier `/etc/nix/*` qu'il ne gère pas encore →
+> `error: Unexpected files in /etc, aborting activation`. Fix (vérifier le contenu avant si tu
+> veux être sûr de rien perdre, mais c'est un fichier généré par l'installer, rien de custom) :
+> ```bash
+> sudo mv /etc/nix/nix.custom.conf /etc/nix/nix.custom.conf.before-nix-darwin
+> ```
+> Puis relancer la commande `darwin-rebuild switch` ci-dessus.
+
+> **Gotcha sops-nix / activation qui s'arrête en silence** : le module home-manager de
+> sops-nix fait `launchctl bootout ... && true` puis `launchctl bootstrap ...` sans aucune
+> tolérance d'erreur. `bootstrap` échoue très souvent juste après un `bootout` (race connue de
+> `launchd`, macOS n'a pas eu le temps de désenregistrer le job) → `Bootstrap failed: 5:
+> Input/output error`. Comme le script d'activation tourne avec `set -e`, **toute l'activation
+> home-manager s'arrête net à cette étape** — et donc tout ce qui vient après dans l'ordre du
+> script (`claudeSettings`, `installClaudeCode`, `cmuxConfig`, et surtout `linkGeneration` qui
+> pose réellement `.zshrc`/`.gitconfig`/starship/direnv/cmux) n'est jamais exécuté. Résultat :
+> `darwin-rebuild switch` peut planter à cette étape en laissant croire que seul un cask
+> Homebrew a un souci, alors qu'en fait **rien du user-space n'a été appliqué**. Diagnostic :
+> vérifier `ls ~/.local/state/nix/profiles/home-manager` (vide = l'activation n'a jamais été
+> "commitée") et `ls ~/.zshrc`. Fix ponctuel (en attendant un vrai correctif upstream ou un
+> override dans la flake) :
+> ```bash
+> # Repérer le script d'activation home-manager fraîchement construit
+> find /nix/store -maxdepth 1 -iname '*home-manager-generation' | tail -1
+>
+> # En faire une copie modifiable, et rendre les lignes launchctl tolérantes à l'échec
+> # (bootout ... || true  +  sleep 1  +  bootstrap ... || true), idem pour tout autre
+> # `_iNote "Activating %s" "X"` qui planterait avec `set -e`.
+>
+> # Puis relancer l'activation directement, sans passer par sudo (pas besoin de root ici) :
+> HOME_MANAGER_BACKUP_EXT=before-hm /chemin/vers/la/copie/patchée/activate
+> ```
+> Une fois l'activation user-space terminée, relancer un `sudo darwin-rebuild switch` propre
+> (sans patch) pour confirmer que tout tient — il devrait maintenant passer plus loin puisque
+> le LaunchAgent sops-nix est déjà bootstrappé.
+
+> **Gotcha `npm install -g @anthropic-ai/claude-code` en EACCES** : la flake installe déjà
+> `claude` via npm pendant l'activation (étape `installClaudeCode` dans le home-manager
+> generation), avec `NPM_CONFIG_PREFIX="$HOME/.npm-global"` pour éviter d'écrire dans le store
+> Nix (read-only). Si tu lances cette commande toi-même à la main *sans* ce réglage — par
+> exemple pour dépanner pendant que l'activation est cassée par un des gotchas ci-dessus — npm
+> retombe sur le préfixe par défaut du binaire `node` fourni par Nix, qui pointe dans
+> `/nix/store/...` → `EACCES: permission denied, mkdir '/nix/store/.../lib'`. Ce n'est *pas* un
+> problème de brew vs npm, juste un préfixe npm mal configuré. Si besoin de dépanner à la main :
+> ```bash
+> export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+> export PATH="$HOME/.npm-global/bin:$PATH"
+> npm install -g @anthropic-ai/claude-code
+> ```
+> Mieux : régler d'abord les gotchas qui bloquent l'activation (Full Disk Access, sops-nix,
+> herdr) et laisser la flake s'en charger normalement.
+
 > La première fois prend plus longtemps — tout est téléchargé depuis cache.nixos.org.
 
 Le rebuild remet automatiquement en place :
 - Système : packages CLI, dock, Finder, GC, homebrew (casks + brews dont `rtk`)
-- User : zsh + plugins, git, ssh, starship, direnv, ghostty, gh-dash
+- User : zsh + plugins, git, ssh, starship, direnv, cmux, gh-dash
 - Firefox : profil + extensions (Bitwarden, SponsorBlock) via NUR
 - Claude Code : `~/.claude/settings.json` (hooks rtk + nix, MCP context7 via sops),
   `CLAUDE.md`, `RTK.md`, `rules/`, plus `~/.claude.json` patché (`hasTrustDialogAccepted: true` pour `$HOME`)
