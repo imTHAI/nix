@@ -148,6 +148,33 @@ cat ~/.ssh/id_ed25519.pub
 
 Ajouter sur **github.com → Settings → SSH Keys**.
 
+> **Gotcha clé restaurée (pas régénérée)** : si tu restaures une clé privée existante
+> (Bitwarden ou autre) au lieu d'en générer une nouvelle, le `.pub` n'est pas forcément
+> présent. Le régénérer à partir de la privée (ne crée pas une nouvelle identité, récupère
+> juste la clé publique correspondante) :
+> ```bash
+> ssh-keygen -y -f ~/.ssh/id_ed25519 > ~/.ssh/id_ed25519.pub
+> ```
+> Si la clé a une passphrase, il faut aussi la charger dans l'agent — sinon `git push` et
+> la signature de commit SSH échouent en `Permission denied (publickey)` :
+> ```bash
+> ssh-add ~/.ssh/id_ed25519
+> ```
+
+> **Gotcha `Host key verification failed` malgré une bonne clé GitHub** : si `~/.ssh/config`
+> route `github.com` via `ssh.github.com:443` (contournement firewall, cf. config actuelle),
+> `known_hosts` doit avoir une entrée pour l'hostname réellement utilisé (`ssh.github.com`),
+> pas seulement pour `github.com` — sinon la vérification échoue même si la clé de GitHub
+> stockée est correcte. Fix :
+> ```bash
+> ssh-keyscan -p 443 ssh.github.com >> ~/.ssh/known_hosts
+> ```
+> Vérifier l'ensemble (clé + known_hosts) avec :
+> ```bash
+> ssh -T git@github.com
+> # → "Hi <user>! You've successfully authenticated..."
+> ```
+
 ---
 
 ## 6. Restaurer la clé age (sops)
