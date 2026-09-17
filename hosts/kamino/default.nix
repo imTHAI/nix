@@ -146,6 +146,9 @@
     # nixpkgs telegram-desktop builds from source on aarch64-darwin (no Hydra
     # cache) and takes hours — the cask ships the official prebuilt app.
     "telegram"
+    # nixpkgs' rustdesk sets badPlatforms = lib.platforms.darwin (GTK/Linux-only
+    # build, no macOS support at all) — the cask is the only route on kamino.
+    "rustdesk"
   ];
 
   # CLI proxy that filters/compresses command output before it hits the LLM
