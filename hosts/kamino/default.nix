@@ -70,11 +70,25 @@
     serviceConfig = {
       ProgramArguments = [
         "/bin/sh" "-c"
-        "/opt/homebrew/bin/brew update; /opt/homebrew/bin/brew upgrade --cask --greedy; /opt/homebrew/bin/brew cleanup"
+        "/opt/homebrew/bin/brew update; /opt/homebrew/bin/brew upgrade --cask --greedy; /opt/homebrew/bin/brew cleanup --prune=all"
       ];
       StartCalendarInterval = [{ Weekday = 6; Hour = 0; Minute = 0; }];
       StandardOutPath = "/tmp/brew-weekly-upgrade.log";
       StandardErrorPath = "/tmp/brew-weekly-upgrade-error.log";
+    };
+  };
+
+  # determinateNix gère le GC (seuil d'espace disque) mais pas l'optimise du
+  # store (dédup par hardlinks, pur gain de place, aucun impact fonctionnel) —
+  # nix.optimise.automatic n'a pas d'équivalent côté Determinate (cf commentaire
+  # sur determinateNix.enable plus haut). LaunchDaemon (root) requis : le store
+  # /nix/store appartient à root, un LaunchAgent utilisateur n'a pas les droits.
+  launchd.daemons.nixStoreOptimise = {
+    serviceConfig = {
+      ProgramArguments = [ "/nix/var/nix/profiles/default/bin/nix" "store" "optimise" ];
+      StartCalendarInterval = [{ Weekday = 0; Hour = 3; Minute = 0; }];
+      StandardOutPath = "/tmp/nix-store-optimise.log";
+      StandardErrorPath = "/tmp/nix-store-optimise-error.log";
     };
   };
 
