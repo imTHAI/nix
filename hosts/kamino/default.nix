@@ -139,5 +139,8 @@
   # CLI proxy that filters/compresses command output before it hits the LLM
   # context (~80% token savings on common ops). Wired up via PreToolUse hook
   # in ~/.claude/settings.json (see home/kamino/claude.nix).
-  homebrew.brews = [ "rtk" ];
+  homebrew.brews = [
+    "rtk"
+    "mole" # CLI uninstall/clean (tw93/mole) — laisse ~/Library/LaunchAgents Nix-managés intacts
+  ];
 }
