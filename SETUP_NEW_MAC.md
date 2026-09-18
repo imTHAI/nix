@@ -324,6 +324,23 @@ lit ce même token au moment de tourner) et pour toute commande `supabase` manue
 
 ---
 
+## 14. Login Cloudflare Wrangler CLI
+
+```bash
+npx wrangler pages deployment list --project-name listcrush
+# (n'importe quelle commande wrangler suffit à déclencher le login si pas déjà authentifié)
+```
+
+Ouvre le navigateur pour l'auth OAuth Cloudflare, stocke le token dans
+`~/Library/Preferences/.wrangler/config/default.toml`. Nécessaire pour déployer/inspecter les
+Cloudflare Pages de `listcrush` (et tout autre projet Pages/Workers) en CLI.
+
+> **Pourquoi pas dans sops** : même logique que Supabase juste au-dessus — token à portée
+> compte entier, pas seulement le projet. Refaire ce login à chaque reinstall est le compromis
+> assumé.
+
+---
+
 ## Ajouter un nouveau Mac à la config
 
 Si c'est une nouvelle machine (pas kamino) :
