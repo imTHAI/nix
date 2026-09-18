@@ -11,8 +11,11 @@ let
     sidebar = {
       branchLayout                       = "vertical";
       hideAllDetails                     = false;
-      openPortLinksInCmuxBrowser         = true;
-      openPullRequestLinksInCmuxBrowser  = true;
+      # false = open in the system default browser instead of cmux's embedded
+      # one. Previously left at cmux's true default, which is why every fresh
+      # install/rebuild silently reverted a manual "open externally" toggle.
+      openPortLinksInCmuxBrowser         = false;
+      openPullRequestLinksInCmuxBrowser  = false;
       showBranchDirectory                = true;
       showCustomMetadata                 = true;
       showLog                            = true;
@@ -21,6 +24,12 @@ let
       showProgress                       = true;
       showPullRequests                   = true;
       showSSH                            = true;
+    };
+    # Same "always external browser" intent as sidebar above, for links
+    # clicked/opened from terminal/agent output rather than the sidebar.
+    browser = {
+      openTerminalLinksInCmuxBrowser              = false;
+      interceptTerminalOpenCommandInCmuxBrowser   = false;
     };
     notifications = {
       sound = "none";

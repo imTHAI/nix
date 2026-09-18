@@ -283,6 +283,22 @@ Une fois loggé, le token persiste dans `~/.claude.json`.
 
 ---
 
+## 13. Login Supabase CLI
+
+```bash
+npx supabase login
+```
+
+Ouvre le navigateur, stocke le token dans le Keychain (`security find-generic-password -s
+'Supabase CLI'`). Nécessaire pour le backup nocturne (`home/kamino/listcrush-backup.nix`, qui
+lit ce même token au moment de tourner) et pour toute commande `supabase` manuelle.
+
+> **Pourquoi pas dans sops** : le token donne accès à tout le compte Supabase (tous les
+> projets, pas juste `listcrush`) — moins il a de copies, mieux c'est. Voir le commentaire dans
+> `listcrush-backup.nix`. Refaire ce login à chaque reinstall est le compromis assumé.
+
+---
+
 ## Ajouter un nouveau Mac à la config
 
 Si c'est une nouvelle machine (pas kamino) :
