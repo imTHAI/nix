@@ -244,16 +244,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1789554378,
-        "narHash": "sha256-Yzrbw+owNDrIjokScXYph/c2JjCvf5YQhCfojv8ZECU=",
+        "lastModified": 1785873230,
+        "narHash": "sha256-k65TtK/oLyKaizlUnDghlzrOyFvw1gyzi7SWwn9Aou8=",
         "owner": "imTHAI",
         "repo": "nix-packages",
-        "rev": "c9bb5ef4aa91f9999bcf27852bbd67c68ac069e8",
+        "rev": "0a8bd456f77b34e453a9d5d8988e905870321b24",
         "type": "github"
       },
       "original": {
         "owner": "imTHAI",
         "repo": "nix-packages",
+        "rev": "0a8bd456f77b34e453a9d5d8988e905870321b24",
         "type": "github"
       }
     },

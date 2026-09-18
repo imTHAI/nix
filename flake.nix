@@ -17,7 +17,12 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     nur.url          = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
-    nix-packages.url = "github:imTHAI/nix-packages";
+    # Pinned to the last cmux package build (v0.64.22) before upstream PR
+    # manaflow-ai/cmux#12343 (merged 2026-09-11) broke Option dead-key accent
+    # composition (opt+e,e -> plain e, no compose). Unpin once that regression
+    # is fixed upstream — `nix flake lock --update-input nix-packages` won't
+    # move past this rev on its own since it's URL-pinned, not just lock-pinned.
+    nix-packages.url = "github:imTHAI/nix-packages/0a8bd456f77b34e453a9d5d8988e905870321b24";
     nix-packages.inputs.nixpkgs.follows = "nixpkgs";
     determinate.url  = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     determinate.inputs.nixpkgs.follows = "nixpkgs";
