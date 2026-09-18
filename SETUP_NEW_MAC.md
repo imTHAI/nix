@@ -177,6 +177,31 @@ Ajouter sur **github.com → Settings → SSH Keys**.
 
 ---
 
+## 5bis. Credentials git HTTPS (git.leet.la et autres remotes HTTPS)
+
+Les repos self-hosted (`pea-rebalancer-dca`, `instascrap`, `listcrush`, etc.) pointent sur
+`https://git.leet.la/...`, pas en SSH — la clé SSH de l'étape 5 ne les couvre pas.
+
+`credential.helper = osxkeychain` est nix-géré (`home/common/git.nix`), donc rien à configurer :
+il suffit de pousser une fois pour que macOS demande username + token, et le Keychain retient
+la suite indéfiniment.
+
+```bash
+cd ~/Projects/<un-repo-git.leet.la>
+git push
+# Username: ton user git.leet.la
+# Password: un token, pas ton mot de passe — Gitea/Forgejo : Settings → Applications →
+# Generate New Token
+```
+
+> **Gotcha session non-interactive (agent, script, outil sans TTY)** : sans ce helper, git
+> tente de demander interactivement et échoue immédiatement avec `could not read Username` —
+> aucun moyen de saisir le mot de passe à la main puisqu'il n'y a pas de terminal attaché.
+> Une fois le token mis en Keychain via le push manuel ci-dessus, ces sessions marchent aussi
+> silencieusement, sans re-prompt.
+
+---
+
 ## 6. Restaurer la clé age (sops)
 
 Récupère `keys.txt` depuis Bitwarden et place-la :
