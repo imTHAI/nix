@@ -15,6 +15,7 @@
     ./listcrush-backup.nix
     ./macos-rc-watch.nix
     ./torrent-watcher.nix
+    ./screenshot-clipboard.nix
   ];
 
   home.stateVersion = "25.05";
