@@ -1,8 +1,5 @@
 { pkgs, ... }:
 let
-  # macOS default screenshot naming is "Screenshot <date> at <time>.png"
-  # (`defaults read com.apple.screencapture name/type` unset). If the name
-  # prefix or file type is ever customized, the filter below needs to follow.
   watchScript = pkgs.writeShellApplication {
     name = "screenshot-clipboard";
     runtimeInputs = [ pkgs.fswatch ];
@@ -11,11 +8,15 @@ let
 
       desktop="$HOME/Desktop"
 
-      # --event Created: only react to new files, not every write while a
-      # screenshot is still being flushed — avoids re-copying on later edits.
-      fswatch -0 --event Created "$desktop" | while IFS= read -r -d "" file; do
+      # screencapture writes to a hidden dotfile first (e.g. ".Capture
+      # d'écran ....png"), then renames it to the final visible name once
+      # the write is done — so the final filename only ever gets a Renamed
+      # event, never Created. Watching Created alone silently misses every
+      # real screenshot (confirmed via `fswatch -x --event-flags`).
+      fswatch -0 --event Renamed "$desktop" | while IFS= read -r -d "" file; do
         case "$(basename "$file")" in
-          "Screenshot "*.png)
+          .*) ;; # the hidden intermediate file itself — not the final one
+          *.png)
             # screencapture writes the PNG progressively; wait for the size
             # to stop changing before reading it, otherwise a mid-write
             # snapshot can land in the clipboard as a truncated image.
@@ -28,8 +29,16 @@ let
               prev=$size
               sleep 0.2
             done
-            osascript -e "set the clipboard to (read (POSIX file \"$file\") as «class PNGf»)"
-            echo "screenshot-clipboard: copied $file to clipboard"
+
+            # Filenames are locale-dependent ("Screenshot ..." vs "Capture
+            # d'écran ..."), so identify screenshots via the Spotlight flag
+            # screencapture actually sets on the file instead of the name —
+            # this also skips any unrelated PNG dropped onto the Desktop.
+            is_capture=$(mdls -raw -name kMDItemIsScreenCapture "$file" 2>/dev/null || echo "")
+            if [ "$is_capture" = "1" ]; then
+              osascript -e "set the clipboard to (read (POSIX file \"$file\") as «class PNGf»)"
+              echo "screenshot-clipboard: copied $file to clipboard"
+            fi
             ;;
         esac
       done
