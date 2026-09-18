@@ -341,6 +341,20 @@ Cloudflare Pages de `listcrush` (et tout autre projet Pages/Workers) en CLI.
 
 ---
 
+## 15. Clé API OpenRouter (DEVONthink AI)
+
+Récupère la clé depuis Bitwarden ("OpenRouter API Key (DEVONthink)") et colle-la dans
+**DEVONthink → Réglages → AI → OpenRouter**.
+
+> **Pourquoi pas nix/sops** : DEVONthink stocke `OpenRouterKey` chiffré dans son plist
+> (`com.devon-technologies.think`) avec une clé liée au Keychain de la machine — le blob ne
+> survit pas à un reinstall même copié tel quel (vécu le 18/09/26 : blob présent mais
+> illisible après restauration). Seule la clé en clair, gardée dans Bitwarden, est portable.
+> Nix gère quand même le choix de moteur (`ChatEngine`/`ChatSummaryEngine` = OpenRouter) via
+> `home/kamino/devonthink.nix` — reste juste à coller la clé.
+
+---
+
 ## Ajouter un nouveau Mac à la config
 
 Si c'est une nouvelle machine (pas kamino) :
