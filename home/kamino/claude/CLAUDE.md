@@ -25,6 +25,7 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Sois concis et direct — pas de longues explications non demandées
 - Pas d'emojis dans les réponses texte
 - Une phrase de mise à jour suffit ; n'annonce pas ce que tu vas faire avant de le faire
+- Texte destiné à être posté tel quel (issue GitHub, commentaire Reddit ou site similaire) : pas de tiret cadratin "—", ça fait IA. Utiliser une virgule, un point, ou reformuler la phrase
 
 ## Code
 - Commente le code en détail : explique le WHY, les invariants non-obvieux, les workarounds
