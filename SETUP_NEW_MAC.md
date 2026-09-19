@@ -355,6 +355,29 @@ Récupère la clé depuis Bitwarden ("OpenRouter API Key (DEVONthink)") et colle
 
 ---
 
+## 16. Login GitHub CLI (gh)
+
+```bash
+gh auth login
+```
+
+Choisir `GitHub.com` → `HTTPS` (ou `SSH` si la clé de l'étape 5 est déjà en place) →
+authentification via navigateur. Le token est stocké dans le Keychain macOS (pas dans
+`~/.config/gh/`, qui est un symlink Nix vers le store, donc en lecture seule et non adapté
+à un token qui doit persister).
+
+> **Gotcha vécu le 19/09/26** : après un clean install, `gh` semblait "manquant" dans un
+> shell interactif alors que les credentials Keychain étaient intacts et que `gh` marchait
+> très bien depuis les tool calls de Claude Code. Cause : le shell interactif avait été
+> ouvert avant la fin du chargement des profils home-manager, donc son `$PATH` était figé
+> avant que `gh` (et le reste du profil Nix) n'y soit ajouté — pas une perte d'auth. Fix :
+> `exec zsh` (ou nouvel onglet terminal) après le premier build pour recharger le `$PATH`.
+
+> **Pourquoi pas dans sops** : même logique que Supabase/Cloudflare — token à portée compte
+> entier. Refaire ce login à chaque reinstall est le compromis assumé.
+
+---
+
 ## Ajouter un nouveau Mac à la config
 
 Si c'est une nouvelle machine (pas kamino) :
