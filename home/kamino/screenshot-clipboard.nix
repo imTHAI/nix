@@ -28,7 +28,18 @@ let
         # d'écran ..."), so identify screenshots via the Spotlight flag
         # screencapture actually sets on the file instead of the name —
         # this also skips any unrelated PNG dropped onto the Desktop.
-        is_capture=$(mdls -raw -name kMDItemIsScreenCapture "$file" 2>/dev/null || echo "")
+        # Spotlight tags this flag asynchronously after the file lands on
+        # disk, so right after launchd's WatchPaths fires (essentially
+        # immediately on file creation) the flag can still read empty even
+        # though the file *is* a screenshot. Poll briefly instead of
+        # checking once, otherwise the newest screenshot gets silently
+        # skipped and the clipboard keeps the previous one.
+        is_capture=""
+        for _ in $(seq 1 15); do
+          is_capture=$(mdls -raw -name kMDItemIsScreenCapture "$file" 2>/dev/null || echo "")
+          [ "$is_capture" = "1" ] && break
+          sleep 0.2
+        done
         [ "$is_capture" = "1" ] || continue
         mtime=$(stat -f%m "$file")
         if [ "$mtime" -gt "$newest_mtime" ]; then
