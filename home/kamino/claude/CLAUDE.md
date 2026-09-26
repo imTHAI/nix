@@ -74,6 +74,9 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 - **kamino** : macOS, nix-darwin + home-manager
 - **scarif** : Arch Linux, home-manager standalone (pas NixOS)
 - **jakku** : NixOS (VM)
+- **coruscant** : serveur Unraid (hors flake Nix), accessible en SSH (`ssh coruscant`, config dans `~/.ssh/config`, user root). Maintenance régulière du Navidrome qui y tourne :
+  - Container docker `navidrome` (image `deluan/navidrome`), volumes `/mnt/cache_docker/appdata/navidrome:/data` et `/mnt/user/media/music:/music`
+  - Ne jamais supposer l'accès absent — vérifier par un `ssh coruscant echo OK` avant de dire "je n'ai pas accès"
 - Config Nix centrale : `~/.config/nix/` (flake multi-host, noms Star Wars)
 - **sops-nix est déjà configuré** dans le flake — ne pas redemander
 - **age key** déjà présente sur kamino
