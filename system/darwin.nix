@@ -16,40 +16,12 @@
     %admin ALL=(ALL:ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
   '';
 
+  # Dock/Finder/trackpad/keyboard-repeat used to live here as system.defaults.*,
+  # but overlapped 1:1 with nix-plist-manager (hosts/kamino/mac-settings-system.nix,
+  # home/kamino/mac-settings-user.nix) once it was adopted — same plist keys, two
+  # sources of truth. Migrated there; screencapture.type has no nix-plist-manager
+  # equivalent (only its keyboard shortcuts are covered), so it stays native.
   system.defaults = {
-    dock = {
-      autohide = true;
-      autohide-delay = 0.0;
-      autohide-time-modifier = 0.0;
-      launchanim = false;
-      mineffect = "scale";
-      minimize-to-application = true;
-      mru-spaces = false;
-      show-recents = false;
-      showhidden = true;
-    };
-    finder = {
-      FXPreferredViewStyle = "Nlsv";
-      ShowStatusBar = true;
-      ShowPathbar = true;
-      QuitMenuItem = true;
-      _FXSortFoldersFirst = true;
-      FXEnableExtensionChangeWarning = false;
-    };
-    NSGlobalDomain = {
-      KeyRepeat = 6;
-      InitialKeyRepeat = 25;
-      AppleShowAllExtensions = false;
-      NSAutomaticCapitalizationEnabled = false;
-      NSAutomaticDashSubstitutionEnabled = false;
-      NSAutomaticPeriodSubstitutionEnabled = false;
-      NSAutomaticQuoteSubstitutionEnabled = false;
-      NSAutomaticSpellingCorrectionEnabled = false;
-    };
-    trackpad = {
-      Clicking = true;
-      TrackpadRightClick = true;
-    };
     screencapture.type = "png";
   };
 

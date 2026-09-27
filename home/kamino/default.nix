@@ -16,6 +16,7 @@
     ./macos-rc-watch.nix
     ./torrent-watcher.nix
     ./screenshot-clipboard.nix
+    ./macos-settings.nix
   ];
 
   home.stateVersion = "25.05";

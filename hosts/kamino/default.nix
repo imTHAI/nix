@@ -17,6 +17,12 @@
 
   system.primaryUser = vars.user.name;
 
+  # System-scope macOS settings (firewall, sharing, power, login window...).
+  # Captured via `nix run github:sushydev/nix-plist-manager#current -- <file> --scope system`
+  # and re-run the same way after a manual System Settings change to update it.
+  programs.nix-plist-manager.enable = true;
+  programs.nix-plist-manager.options = import ./mac-settings-system.nix;
+
   users.users.${vars.user.name} = {
     name = vars.user.name;
     home = "/Users/${vars.user.name}";

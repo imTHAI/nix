@@ -26,6 +26,8 @@
     nix-packages.inputs.nixpkgs.follows = "nixpkgs";
     determinate.url  = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     determinate.inputs.nixpkgs.follows = "nixpkgs";
+    nix-plist-manager.url = "github:sushydev/nix-plist-manager";
+    nix-plist-manager.inputs.nixpkgs.follows = "nixpkgs";
     # Private repo holding network-sensitive data (IPs, SSH hosts) so this
     # repo can stay public. flake = false → plain file tree, no flake.nix needed.
     # git+ssh (not github:) so Nix fetches with the SSH key, no API token.
@@ -35,7 +37,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, nix-plist-manager, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -51,6 +53,7 @@
         modules = [
           ./hosts/kamino
           determinate.darwinModules.default
+          nix-plist-manager.darwinModules.default
           home-manager.darwinModules.home-manager
           {
             home-manager = {
@@ -58,7 +61,7 @@
               useUserPackages      = true;
               backupFileExtension  = "before-hm";
               extraSpecialArgs     = specialArgs;
-              sharedModules        = [ sops-nix.homeManagerModules.sops ];
+              sharedModules        = [ sops-nix.homeManagerModules.sops nix-plist-manager.homeManagerModules.default ];
               users.${vars.user.name} = import ./home/kamino;
             };
           }

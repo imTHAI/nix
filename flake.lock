@@ -258,6 +258,26 @@
         "type": "github"
       }
     },
+    "nix-plist-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790283696,
+        "narHash": "sha256-c8J9LK40Mn+6UaS7sJZKSW28L2XkSivSF9dYl6bOeEc=",
+        "owner": "sushydev",
+        "repo": "nix-plist-manager",
+        "rev": "f3ac4aaa9504e2f27da6314a47acea69a2e778e4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sushydev",
+        "repo": "nix-plist-manager",
+        "type": "github"
+      }
+    },
     "nix-private": {
       "flake": false,
       "locked": {
@@ -364,6 +384,7 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nix-packages": "nix-packages",
+        "nix-plist-manager": "nix-plist-manager",
         "nix-private": "nix-private",
         "nixpkgs": "nixpkgs_2",
         "nur": "nur",
