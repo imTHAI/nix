@@ -62,6 +62,9 @@
             words = true;
           };
         };
+        subtitlesAndCaptioning = {
+          applyAcrossApps = true;
+        };
       };
       desktopAndDock = {
         dock = {
