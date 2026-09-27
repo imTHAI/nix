@@ -39,17 +39,6 @@
       lockScreen = {
         turnDisplayOffOnPowerAdapterWhenInactive = "For 20 minutes";
       };
-      network = {
-        firewall = {
-          firewall = false;
-          options = {
-            automaticallyAllowBuiltInSoftwareToReceiveIncomingConnections = true;
-            automaticallyAllowDownloadedSignedSoftwareToReceiveIncomingConnections = true;
-            blockAllIncomingConnections = false;
-            enableStealthMode = false;
-          };
-        };
-      };
       privacyAndSecurity = {
         analyticsAndImprovements = {
           shareMacAnalytics = false;
