@@ -97,6 +97,8 @@ in {
 
   services.openssh.enable = true;
 
+  services.gnome.gnome-remote-desktop.enable = true;
+
   security.sudo.extraRules = [{
     users = [ vars.user.name ];
     commands = [{
