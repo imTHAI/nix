@@ -99,6 +99,24 @@ in {
   services.openssh.enable = true;
 
   services.gnome.gnome-remote-desktop.enable = true;
+  # FreeRDP 3.32.x server regression: Windows App (macOS) stalls at "Securing
+  # connection" after NLA (HYBRID_EX path), see FreeRDP/FreeRDP#13583. Pin
+  # only grd's FreeRDP to 3.31.1; drop once nixpkgs ships a fixed release.
+  nixpkgs.overlays = [
+    (final: prev: {
+      gnome-remote-desktop = prev.gnome-remote-desktop.override {
+        freerdp = prev.freerdp.overrideAttrs (old: {
+          version = "3.31.1";
+          src = prev.fetchFromGitHub {
+            owner = "FreeRDP";
+            repo = "FreeRDP";
+            tag = "3.31.1";
+            hash = "sha256-6/YMQLcgOogoXu3Lhwl+g3+Ov59t4x7oOFlVLCa8+RU=";
+          };
+        });
+      };
+    })
+  ];
 
   security.sudo.extraRules = [{
     users = [ vars.user.name ];
