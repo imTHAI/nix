@@ -99,9 +99,11 @@ in {
   services.openssh.enable = true;
 
   services.gnome.gnome-remote-desktop.enable = true;
-  # Upstream relies on gnome-control-center's toggle to enable the user unit,
-  # which leaves a symlink to a fixed store path; start it declaratively instead.
-  systemd.user.services.gnome-remote-desktop.wantedBy = [ "gnome-session.target" ];
+  # Remote Login mode: the system daemon serves RDP from GDM and spawns headless,
+  # resizable sessions, so no console login is needed. NixOS ships the unit but
+  # does not enable it. TLS cert and credentials are set imperatively with
+  # `grdctl --system` (state lives in /var/lib/gnome-remote-desktop).
+  systemd.services.gnome-remote-desktop.wantedBy = [ "graphical.target" ];
   # FreeRDP 3.32.x server regression: Windows App (macOS) stalls at "Securing
   # connection" after NLA (HYBRID_EX path), see FreeRDP/FreeRDP#13583. Pin
   # only grd's FreeRDP to 3.31.1; drop once nixpkgs ships a fixed release.

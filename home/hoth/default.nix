@@ -15,16 +15,12 @@
 
   home.packages = pkgs.callPackage ../common/packages.nix { };
 
-  # gnome-remote-desktop's desktop sharing silently stalls after auth while the
-  # session is locked (gnome-shell refuses screencast on the lock screen). This
-  # is a VM with no one at its console, so locking only gets in the way of RDP.
-  programs.gnome-shell = {
-    enable = true;
-    extensions = [{ package = pkgs.gnomeExtensions.allow-locked-remote-desktop; }];
-  };
   dconf.settings = {
+    # RDP goes through the system daemon (Remote Login, see hosts/hoth). Per-user
+    # desktop sharing would also try to bind 3389 inside the session.
+    "org/gnome/desktop/remote-desktop/rdp".enable = false;
+    # Remote-only VM: an idle lock just adds a password prompt on reconnect.
     "org/gnome/desktop/screensaver".lock-enabled = false;
-    # Blanking also blocks new RDP connections; 0 disables the idle timer.
     "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 0;
   };
 
