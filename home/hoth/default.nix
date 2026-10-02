@@ -1,4 +1,4 @@
-{ pkgs, vars, ... }: {
+{ pkgs, lib, vars, ... }: {
   imports = [
     ../common/git.nix
     ../common/ssh.nix
@@ -14,6 +14,19 @@
   home.homeDirectory = "/home/${vars.user.name}";
 
   home.packages = pkgs.callPackage ../common/packages.nix { };
+
+  # gnome-remote-desktop's desktop sharing silently stalls after auth while the
+  # session is locked (gnome-shell refuses screencast on the lock screen). This
+  # is a VM with no one at its console, so locking only gets in the way of RDP.
+  programs.gnome-shell = {
+    enable = true;
+    extensions = [{ package = pkgs.gnomeExtensions.allow-locked-remote-desktop; }];
+  };
+  dconf.settings = {
+    "org/gnome/desktop/screensaver".lock-enabled = false;
+    # Blanking also blocks new RDP connections; 0 disables the idle timer.
+    "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 0;
+  };
 
   programs.zsh.shellAliases = {
     nixup   = "_nixupdate hoth nixos-rebuild";
