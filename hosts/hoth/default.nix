@@ -37,7 +37,8 @@ in {
     };
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      # 3389: gnome-remote-desktop; the module does not open the firewall itself.
+      allowedTCPPorts = [ 22 3389 ];
       allowPing = true;
     };
   };
