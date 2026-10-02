@@ -95,5 +95,22 @@
           }
         ];
       };
+
+      nixosConfigurations."hoth" = nixpkgs.lib.nixosSystem {
+        specialArgs = specialArgs;
+        modules = [
+          ./hosts/hoth
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs        = true;
+              useUserPackages      = true;
+              backupFileExtension  = "before-hm";
+              extraSpecialArgs     = specialArgs;
+              users.${vars.user.name} = import ./home/hoth;
+            };
+          }
+        ];
+      };
     };
 }
