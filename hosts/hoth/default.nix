@@ -89,6 +89,11 @@ in {
     options = "--delete-older-than 14d";
   };
   nix.optimise.automatic = true;
+  # Nix defaults to one job per vCPU (20 here); heavy C++ builds such as
+  # onnxruntime take ~1 GB per job and OOM'd the 16 GB VM at that width.
+  nix.settings.cores = 10;
+  # Safety margin for build peaks (zeron's LTO link) instead of the OOM killer.
+  zramSwap.enable = true;
 
   services.openssh.enable = true;
 
