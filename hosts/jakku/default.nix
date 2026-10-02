@@ -8,16 +8,6 @@ in {
     ./hardware.nix
   ];
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      nixos-rebuild-ng = prev.nixos-rebuild-ng.overrideAttrs (old: {
-        postUnpack = (old.postUnpack or "") + ''
-          find $sourceRoot -name nix.py -path "*/nixos_rebuild/*" -exec sed -i 's/"--output=cat",//' {} +
-        '';
-      });
-    })
-  ];
-
   nixpkgs.hostPlatform = "x86_64-linux";
 
   boot.loader.systemd-boot.enable = true;
