@@ -143,6 +143,7 @@ in
     ".claude/skills/meta-prompt-creator/references/xml-structure.md".source                 = ./claude/skills/meta-prompt-creator/references/xml-structure.md;
     ".claude/skills/meta-prompt-creator/references/gemini-best-practices.md".source         = ./claude/skills/meta-prompt-creator/references/gemini-best-practices.md;
     ".claude/skills/exa-search/SKILL.md".source = ./claude/skills/exa-search/SKILL.md;
+    ".claude/skills/hand-over/SKILL.md".source  = ./claude/skills/hand-over/SKILL.md;
   };
 
   # npm global prefix outside the Nix store so claude-code can self-update
