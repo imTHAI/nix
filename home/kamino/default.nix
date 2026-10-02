@@ -16,6 +16,7 @@
     ./macos-rc-watch.nix
     ./torrent-watcher.nix
     ./screenshot-clipboard.nix
+    ./hoth-rdp.nix
     ./macos-settings.nix
   ];
 
