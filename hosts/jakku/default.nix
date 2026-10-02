@@ -10,7 +10,7 @@ in {
 
   nixpkgs.overlays = [
     (final: prev: {
-      nixos-rebuild-ng = prev.nixos-rebuild-ng.overridePythonAttrs (old: {
+      nixos-rebuild-ng = prev.nixos-rebuild-ng.overrideAttrs (old: {
         postPatch = (old.postPatch or "") + ''
           sed -i 's/"--output=cat",//' lib/python*/site-packages/nixos_rebuild/nix.py
         '';
