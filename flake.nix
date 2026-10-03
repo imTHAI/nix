@@ -28,6 +28,10 @@
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     nix-plist-manager.url = "github:sushydev/nix-plist-manager";
     nix-plist-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # hoth desktop theming: one base16 palette pushed to GTK, GNOME Shell,
+    # cursor, icons and fonts.
+    stylix.url = "github:nix-community/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
     # Private repo holding network-sensitive data (IPs, SSH hosts) so this
     # repo can stay public. flake = false → plain file tree, no flake.nix needed.
     # git+ssh (not github:) so Nix fetches with the SSH key, no API token.
@@ -37,7 +41,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, nix-plist-manager, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, nix-plist-manager, stylix, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -100,6 +104,7 @@
         specialArgs = specialArgs;
         modules = [
           ./hosts/hoth
+          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager = {

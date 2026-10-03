@@ -8,6 +8,7 @@ in {
   imports = [
     ../../system/common.nix
     ./hardware.nix
+    ./theme.nix
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";

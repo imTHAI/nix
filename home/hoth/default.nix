@@ -5,6 +5,7 @@
     ../common/zsh.nix
     ../common/starship.nix
     ../common/direnv.nix
+    ./gnome.nix
   ];
 
   home.stateVersion = "26.05";
