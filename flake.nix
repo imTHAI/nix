@@ -41,7 +41,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, nur, determinate, nix-plist-manager, stylix, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, determinate, nix-plist-manager, stylix, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -70,16 +70,6 @@
             };
           }
         ];
-      };
-
-      homeConfigurations."pbear@scarif" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          overlays = [ nur.overlays.default ];
-        };
-        extraSpecialArgs = specialArgs;
-        modules = [ ./home/scarif ];
       };
 
       nixosConfigurations."jakku" = nixpkgs.lib.nixosSystem {

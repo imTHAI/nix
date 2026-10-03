@@ -72,8 +72,8 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 
 ## Setup machines
 - **kamino** : macOS, nix-darwin + home-manager
-- **scarif** : Arch Linux, home-manager standalone (pas NixOS)
 - **jakku** : NixOS (VM)
+- **hoth** : NixOS (VM desktop GNOME, accès RDP)
 - **coruscant** : serveur Unraid (hors flake Nix), accessible en SSH (`ssh coruscant`, config dans `~/.ssh/config`, user root). Maintenance régulière du Navidrome qui y tourne :
   - Container docker `navidrome` (image `deluan/navidrome`), volumes `/mnt/cache_docker/appdata/navidrome:/data` et `/mnt/user/media/music:/music`
   - Ne jamais supposer l'accès absent — vérifier par un `ssh coruscant echo OK` avant de dire "je n'ai pas accès"
