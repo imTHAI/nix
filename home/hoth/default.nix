@@ -1,11 +1,11 @@
-{ pkgs, lib, vars, ... }: {
+{ pkgs, vars, ... }: {
   imports = [
     ../common/git.nix
     ../common/ssh.nix
     ../common/zsh.nix
     ../common/starship.nix
     ../common/direnv.nix
-    ./gnome.nix
+    ./plasma.nix
   ];
 
   home.stateVersion = "26.05";
@@ -20,15 +20,6 @@
     # picks `claude` up from PATH instead.
     pkgs.claude-code
   ];
-
-  dconf.settings = {
-    # RDP goes through the system daemon (Remote Login, see hosts/hoth). Per-user
-    # desktop sharing would also try to bind 3389 inside the session.
-    "org/gnome/desktop/remote-desktop/rdp".enable = false;
-    # Remote-only VM: an idle lock just adds a password prompt on reconnect.
-    "org/gnome/desktop/screensaver".lock-enabled = false;
-    "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 0;
-  };
 
   programs.zsh.shellAliases = {
     nixup   = "_nixupdate hoth nixos-rebuild";

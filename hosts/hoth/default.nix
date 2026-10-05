@@ -3,7 +3,7 @@ let
   # Static addresses live in the private repo so this one can stay public.
   net = (import "${inputs.nix-private}/hosts.nix").hothNet;
 in {
-  # Linux desktop VM (GNOME/Wayland) for testing GUI apps, e.g. the zeron
+  # Linux desktop VM (KDE Plasma 6/Wayland) for testing GUI apps, e.g. the zeron
   # package before upstreaming it to nixpkgs. Networking mirrors jakku.
   imports = [
     ../../system/common.nix
@@ -23,8 +23,7 @@ in {
 
   networking = {
     hostName = "hoth";
-    # GNOME pulls NetworkManager in by default; it would fight the static
-    # scripted config below for enp2s0.
+    # NetworkManager would fight the static scripted config below for enp2s0.
     networkmanager.enable = false;
     defaultGateway = net.gateway4;
     defaultGateway6 = {
@@ -38,7 +37,7 @@ in {
     };
     firewall = {
       enable = true;
-      # 3389: gnome-remote-desktop; the module does not open the firewall itself.
+      # 3389: krdp (user service, see home/hoth/plasma.nix).
       allowedTCPPorts = [ 22 3389 ];
       allowPing = true;
     };
@@ -58,8 +57,19 @@ in {
     LC_TIME           = "fr_FR.UTF-8";
   };
 
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+  # krdp can only share a session that is already running (no GDM-style
+  # Remote Login in Plasma 6.7), and the VM has no one at the console:
+  # log straight into Plasma so the RDP server is up after every boot.
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = vars.user.name;
+  };
+  # SDDM and the TTYs read this; Plasma has its own copy in kxkbrc.
   services.xserver.xkb = {
     layout = "us";
     variant = "mac";
@@ -81,9 +91,11 @@ in {
   };
 
   programs.zsh.enable = true;
-  # No programs.ssh.startAgent like jakku: GNOME already runs gcr-ssh-agent and
-  # NixOS refuses two agents.
+  programs.ssh.startAgent = true;
   programs.firefox.enable = true;
+  # KWin effect plugin: system profile so it lands on KWin's QT_PLUGIN_PATH.
+  # Enabled from home/hoth/plasma.nix.
+  environment.systemPackages = [ pkgs.kde-rounded-corners ];
 
   nix.gc = {
     automatic = true;
@@ -99,28 +111,25 @@ in {
 
   services.openssh.enable = true;
 
-  services.gnome.gnome-remote-desktop.enable = true;
-  # Remote Login mode: the system daemon serves RDP from GDM and spawns headless,
-  # resizable sessions, so no console login is needed. NixOS ships the unit but
-  # does not enable it. TLS cert and credentials are set imperatively with
-  # `grdctl --system` (state lives in /var/lib/gnome-remote-desktop).
-  systemd.services.gnome-remote-desktop.wantedBy = [ "graphical.target" ];
   # FreeRDP 3.32.x server regression: Windows App (macOS) stalls at "Securing
-  # connection" after NLA (HYBRID_EX path), see FreeRDP/FreeRDP#13583. Pin
-  # only grd's FreeRDP to 3.31.1; drop once nixpkgs ships a fixed release.
+  # connection" after NLA (HYBRID_EX path), see FreeRDP/FreeRDP#13583. It is
+  # in libfreerdp-server, so krdp inherits it just like gnome-remote-desktop
+  # did. Pin only krdp's FreeRDP to 3.31.1; drop once nixpkgs ships a fix.
   nixpkgs.overlays = [
     (final: prev: {
-      gnome-remote-desktop = prev.gnome-remote-desktop.override {
-        freerdp = prev.freerdp.overrideAttrs (old: {
-          version = "3.31.1";
-          src = prev.fetchFromGitHub {
-            owner = "FreeRDP";
-            repo = "FreeRDP";
-            tag = "3.31.1";
-            hash = "sha256-6/YMQLcgOogoXu3Lhwl+g3+Ov59t4x7oOFlVLCa8+RU=";
-          };
-        });
-      };
+      kdePackages = prev.kdePackages.overrideScope (kfinal: kprev: {
+        krdp = kprev.krdp.override {
+          freerdp = prev.freerdp.overrideAttrs (old: {
+            version = "3.31.1";
+            src = prev.fetchFromGitHub {
+              owner = "FreeRDP";
+              repo = "FreeRDP";
+              tag = "3.31.1";
+              hash = "sha256-6/YMQLcgOogoXu3Lhwl+g3+Ov59t4x7oOFlVLCa8+RU=";
+            };
+          });
+        };
+      });
     })
   ];
 

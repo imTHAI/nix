@@ -32,6 +32,10 @@
     # cursor, icons and fonts.
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
+    # Declarative KDE Plasma config (panels, kwin, theme) for hoth's home.
+    plasma-manager.url = "github:nix-community/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
     # Private repo holding network-sensitive data (IPs, SSH hosts) so this
     # repo can stay public. flake = false → plain file tree, no flake.nix needed.
     # git+ssh (not github:) so Nix fetches with the SSH key, no API token.
@@ -41,7 +45,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, determinate, nix-plist-manager, stylix, ... }:
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, sops-nix, determinate, nix-plist-manager, stylix, plasma-manager, ... }:
     let
       vars        = import ./vars.nix;
       specialArgs = { inherit inputs vars; };
@@ -102,6 +106,7 @@
               useUserPackages      = true;
               backupFileExtension  = "before-hm";
               extraSpecialArgs     = specialArgs;
+              sharedModules        = [ plasma-manager.homeModules.plasma-manager ];
               users.${vars.user.name} = import ./home/hoth;
             };
           }
