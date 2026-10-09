@@ -36,9 +36,24 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 
 ## Git
 - Format des commits : Gitmoji (`✨ feat`, `🐛 fix`, `♻️ refactor`, `🔧 chore`, etc.)
-- Jamais de trailer `Co-Authored-By` ni d'attribution Claude dans les commits ou PRs
+- Jamais de trailer `Co-Authored-By` ni d'attribution Claude dans les commits ou PRs, sauf si le projet cible l'exige (voir « Contributions externes »)
 - Ne committe jamais sans que je le demande explicitement
 - Ne pousse jamais sans confirmation
+
+## Contributions externes (PR, issue, commentaire sur un repo tiers)
+- AVANT de rédiger quoi que ce soit : lire `CONTRIBUTING.md`, le modèle de PR ou d'issue
+  (`.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/`) et les README de
+  contribution du projet (ex. nixpkgs : `pkgs/README.md`, `maintainers/README.md`).
+- Utiliser le modèle tel quel : garder ses sections et ses cases, cocher uniquement ce qui
+  est vrai et vérifié. Ne jamais inventer ni retirer de lignes.
+- Ne rien affirmer sur les règles du projet (champ obligatoire ou non, convention…) sans
+  l'avoir lu à la source.
+- Vérifier la politique IA du projet. Si elle exige une mention (trailer `Assisted-by:`,
+  disclosure dans la description ou les commentaires), elle prime sur la règle « pas
+  d'attribution Claude » de la section Git.
+- Me montrer le texte final et la liste des règles vérifiées avant toute publication.
+- Un hook bloque `gh pr|issue create/comment/edit/review` hors de mes repos : ne relancer
+  avec le préfixe `CONTRIB_CHECKED=1` qu'une fois ces points faits et mon accord obtenu.
 
 ## Nix macOS — règles de placement des packages
 

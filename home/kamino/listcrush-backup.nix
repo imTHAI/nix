@@ -9,7 +9,7 @@ let
 
   backupScript = pkgs.writeShellApplication {
     name = "listcrush-backup";
-    runtimeInputs = with pkgs; [ supabase-cli gzip coreutils findutils ];
+    runtimeInputs = with pkgs; [ supabase-cli gzip coreutils findutils xxd ];
     text = ''
       set -euo pipefail
 
@@ -27,12 +27,25 @@ let
       mkdir -p "$DEST"
 
       # The CLI keeps its Management API token in the login keychain, which a
-      # user LaunchAgent can read — so no second copy has to live in sops. It
-      # is stored through go-keyring, which base64-wraps the value behind a
-      # marker prefix; handing the raw item to the CLI gets "Invalid access
-      # token format". Strip the prefix and decode.
+      # user LaunchAgent can read — so no second copy has to live in sops.
+      # The stored format depends on the CLI version that ran `supabase login`:
+      # older go-keyring builds base64-wrap it behind a marker prefix (handing
+      # that to the CLI gets "Invalid access token format"), go-keyring >= 0.2.4
+      # hex-encodes behind a different prefix, and current CLIs store it raw.
+      # A re-login on 2026-09-18 silently switched to the raw form and every
+      # run since died on `base64 -d`, so accept all three.
+      #
+      # The item's ACL only trusts the binary that created it, so the first
+      # read from /usr/bin/security raises a keychain dialog; at 04:30 nobody
+      # answers it and the run fails. "Always Allow" once adds security(1) to
+      # the ACL for good — it's an Apple-signed path, unlike a nix store path
+      # that would change on every supabase-cli bump.
       raw="$(/usr/bin/security find-generic-password -s 'Supabase CLI' -a supabase -w)"
-      SUPABASE_ACCESS_TOKEN="$(printf '%s' "''${raw#go-keyring-base64:}" | base64 -d)"
+      case "$raw" in
+        go-keyring-base64:*)  SUPABASE_ACCESS_TOKEN="$(printf '%s' "''${raw#go-keyring-base64:}" | base64 -d)" ;;
+        go-keyring-encoded:*) SUPABASE_ACCESS_TOKEN="$(printf '%s' "''${raw#go-keyring-encoded:}" | xxd -r -p)" ;;
+        *)                    SUPABASE_ACCESS_TOKEN="$raw" ;;
+      esac
       export SUPABASE_ACCESS_TOKEN
 
       case "$SUPABASE_ACCESS_TOKEN" in
@@ -42,6 +55,20 @@ let
         # problem rather than a credential one.
         *) echo "listcrush-backup: keychain did not yield an sbp_ token" >&2; exit 1 ;;
       esac
+
+      # `supabase db dump` runs pg_dump inside a container, so it needs a live
+      # Docker daemon. Colima is only started by its RunAtLoad agent at login;
+      # once stopped (manually, or a crash) it stays down until the next login
+      # and every nightly run fails. Bring it up on demand and put it back down
+      # afterwards, so the job doesn't override a deliberate `colima stop`.
+      # DOCKER_HOST is explicit because launchd's environment doesn't carry the
+      # docker context colima registers for interactive shells.
+      colima=/run/current-system/sw/bin/colima
+      if ! "$colima" status >/dev/null 2>&1; then
+        "$colima" start
+        trap '"$colima" stop' EXIT
+      fi
+      export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
 
       # --linked resolves the project ref from supabase/.temp, so the dump has
       # to run from inside the repo.

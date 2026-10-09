@@ -1,5 +1,24 @@
 { config, lib, pkgs, ... }:
 let
+  # Guard for publishing to third-party repos. Denies gh pr/issue create, comment,
+  # edit and review unless the target is one of my repos (-R/--repo imTHAI/...) or
+  # the command carries CONTRIB_CHECKED=1, which CLAUDE.md only allows after reading
+  # the project's templates and AI policy and getting my approval.
+  # Added after NixOS/nixpkgs#569703 was closed for ignoring the PR template.
+  # Without -R the target repo can't be resolved from the command alone, so own
+  # repos fall back to the prefix too; a false positive costs one retry.
+  contribGuard = pkgs.writeShellScript "claude-contrib-guard" ''
+    cmd=$(${pkgs.jq}/bin/jq -r '.tool_input.command // ""')
+    printf '%s' "$cmd" | grep -Eq 'gh[[:space:]]+(pr|issue)[[:space:]]+(create|comment|edit|review)' || exit 0
+    printf '%s' "$cmd" | grep -q 'CONTRIB_CHECKED=1' && exit 0
+    printf '%s' "$cmd" | grep -Eq '(-R|--repo)[[:space:]=]+imTHAI/' && exit 0
+    ${pkgs.jq}/bin/jq -n '{hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "deny",
+      permissionDecisionReason: "Publication sur un repo tiers bloquée. Avant de relancer : 1) lire CONTRIBUTING.md, le modèle de PR/issue (.github/PULL_REQUEST_TEMPLATE.md, .github/ISSUE_TEMPLATE/) et les README de contribution ; 2) utiliser le modèle tel quel, cases cochées uniquement si vraies ; 3) vérifier la politique IA du projet (trailer Assisted-by, disclosure) ; 4) montrer le texte final à l utilisateur et obtenir son accord. Ensuite seulement, relancer la commande préfixée par CONTRIB_CHECKED=1."
+    }}'
+  '';
+
   # Static settings.json — secrets are injected at activation time via sops.
   # Materialized to a Nix store file so the activation script doesn't have to
   # heredoc the JSON inline (single quotes in hook commands broke '<<<' quoting).
@@ -81,6 +100,10 @@ let
             {
               type    = "command";
               command = "rtk hook claude";
+            }
+            {
+              type    = "command";
+              command = "${contribGuard}";
             }
           ];
         }
