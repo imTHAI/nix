@@ -3,7 +3,7 @@ command_timeout = 1000
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Explicit single-line format — $all implicitly includes $line_break so it can't be used here
-format = "$hostname$directory$git_branch$git_status$nix_shell$cmd_duration$character"
+format = "$directory$git_branch$git_status$nix_shell$cmd_duration$character"
 
 [aws]
 symbol = " "
@@ -118,9 +118,7 @@ symbol = " "
 symbol = " "
 
 [hostname]
-ssh_only = true
 ssh_symbol = " "
-format = "[$ssh_symbol$hostname](bold blue) "
 
 [java]
 symbol = " "
