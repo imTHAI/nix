@@ -23,6 +23,9 @@ in {
         AddKeysToAgent      = "yes";
         IdentityFile        = "~/.ssh/id_ed25519";
         ServerAliveInterval = 60;
+      } // lib.optionalAttrs (builtins.currentSystem == "aarch64-darwin" || builtins.currentSystem == "x86_64-darwin") {
+        UseKeychain         = "yes";
+      } // {
         ServerAliveCountMax = 10;
         ControlMaster       = "auto";
         ControlPath         = "~/.ssh/control-%r@%h:%p";
