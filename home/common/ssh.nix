@@ -23,7 +23,7 @@ in {
         AddKeysToAgent      = "yes";
         IdentityFile        = "~/.ssh/id_ed25519";
         ServerAliveInterval = 60;
-      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         UseKeychain         = "yes";
       } // {
         ServerAliveCountMax = 10;
