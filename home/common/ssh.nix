@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ inputs, lib, pkgs, ... }:
 let
   # Host addresses/users live in the private repo so this one can stay public.
   private = import "${inputs.nix-private}/hosts.nix";
@@ -23,7 +23,7 @@ in {
         AddKeysToAgent      = "yes";
         IdentityFile        = "~/.ssh/id_ed25519";
         ServerAliveInterval = 60;
-      } // lib.optionalAttrs (builtins.currentSystem == "aarch64-darwin" || builtins.currentSystem == "x86_64-darwin") {
+      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
         UseKeychain         = "yes";
       } // {
         ServerAliveCountMax = 10;
