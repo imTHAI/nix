@@ -155,6 +155,10 @@
     # nixpkgs' rustdesk sets badPlatforms = lib.platforms.darwin (GTK/Linux-only
     # build, no macOS support at all) — the cask is the only route on kamino.
     "rustdesk"
+    # No nixpkgs package for the macOS desktop app (the nixpkgs claude-desktop
+    # flake is Linux-only), and the app self-updates, so the cask only tracks
+    # its install location; `brew upgrade` is a no-op until Anthropic ships a new build.
+    "claude"
   ];
 
   # CLI proxy that filters/compresses command output before it hits the LLM
