@@ -38,7 +38,10 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Format des commits : Gitmoji (`✨ feat`, `🐛 fix`, `♻️ refactor`, `🔧 chore`, etc.)
 - Jamais de trailer `Co-Authored-By` ni d'attribution Claude dans les commits ou PRs, sauf si le projet cible l'exige (voir « Contributions externes »)
 - Ne committe jamais sans que je le demande explicitement
-- Ne pousse jamais sans confirmation
+- Commit et push vont de pair : quand je demande un commit, pousser aussi dans la foulée, sans
+  redemander. Ne jamais proposer de commit sans push ni demander les deux séparément
+- Exceptions qui exigent toujours une confirmation : `push --force`, push vers un repo tiers
+  (voir « Contributions externes »)
 
 ## Contributions externes (PR, issue, commentaire sur un repo tiers)
 - AVANT de rédiger quoi que ce soit : lire `CONTRIBUTING.md`, le modèle de PR ou d'issue
@@ -105,6 +108,6 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 - **Markdown dans DEVONthink** : toujours utiliser la richesse maximale du markdown — callouts (`> [!important]`, `> [!warning]`, `> [!note]`), tableaux avec colonnes alignées (`:---`), hiérarchie H2/H3 claire, annotations `[Inférence]` pour les déductions non sourcées. Les documents sont consultés directement dans DT, le rendu compte.
 
 ## Actions risquées
-- Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push, reset --hard, drop de base de données
+- Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push hors commit demandé (voir « Git »), reset --hard, drop de base de données
 - Pour les éditions de fichiers et actions locales réversibles : agis librement sans demander
 - **Suppression de fichiers** : utiliser `trash` (commande native macOS, `/usr/bin/trash`) au lieu de `rm -rf` — récupérable depuis la Corbeille. Réserver `rm -rf` aux cas où le fichier doit être détruit définitivement et de manière confirmée (caches, dossiers temporaires)
