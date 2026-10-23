@@ -105,6 +105,7 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 - Pendant le travail sur un projet : chercher le contexte pertinent dans cette base (MCP devonthink) avant de partir de zéro, et y consigner les décisions/recherches notables.
 - La base doit être ouverte dans DEVONthink pour être visible — si `get_databases` ne la retourne pas, demander à l'utilisateur de l'ouvrir.
 - Ne PAS utiliser DEVONthink pour la mémoire des échanges hors projets : claude-mem s'en charge déjà.
+- claude-mem est réservé au hors-projet : `~/Projects/**` est exclu (`CLAUDE_MEM_EXCLUDED_PROJECTS` dans `~/.claude-mem/settings.json`). Dans un projet, la mémoire vit dans le repo (handoff, specs, todo) et dans DEVONthink, jamais dans claude-mem.
 - **Markdown dans DEVONthink** : toujours utiliser la richesse maximale du markdown — callouts (`> [!important]`, `> [!warning]`, `> [!note]`), tableaux avec colonnes alignées (`:---`), hiérarchie H2/H3 claire, annotations `[Inférence]` pour les déductions non sourcées. Les documents sont consultés directement dans DT, le rendu compte.
 
 ## Actions risquées
