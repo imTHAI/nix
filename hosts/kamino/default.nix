@@ -7,6 +7,22 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   networking.hostName = "kamino";
 
+  # nixpkgs bumped python3Packages.mcp to 2.x (NixOS/nixpkgs#575004) while
+  # fastmcp-slim is still marked broken against mcp >= 2, which takes
+  # mcp-nixos down with it. Rebuild mcp-nixos against the mcp_1 compat
+  # package, scoped to its own python set so nothing else is affected.
+  # Drop once fastmcp-slim evaluates again on unstable. useGlobalPkgs makes
+  # this visible to home-manager (packages.nix, claude.nix).
+  nixpkgs.overlays = [
+    (final: prev: {
+      mcp-nixos = prev.mcp-nixos.override {
+        python3Packages = prev.python3Packages.overrideScope (pyfinal: pyprev: {
+          mcp = pyprev.mcp_1;
+        });
+      };
+    })
+  ];
+
   # Hands Nix installation/config management to Determinate Nixd instead of
   # nix-darwin (sets nix.enable = false internally). GC becomes disk-space-
   # threshold-based (5-20% free, 30GB floor) rather than the fixed weekly
