@@ -35,7 +35,7 @@ Réponds toujours en français, sauf si je t'écris dans une autre langue.
 - Langages principaux : Python, Nix/NixOS, TypeScript/JS
 
 ## Git
-- Format des commits : Gitmoji (`✨ feat`, `🐛 fix`, `♻️ refactor`, `🔧 chore`, etc.)
+- Format des commits : Conventional Commits, sans emoji (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, etc.)
 - Jamais de trailer `Co-Authored-By` ni d'attribution Claude dans les commits ou PRs, sauf si le projet cible l'exige (voir « Contributions externes »)
 - Ne committe jamais sans que je le demande explicitement
 - Commit et push vont de pair : quand je demande un commit, pousser aussi dans la foulée, sans

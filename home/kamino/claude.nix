@@ -126,8 +126,8 @@ let
             {
               type    = "command";
               # Fires after any Edit/Write; injects a reminder into model context when the
-              # edited file lives inside ~/.config/nix/ so the Gitmoji commit step is never skipped.
-              command = ''f=$(jq -r '.tool_input.file_path // ""'); case "$f" in */.config/nix/*) echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"RAPPEL NIX: fichier modifie dans ~/.config/nix/ — fournir message commit Gitmoji et rappeler push GitHub."}}' ;; esac'';
+              # edited file lives inside ~/.config/nix/ so the commit message step is never skipped.
+              command = ''f=$(jq -r '.tool_input.file_path // ""'); case "$f" in */.config/nix/*) echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"RAPPEL NIX: fichier modifie dans ~/.config/nix/ — fournir un message de commit Conventional Commits sans emoji. nixrb fait rebuild + push."}}' ;; esac'';
             }
           ];
         }
