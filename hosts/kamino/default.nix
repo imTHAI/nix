@@ -114,6 +114,22 @@
     };
   };
 
+  # Determinate's threshold-based GC only collects unreferenced store paths:
+  # every old system/home-manager generation stays a GC root, so the store grows
+  # with each nixrb (44 system generations / 22 GB observed on 2026-10-31 with
+  # the disk at 97%). Pruning generations older than 30d restores what the old
+  # nix.gc.options did. Runs as root because only root can delete generations of
+  # the system profile; root's nix-collect-garbage also walks per-user profiles.
+  # Scheduled 1h before nixStoreOptimise so the dedup pass sees the pruned store.
+  launchd.daemons.nixGenerationsGc = {
+    serviceConfig = {
+      ProgramArguments = [ "/nix/var/nix/profiles/default/bin/nix-collect-garbage" "--delete-older-than" "30d" ];
+      StartCalendarInterval = [{ Weekday = 0; Hour = 2; Minute = 0; }];
+      StandardOutPath = "/tmp/nix-generations-gc.log";
+      StandardErrorPath = "/tmp/nix-generations-gc-error.log";
+    };
+  };
+
   # Watch le dossier de scans du vault Obsidian : tout PDF déposé là (scan iPhone
   # via Continuity Camera, scanner, etc.) reçoit une couche de texte OCR invisible
   # avant classement manuel. --skip-text rend le script idempotent : WatchPaths
