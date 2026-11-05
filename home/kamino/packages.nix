@@ -15,4 +15,5 @@ common ++ [
   ocrmypdf   # OCR de PDF scannés (couche de texte invisible, cherchable par Spotlight)
   mcp-nixos  # MCP server pour explorer/requêter nixpkgs, home-manager, NixOS options
   xcodegen   # génère les .xcodeproj depuis un project.yml (app Watermark)
+  rdap       # RDAP client, covers TLDs without a WHOIS server (e.g. .app)
 ]

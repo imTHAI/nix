@@ -55,6 +55,29 @@
         local output_path="''${input_path%.*}.jpg"
         sips -s format jpeg "$input_path" --out "$output_path"
       }
+      rdw() {
+        if [[ -z "$1" ]]; then
+          echo "Usage: rdw <domaine.ext>" >&2
+          return 1
+        fi
+
+        local out
+        if out=$(rdap "$1" 2>&1); then
+          print -r -- "$out"
+          return 0
+        fi
+
+        # rdap exits 1 for both "no server for this TLD" and "domain not found", only
+        # the message tells them apart. A 404 is an authoritative answer, so WHOIS
+        # would add nothing. Matching on the text depends on the rdap client's wording.
+        if [[ "$out" == *"returned 404"* ]]; then
+          echo "RDAP: domaine introuvable (probablement libre, à confirmer chez un registrar)" >&2
+          return 1
+        fi
+
+        echo "RDAP indisponible, bascule sur WHOIS..." >&2
+        whois "$1"
+      }
     '';
   };
 }
