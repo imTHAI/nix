@@ -36,15 +36,8 @@ in {
 
   xdg.configFile."gh-dash/config.yml".source = ./gh-dash-config.yml;
 
-  launchd.agents.alfred = {
-    enable = true;
-    config = {
-      ProgramArguments = [ "/Applications/Alfred 5.app/Contents/MacOS/Alfred" ];
-      RunAtLoad = true;
-      KeepAlive = false;
-      ProcessType = "Interactive";
-    };
-  };
+  # No launchd agent for Alfred: its macOS login item already starts it. Having both
+  # spawns two instances at login, and the loser shows "Alfred is already running".
 
   launchd.agents.mount-smb = {
     enable = true;
