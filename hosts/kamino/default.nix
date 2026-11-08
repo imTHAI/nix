@@ -88,11 +88,24 @@
   # sudo interactif. Sans TTY (agent launchd), ce sudo échoue proprement et
   # immédiatement — pas de hang — mais un "&&" aurait annulé le cleanup final
   # à cause de ce seul échec. Chaque étape tourne donc indépendamment.
+  #
+  # Bitwarden is excluded from the greedy upgrade: brew replaces a cask by
+  # deleting the .app and moving the new one in, which unregisters the bundled
+  # Safari extension (safari.appex). Safari then drops the extension and its
+  # local state, forcing a fresh login. The cask is auto_updates=true, so the
+  # app's own updater keeps it current in place without that side effect.
+  # The explicit cask list must not be empty: a bare `brew upgrade --cask
+  # --greedy` would upgrade everything, Bitwarden included.
   launchd.user.agents.brewWeeklyUpgrade = {
     serviceConfig = {
       ProgramArguments = [
         "/bin/sh" "-c"
-        "/opt/homebrew/bin/brew update; /opt/homebrew/bin/brew upgrade --cask --greedy; /opt/homebrew/bin/brew cleanup --prune=all"
+        ''
+          /opt/homebrew/bin/brew update
+          casks=$(/opt/homebrew/bin/brew outdated --cask --greedy --quiet | grep -vxF bitwarden)
+          [ -n "$casks" ] && /opt/homebrew/bin/brew upgrade --cask --greedy $casks
+          /opt/homebrew/bin/brew cleanup --prune=all
+        ''
       ];
       StartCalendarInterval = [{ Weekday = 6; Hour = 0; Minute = 0; }];
       StandardOutPath = "/tmp/brew-weekly-upgrade.log";
