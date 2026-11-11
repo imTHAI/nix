@@ -49,7 +49,6 @@
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
     # Whitelist unsigned/non-notarized apps so Gatekeeper doesn't block them on first launch.
     # spctl --add is idempotent and safe to run on already-approved apps.
-    spctl --add "/Applications/Nix Apps/Supacode.app" 2>/dev/null || true
     spctl --add "/Applications/Nix Apps/cmux.app" 2>/dev/null || true
   '';
 
@@ -60,7 +59,6 @@
     # callPackage uses the system pkgs (allowUnfree = true from common.nix).
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/keka/package.nix" {})
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/hipixel/package.nix" {})
-    (pkgs.callPackage "${inputs.nix-packages}/pkgs/supacode/package.nix" {})
     (pkgs.callPackage "${inputs.nix-packages}/pkgs/cmux/package.nix" {})
     iina
     nerd-fonts.hack
