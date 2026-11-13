@@ -108,6 +108,11 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 - claude-mem est réservé au hors-projet : `~/Projects/**` est exclu (`CLAUDE_MEM_EXCLUDED_PROJECTS` dans `~/.claude-mem/settings.json`). Dans un projet, la mémoire vit dans le repo (handoff, specs, todo) et dans DEVONthink, jamais dans claude-mem.
 - **Markdown dans DEVONthink** : toujours utiliser la richesse maximale du markdown — callouts (`> [!important]`, `> [!warning]`, `> [!note]`), tableaux avec colonnes alignées (`:---`), hiérarchie H2/H3 claire, annotations `[Inférence]` pour les déductions non sourcées. Les documents sont consultés directement dans DT, le rendu compte.
 
+## App Store Connect API (apps Apple)
+- Clé API : key id et issuer id dans `~/.appstoreconnect/config.json`, `.p8` dans `~/.appstoreconnect/private_keys`. Client de référence : `~/Projects/vellune/Scripts/asc.py`. Vérifier là avant de dire « pas d'accès ».
+- Achats intégrés et abonnements : ne jamais utiliser les ressources v1 de localisation, d'image et de soumission (`inAppPurchaseLocalizations`, `inAppPurchaseImages`, `inAppPurchaseSubmissions`, `subscriptionLocalizations`, `subscriptionImages`, `subscriptionGroupLocalizations`, `subscriptionSubmissions`, `subscriptionGroupSubmissions`). Dépréciées, supprimées à partir du début 2027 (mail Apple, novembre 2026).
+- À la place : ressources v2 sous `InAppPurchaseVersion` / `SubscriptionVersion`, soumission via `reviewSubmissions` (jusqu'à 200 éléments : version de l'app, achats intégrés, abonnements, In-App Events… dans une seule soumission). Vérifier le schéma exact dans la doc Apple avant d'écrire le code.
+
 ## Actions risquées
 - Demande confirmation avant toute action irréversible : suppression de fichiers/branches, push hors commit demandé (voir « Git »), reset --hard, drop de base de données
 - Pour les éditions de fichiers et actions locales réversibles : agis librement sans demander
