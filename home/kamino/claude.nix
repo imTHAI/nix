@@ -19,6 +19,22 @@ let
     }}'
   '';
 
+  # Denies curl/wget output piped into a shell. A hook instead of deny rules because
+  # their globs run on the whole command line: "Bash(*curl*|*sh*)" also matched
+  # `curl … | jq …; git show` ("show" contains "sh").
+  # The shell must be the command right after a pipe, optionally behind sudo/env,
+  # VAR=value or a path. Newlines and backslashes become spaces so that line
+  # continuations are covered, since grep matches line by line.
+  pipeToShellGuard = pkgs.writeShellScript "claude-pipe-to-shell-guard" ''
+    cmd=$(${pkgs.jq}/bin/jq -r '.tool_input.command // ""' | tr '\\\n' '  ')
+    printf '%s' "$cmd" | grep -Eq '(curl|wget).*[|]&?[[:space:]]*(([^[:space:]"|;&]*/)?(sudo|env|command|exec|nohup)[[:space:]]+(-[^[:space:]]+[[:space:]]+([^[:space:]|;&-][^[:space:]|;&]*[[:space:]]+)?)*|[A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*([^[:space:]"|;&]*/)?(ba|z|da|k|fi)?sh([[:space:];&|)<>]|$)' || exit 0
+    ${pkgs.jq}/bin/jq -n '{hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "deny",
+      permissionDecisionReason: "Téléchargement exécuté directement par un shell (curl|sh) bloqué par claude-pipe-to-shell-guard. Télécharger le script dans un fichier, le lire, puis demander l accord avant de l exécuter."
+    }}'
+  '';
+
   # Static settings.json — secrets are injected at activation time via sops.
   # Materialized to a Nix store file so the activation script doesn't have to
   # heredoc the JSON inline (single quotes in hook commands broke '<<<' quoting).
@@ -45,11 +61,7 @@ let
         "Bash(rm*-rf*/bin*)"
         # Écrasement de disques
         "Bash(dd*of=/dev/*)"
-        # Téléchargement direct vers shell (curl|bash, wget|sh, etc.)
-        "Bash(*curl*|*bash*)"
-        "Bash(*curl*|*sh*)"
-        "Bash(*wget*|*bash*)"
-        "Bash(*wget*|*sh*)"
+        # curl/wget piped into a shell: see pipeToShellGuard
         # Git push force
         "Bash(git push --force*)"
         "Bash(git push -f *)"
@@ -104,6 +116,10 @@ let
             {
               type    = "command";
               command = "${contribGuard}";
+            }
+            {
+              type    = "command";
+              command = "${pipeToShellGuard}";
             }
           ];
         }
