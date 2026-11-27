@@ -23,6 +23,13 @@
   # equivalent (only its keyboard shortcuts are covered), so it stays native.
   system.defaults = {
     screencapture.type = "png";
+    # Native clipboard capture replaces the former launchd agent that copied
+    # Desktop PNGs to the clipboard (home/kamino/screenshot-clipboard.nix).
+    screencapture.target = "clipboard";
+    # nix-darwin only writes the legacy `target` key. Recent macOS reads
+    # `target-screenshot` instead (what Screenshot.app > Options > Save to
+    # writes), so set it too or its `file` value keeps winning.
+    CustomUserPreferences."com.apple.screencapture"."target-screenshot" = "clipboard";
   };
 
   nix-homebrew = {

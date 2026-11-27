@@ -15,7 +15,6 @@
     ./listcrush-backup.nix
     ./macos-rc-watch.nix
     ./torrent-watcher.nix
-    ./screenshot-clipboard.nix
     ./hoth-rdp.nix
     ./homeassistant.nix
     ./macos-settings.nix
