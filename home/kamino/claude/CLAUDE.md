@@ -95,6 +95,9 @@ option), mais son index est décalé et il produit des faux négatifs. Deux règ
 - **coruscant** : serveur Unraid (hors flake Nix), accessible en SSH (`ssh coruscant`, config dans `~/.ssh/config`, user root). Maintenance régulière du Navidrome qui y tourne :
   - Container docker `navidrome` (image `deluan/navidrome`), volumes `/mnt/cache_docker/appdata/navidrome:/data` et `/mnt/user/media/music:/music`
   - Ne jamais supposer l'accès absent — vérifier par un `ssh coruscant echo OK` avant de dire "je n'ai pas accès"
+  - **Home Assistant** tourne sur coruscant en **VM HA OS** (pas en container docker). Accès API déjà en place, ne JAMAIS redemander de jeton :
+    `curl -H "Authorization: Bearer $(cat ~/.config/homeassistant/token)" "$(cat ~/.config/homeassistant/url)/api/"`
+    (secrets sops déclarés dans `home/kamino/homeassistant.nix`). WebSocket : `$(cat ~/.config/homeassistant/url)/api/websocket`.
 - Config Nix centrale : `~/.config/nix/` (flake multi-host, noms Star Wars)
 - **sops-nix est déjà configuré** dans le flake — ne pas redemander
 - **age key** déjà présente sur kamino
